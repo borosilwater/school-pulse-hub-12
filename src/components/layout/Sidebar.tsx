@@ -15,7 +15,7 @@ import {
   Bell,
   ClipboardList,
   Trophy,
-  X
+  X,
   Image
 } from 'lucide-react';
 
