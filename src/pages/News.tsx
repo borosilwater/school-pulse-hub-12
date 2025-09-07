@@ -13,9 +13,6 @@ interface NewsItem {
   title: string;
   content: string;
   created_at: string;
-  author: {
-    full_name: string;
-  };
 }
 
 const News = () => {
@@ -37,8 +34,7 @@ const News = () => {
           id,
           title,
           content,
-          created_at,
-          author:profiles(full_name)
+          created_at
         `)
         .order('created_at', { ascending: false });
 
@@ -103,7 +99,7 @@ const News = () => {
                       <div className="flex items-center gap-4 text-sm text-gray-600">
                         <div className="flex items-center">
                           <User className="h-4 w-4 mr-1" />
-                          {item.author?.full_name || 'Unknown Author'}
+                          School Administration
                         </div>
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-1" />

@@ -12,11 +12,8 @@ interface Announcement {
   id: string;
   title: string;
   content: string;
-  priority: 'low' | 'medium' | 'high';
+  priority: number;
   created_at: string;
-  author: {
-    full_name: string;
-  };
 }
 
 const Announcements = () => {
@@ -39,8 +36,7 @@ const Announcements = () => {
           title,
           content,
           priority,
-          created_at,
-          author:profiles(full_name)
+          created_at
         `)
         .order('created_at', { ascending: false });
 
@@ -58,17 +54,20 @@ const Announcements = () => {
     }
   };
 
-  const getPriorityColor = (priority: string) => {
-    switch (priority) {
-      case 'high':
-        return 'bg-red-100 text-red-700 border-red-200';
-      case 'medium':
-        return 'bg-yellow-100 text-yellow-700 border-yellow-200';
-      case 'low':
-        return 'bg-green-100 text-green-700 border-green-200';
-      default:
-        return 'bg-gray-100 text-gray-700 border-gray-200';
+  const getPriorityColor = (priority: number) => {
+    if (priority >= 4) {
+      return 'bg-red-100 text-red-700 border-red-200';
+    } else if (priority >= 2) {
+      return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+    } else {
+      return 'bg-green-100 text-green-700 border-green-200';
     }
+  };
+
+  const getPriorityText = (priority: number) => {
+    if (priority >= 4) return 'High';
+    if (priority >= 2) return 'Medium';
+    return 'Low';
   };
 
   if (loading) {
@@ -115,7 +114,7 @@ const Announcements = () => {
                   <div className="flex items-start justify-between">
                     <div className="flex-1">
                       <CardTitle className="text-xl mb-2 flex items-center">
-                        {item.priority === 'high' && (
+                        {item.priority >= 4 && (
                           <AlertCircle className="h-5 w-5 text-red-500 mr-2" />
                         )}
                         {item.title}
@@ -123,7 +122,7 @@ const Announcements = () => {
                       <div className="flex items-center gap-4 text-sm text-gray-600">
                         <div className="flex items-center">
                           <User className="h-4 w-4 mr-1" />
-                          {item.author?.full_name || 'Unknown Author'}
+                          School Administration
                         </div>
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-1" />
@@ -133,7 +132,7 @@ const Announcements = () => {
                     </div>
                     <div className="flex flex-col gap-2">
                       <Badge className={getPriorityColor(item.priority)}>
-                        {item.priority.charAt(0).toUpperCase() + item.priority.slice(1)} Priority
+                        {getPriorityText(item.priority)} Priority
                       </Badge>
                       <Badge variant="secondary">
                         <Bell className="h-3 w-3 mr-1" />

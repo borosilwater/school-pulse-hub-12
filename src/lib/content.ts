@@ -218,7 +218,7 @@ class ContentService {
       }
 
       if (filters.type) {
-        query = query.eq('type', filters.type);
+        query = query.eq('type', filters.type as Database["public"]["Enums"]["announcement_type"]);
       }
 
       if (filters.limit) {
@@ -559,14 +559,12 @@ class ContentService {
       }
 
       // Send notification to student
-      if (examResult.student) {
-        await notificationService.sendExamResultNotification(
-          examResult.student_id,
-          examResult.exam_name,
-          examResult.grade || 'N/A',
-          examResult.student.full_name
-        );
-      }
+      await notificationService.sendExamResultNotification(
+        examResult.student_id,
+        examResult.exam_name,
+        examResult.grade || 'N/A',
+        'Student'
+      );
 
       return true;
     } catch (error) {

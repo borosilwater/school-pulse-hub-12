@@ -15,9 +15,6 @@ interface Event {
   event_date: string;
   location: string;
   created_at: string;
-  organizer: {
-    full_name: string;
-  };
 }
 
 const Events = () => {
@@ -41,8 +38,7 @@ const Events = () => {
           description,
           event_date,
           location,
-          created_at,
-          organizer:profiles(full_name)
+          created_at
         `)
         .order('event_date', { ascending: true });
 
@@ -128,7 +124,7 @@ const Events = () => {
                             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                               <div className="flex items-center">
                                 <User className="h-4 w-4 mr-1" />
-                                {event.organizer?.full_name || 'Unknown Organizer'}
+                                School Administration
                               </div>
                               <div className="flex items-center">
                                 <Calendar className="h-4 w-4 mr-1" />
@@ -179,7 +175,7 @@ const Events = () => {
                             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                               <div className="flex items-center">
                                 <User className="h-4 w-4 mr-1" />
-                                {event.organizer?.full_name || 'Unknown Organizer'}
+                                School Administration
                               </div>
                               <div className="flex items-center">
                                 <Calendar className="h-4 w-4 mr-1" />

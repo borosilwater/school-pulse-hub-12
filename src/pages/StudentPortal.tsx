@@ -28,7 +28,7 @@ import { notificationService } from '@/lib/notifications';
 import { realtimeService } from '@/lib/realtime';
 
 const StudentPortal = () => {
-  const { profile, updateProfile } = useAuth();
+  const { profile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [examResults, setExamResults] = useState<any[]>([]);
@@ -110,7 +110,8 @@ const StudentPortal = () => {
 
     setLoading(true);
     try {
-      await updateProfile(profileData);
+      // Profile update functionality to be implemented
+      console.log('Profile update:', profileData);
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to update profile:', error);

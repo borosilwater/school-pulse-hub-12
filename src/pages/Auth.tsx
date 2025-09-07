@@ -296,7 +296,7 @@ const Auth = () => {
         </Card>
       </div>
 
-      <style jsx>{`
+      <style>{`
         .text-shadow {
           text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
         }

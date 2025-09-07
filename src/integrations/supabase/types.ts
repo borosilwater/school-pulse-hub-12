@@ -101,6 +101,7 @@ export type Database = {
           id: string
           marks_obtained: number
           published_at: string | null
+          score: number | null
           status: Database["public"]["Enums"]["exam_status"]
           student_id: string
           subject: string
@@ -116,6 +117,7 @@ export type Database = {
           id?: string
           marks_obtained: number
           published_at?: string | null
+          score?: number | null
           status?: Database["public"]["Enums"]["exam_status"]
           student_id: string
           subject: string
@@ -131,6 +133,7 @@ export type Database = {
           id?: string
           marks_obtained?: number
           published_at?: string | null
+          score?: number | null
           status?: Database["public"]["Enums"]["exam_status"]
           student_id?: string
           subject?: string
@@ -180,6 +183,7 @@ export type Database = {
           id: string
           message: string
           read: boolean | null
+          status: string | null
           title: string
           type: string
           user_id: string
@@ -190,6 +194,7 @@ export type Database = {
           id?: string
           message: string
           read?: boolean | null
+          status?: string | null
           title: string
           type: string
           user_id: string
@@ -200,6 +205,7 @@ export type Database = {
           id?: string
           message?: string
           read?: boolean | null
+          status?: string | null
           title?: string
           type?: string
           user_id?: string
@@ -246,6 +252,39 @@ export type Database = {
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
           student_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      sms_logs: {
+        Row: {
+          created_at: string
+          error_message: string | null
+          id: string
+          message: string
+          phone_number: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message: string
+          phone_number: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          message?: string
+          phone_number?: string
+          status?: string
           updated_at?: string
           user_id?: string
         }

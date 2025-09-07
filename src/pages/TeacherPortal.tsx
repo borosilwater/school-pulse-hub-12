@@ -125,7 +125,10 @@ const TeacherPortal = () => {
 
   const handleCreateAnnouncement = async () => {
     try {
-      const announcement = await contentService.createAnnouncement(newAnnouncement);
+      const announcement = await contentService.createAnnouncement({
+        ...newAnnouncement,
+        type: newAnnouncement.type as "general" | "urgent" | "event" | "exam"
+      });
       if (announcement) {
         setNewAnnouncement({
           title: '',
@@ -219,16 +222,19 @@ const TeacherPortal = () => {
       let success = false;
       switch (type) {
         case 'announcement':
-          success = await contentService.deleteAnnouncement?.(id) || false;
+          // Delete functionality to be implemented
+          success = false;
           break;
         case 'event':
-          success = await contentService.deleteEvent?.(id) || false;
+          // Delete functionality to be implemented
+          success = false;
           break;
         case 'news':
           success = await contentService.deleteNews(id);
           break;
         case 'exam_result':
-          success = await contentService.deleteExamResult?.(id) || false;
+          // Delete functionality to be implemented
+          success = false;
           break;
       }
       

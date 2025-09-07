@@ -12,17 +12,11 @@ interface ExamResult {
   id: string;
   exam_name: string;
   subject: string;
-  score: number;
-  max_score: number;
+  marks_obtained: number;
+  total_marks: number;
   grade: string;
   exam_date: string;
   created_at: string;
-  student: {
-    full_name: string;
-  };
-  teacher: {
-    full_name: string;
-  };
 }
 
 const ExamResults = () => {
@@ -44,13 +38,11 @@ const ExamResults = () => {
           id,
           exam_name,
           subject,
-          score,
-          max_score,
+          marks_obtained,
+          total_marks,
           grade,
           exam_date,
-          created_at,
-          student:profiles!exam_results_student_id_fkey(full_name),
-          teacher:profiles!exam_results_teacher_id_fkey(full_name)
+          created_at
         `);
 
       // Filter based on user role
@@ -96,8 +88,8 @@ const ExamResults = () => {
     }
   };
 
-  const calculatePercentage = (score: number, maxScore: number) => {
-    return Math.round((score / maxScore) * 100);
+  const calculatePercentage = (obtained: number, total: number) => {
+    return Math.round((obtained / total) * 100);
   };
 
   if (loading) {
@@ -156,16 +148,6 @@ const ExamResults = () => {
                           <TrendingUp className="h-4 w-4 mr-1" />
                           {result.subject}
                         </div>
-                        {profile?.role !== 'student' && (
-                          <div className="flex items-center">
-                            <User className="h-4 w-4 mr-1" />
-                            {result.student?.full_name || 'Unknown Student'}
-                          </div>
-                        )}
-                        <div className="flex items-center">
-                          <User className="h-4 w-4 mr-1" />
-                          Teacher: {result.teacher?.full_name || 'Unknown Teacher'}
-                        </div>
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-1" />
                           {new Date(result.exam_date).toLocaleDateString()}
@@ -178,7 +160,7 @@ const ExamResults = () => {
                       </Badge>
                       <Badge variant="secondary">
                         <Trophy className="h-3 w-3 mr-1" />
-                        {calculatePercentage(result.score, result.max_score)}%
+                        {calculatePercentage(result.marks_obtained, result.total_marks)}%
                       </Badge>
                     </div>
                   </div>
@@ -187,24 +169,24 @@ const ExamResults = () => {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-4">
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">{result.score}</div>
+                        <div className="text-2xl font-bold text-gray-900">{result.marks_obtained}</div>
                         <div className="text-sm text-gray-600">Score</div>
                       </div>
                       <div className="text-gray-400">/</div>
                       <div className="text-center">
-                        <div className="text-2xl font-bold text-gray-900">{result.max_score}</div>
-                        <div className="text-sm text-gray-600">Max Score</div>
+                        <div className="text-2xl font-bold text-gray-900">{result.total_marks}</div>
+                        <div className="text-sm text-gray-600">Total</div>
                       </div>
                     </div>
                     <div className="flex-1 mx-6">
                       <div className="w-full bg-gray-200 rounded-full h-3">
                         <div 
                           className="bg-gradient-to-r from-blue-500 to-green-500 h-3 rounded-full transition-all duration-300"
-                          style={{ width: `${calculatePercentage(result.score, result.max_score)}%` }}
+                          style={{ width: `${calculatePercentage(result.marks_obtained, result.total_marks)}%` }}
                         ></div>
                       </div>
                       <div className="text-center mt-2 text-sm text-gray-600">
-                        {calculatePercentage(result.score, result.max_score)}% Performance
+                        {calculatePercentage(result.marks_obtained, result.total_marks)}% Performance
                       </div>
                     </div>
                   </div>
