@@ -1,0 +1,253 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom animations for landing page */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gradient {
+  0%, 100% {
+    background-size: 200% 200%;
+    background-position: left center;
+  }
+  50% {
+    background-size: 200% 200%;
+    background-position: right center;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 30px rgba(59, 130, 246, 0.6);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out 0.2s both;
+}
+
+.animate-gradient {
+  background-size: 200% 200%;
+  animation: gradient 3s ease infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #3b82f6, #8b5cf6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #2563eb, #7c3aed);
+}
+
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+All colors MUST be HSL.
+*/
+
+@layer base {
+  :root {
+    /* Base colors with academic elegance */
+    --background: 0 0% 100%;
+    --foreground: 220 20% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
+
+    /* Academic blue primary palette */
+    --primary: 211 85% 45%;
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 211 85% 40%;
+    --primary-glow: 211 85% 65%;
+
+    /* Soft academic secondary */
+    --secondary: 210 25% 95%;
+    --secondary-foreground: 220 20% 25%;
+
+    /* Muted academic tones */
+    --muted: 210 25% 96%;
+    --muted-foreground: 220 15% 55%;
+
+    /* Academic accent colors */
+    --accent: 195 85% 50%;
+    --accent-foreground: 0 0% 98%;
+    --accent-soft: 195 45% 95%;
+
+    /* Success and warning for exam results */
+    --success: 140 70% 45%;
+    --success-foreground: 0 0% 98%;
+    --warning: 35 85% 55%;
+    --warning-foreground: 0 0% 98%;
+
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Elegant borders and inputs */
+    --border: 220 15% 90%;
+    --input: 220 15% 95%;
+    --ring: 211 85% 45%;
+
+    --radius: 0.75rem;
+
+    /* Professional sidebar */
+    --sidebar-background: 220 25% 97%;
+    --sidebar-foreground: 220 20% 20%;
+    --sidebar-primary: 211 85% 45%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 210 25% 92%;
+    --sidebar-accent-foreground: 220 20% 25%;
+    --sidebar-border: 220 15% 88%;
+    --sidebar-ring: 211 85% 45%;
+
+    /* Gradients for beautiful backgrounds */
+    --gradient-primary: linear-gradient(135deg, hsl(211 85% 45%), hsl(195 85% 50%));
+    --gradient-soft: linear-gradient(180deg, hsl(210 25% 98%), hsl(210 25% 95%));
+    --gradient-card: linear-gradient(145deg, hsl(0 0% 100%), hsl(210 25% 98%));
+
+    /* Elegant shadows */
+    --shadow-soft: 0 2px 8px hsl(220 20% 15% / 0.06);
+    --shadow-medium: 0 4px 16px hsl(220 20% 15% / 0.1);
+    --shadow-strong: 0 8px 32px hsl(220 20% 15% / 0.15);
+    --shadow-glow: 0 0 24px hsl(211 85% 45% / 0.2);
+
+    /* Smooth animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-spring: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  .dark {
+    /* Dark mode with academic elegance */
+    --background: 220 25% 8%;
+    --foreground: 210 25% 95%;
+
+    --card: 220 25% 10%;
+    --card-foreground: 210 25% 95%;
+
+    --popover: 220 25% 10%;
+    --popover-foreground: 210 25% 95%;
+
+    /* Bright academic blue for dark mode */
+    --primary: 211 85% 55%;
+    --primary-foreground: 220 25% 8%;
+    --primary-hover: 211 85% 60%;
+    --primary-glow: 211 85% 65%;
+
+    /* Dark mode secondary */
+    --secondary: 220 20% 15%;
+    --secondary-foreground: 210 25% 90%;
+
+    /* Dark muted tones */
+    --muted: 220 20% 12%;
+    --muted-foreground: 220 15% 65%;
+
+    /* Dark accent */
+    --accent: 195 85% 60%;
+    --accent-foreground: 220 25% 8%;
+    --accent-soft: 195 45% 15%;
+
+    /* Dark success and warning */
+    --success: 140 70% 55%;
+    --success-foreground: 220 25% 8%;
+    --warning: 35 85% 65%;
+    --warning-foreground: 220 25% 8%;
+
+    --destructive: 0 75% 65%;
+    --destructive-foreground: 220 25% 8%;
+
+    /* Dark borders and inputs */
+    --border: 220 15% 18%;
+    --input: 220 15% 15%;
+    --ring: 211 85% 55%;
+
+    /* Dark sidebar */
+    --sidebar-background: 220 25% 6%;
+    --sidebar-foreground: 210 25% 85%;
+    --sidebar-primary: 211 85% 55%;
+    --sidebar-primary-foreground: 220 25% 8%;
+    --sidebar-accent: 220 20% 12%;
+    --sidebar-accent-foreground: 210 25% 85%;
+    --sidebar-border: 220 15% 15%;
+    --sidebar-ring: 211 85% 55%;
+
+    /* Dark gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(211 85% 55%), hsl(195 85% 60%));
+    --gradient-soft: linear-gradient(180deg, hsl(220 25% 10%), hsl(220 25% 8%));
+    --gradient-card: linear-gradient(145deg, hsl(220 25% 12%), hsl(220 25% 8%));
+
+    /* Dark shadows */
+    --shadow-soft: 0 2px 8px hsl(0 0% 0% / 0.2);
+    --shadow-medium: 0 4px 16px hsl(0 0% 0% / 0.3);
+    --shadow-strong: 0 8px 32px hsl(0 0% 0% / 0.4);
+    --shadow-glow: 0 0 24px hsl(211 85% 55% / 0.3);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+}
