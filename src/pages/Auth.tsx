@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth, UserRole } from '@/hooks/useAuth';
-import { Home, Eye, EyeOff, UserTie, GraduationCap, Shield, Lock, IdCard, UserCog } from 'lucide-react';
+import { Home, Eye, EyeOff, User as UserTie, GraduationCap, Shield, Lock, IdCard, UserCog } from 'lucide-react';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
