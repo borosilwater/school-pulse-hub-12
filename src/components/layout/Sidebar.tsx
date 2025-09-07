@@ -16,6 +16,7 @@ import {
   ClipboardList,
   Trophy,
   X
+  Image
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -33,6 +34,7 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
     { name: 'Announcements', href: '/announcements', icon: Bell, roles: ['student', 'teacher', 'admin'] },
     { name: 'Events', href: '/events', icon: Calendar, roles: ['student', 'teacher', 'admin'] },
     { name: 'Exam Results', href: '/results', icon: Trophy, roles: ['student', 'teacher', 'admin'] },
+    { name: 'Gallery', href: '/gallery', icon: Image, roles: ['student', 'teacher', 'admin'] },
     { name: 'Students', href: '/students', icon: Users, roles: ['teacher', 'admin'] },
     { name: 'Teachers', href: '/teachers', icon: BookOpen, roles: ['admin'] },
     { name: 'Analytics', href: '/analytics', icon: BarChart3, roles: ['admin'] },
