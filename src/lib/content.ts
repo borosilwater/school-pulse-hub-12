@@ -39,7 +39,7 @@ class ContentService {
         .from('news')
         .select(`
           *,
-          author:profiles!news_author_id_fkey(full_name, avatar_url)
+          author:profiles!inner(full_name, avatar_url)
         `)
         .order('created_at', { ascending: false });
 
@@ -82,7 +82,7 @@ class ContentService {
         .from('news')
         .select(`
           *,
-          author:profiles!news_author_id_fkey(full_name, avatar_url)
+          author:profiles!inner(full_name, avatar_url)
         `)
         .eq('id', id)
         .single();
@@ -129,7 +129,7 @@ class ContentService {
         })
         .select(`
           *,
-          author:profiles!news_author_id_fkey(full_name, avatar_url)
+          author:profiles!inner(full_name, avatar_url)
         `)
         .single();
 
@@ -156,7 +156,7 @@ class ContentService {
         .eq('id', id)
         .select(`
           *,
-          author:profiles!news_author_id_fkey(full_name, avatar_url)
+          author:profiles!inner(full_name, avatar_url)
         `)
         .single();
 
@@ -205,7 +205,7 @@ class ContentService {
         .from('announcements')
         .select(`
           *,
-          author:profiles!announcements_author_id_fkey(full_name, avatar_url)
+          author:profiles!inner(full_name, avatar_url)
         `)
         .order('created_at', { ascending: false });
 
@@ -273,7 +273,7 @@ class ContentService {
         })
         .select(`
           *,
-          author:profiles!announcements_author_id_fkey(full_name, avatar_url)
+          author:profiles!inner(full_name, avatar_url)
         `)
         .single();
 
@@ -357,7 +357,7 @@ class ContentService {
         .from('events')
         .select(`
           *,
-          organizer:profiles!events_organizer_id_fkey(full_name, avatar_url)
+          organizer:profiles!inner(full_name, avatar_url)
         `)
         .order('event_date', { ascending: true });
 
@@ -417,7 +417,7 @@ class ContentService {
         })
         .select(`
           *,
-          organizer:profiles!events_organizer_id_fkey(full_name, avatar_url)
+          organizer:profiles!inner(full_name, avatar_url)
         `)
         .single();
 
@@ -444,7 +444,7 @@ class ContentService {
         .from('exam_results')
         .select(`
           *,
-          teacher:profiles!exam_results_teacher_id_fkey(full_name, avatar_url)
+          teacher:profiles!inner(full_name, avatar_url)
         `)
         .eq('student_id', studentId)
         .order('exam_date', { ascending: false });
@@ -470,7 +470,7 @@ class ContentService {
         .from('exam_results')
         .select(`
           *,
-          student:profiles!exam_results_student_id_fkey(full_name, student_id)
+          student:profiles!inner(full_name, student_id)
         `)
         .eq('teacher_id', teacherId)
         .order('exam_date', { ascending: false });
@@ -517,8 +517,8 @@ class ContentService {
         })
         .select(`
           *,
-          teacher:profiles!exam_results_teacher_id_fkey(full_name, avatar_url),
-          student:profiles!exam_results_student_id_fkey(full_name, student_id)
+          teacher:profiles!inner(full_name, avatar_url),
+          student:profiles!inner(full_name, student_id)
         `)
         .single();
 
@@ -549,7 +549,7 @@ class ContentService {
         .eq('id', id)
         .select(`
           *,
-          student:profiles!exam_results_student_id_fkey(full_name, student_id)
+          student:profiles!inner(full_name, student_id)
         `)
         .single();
 

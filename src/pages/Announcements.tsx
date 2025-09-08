@@ -36,14 +36,25 @@ const Announcements = () => {
           title,
           content,
           priority,
-          created_at
+          created_at,
+          author:profiles!inner(full_name)
         `)
+        .eq('published', true)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
-      setAnnouncements(data || []);
+      
+      const formattedData = (data || []).map(item => ({
+        ...item,
+        author: {
+          full_name: (item.author as any)?.full_name || 'Unknown Author'
+        }
+      }));
+      
+      setAnnouncements(formattedData);
     } catch (error) {
       console.error('Error fetching announcements:', error);
+      setAnnouncements([]);
       toast({
         title: "Error",
         description: "Failed to load announcements",

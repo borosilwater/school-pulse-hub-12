@@ -38,14 +38,24 @@ const Events = () => {
           description,
           event_date,
           location,
-          created_at
+          created_at,
+          organizer:profiles!inner(full_name)
         `)
         .order('event_date', { ascending: true });
 
       if (error) throw error;
-      setEvents(data || []);
+      
+      const formattedData = (data || []).map(item => ({
+        ...item,
+        organizer: {
+          full_name: (item.organizer as any)?.full_name || 'Unknown Organizer'
+        }
+      }));
+      
+      setEvents(formattedData);
     } catch (error) {
       console.error('Error fetching events:', error);
+      setEvents([]);
       toast({
         title: "Error",
         description: "Failed to load events",

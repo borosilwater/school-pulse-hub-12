@@ -24,6 +24,7 @@ import { contentService } from '@/lib/content';
 import { notificationService } from '@/lib/notifications';
 import { realtimeService } from '@/lib/realtime';
 import BackendHealthCheck from '@/components/BackendHealthCheck';
+import AdminManagement from '@/components/admin/AdminManagement';
 
 const AdminDashboard = () => {
   const { profile } = useAuth();
@@ -226,8 +227,7 @@ const AdminDashboard = () => {
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="health">Backend Health</TabsTrigger>
-          <TabsTrigger value="users">User Management</TabsTrigger>
-          <TabsTrigger value="content">Content Management</TabsTrigger>
+          <TabsTrigger value="management">User & Content Management</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="settings">System Settings</TabsTrigger>
         </TabsList>
@@ -317,63 +317,9 @@ const AdminDashboard = () => {
           <BackendHealthCheck />
         </TabsContent>
 
-        {/* User Management Tab */}
-        <TabsContent value="users" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>User Management</CardTitle>
-              <CardDescription>Manage users, roles, and permissions</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="text-center py-8">
-                <Users className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                <h3 className="text-lg font-semibold mb-2">User Management</h3>
-                <p className="text-muted-foreground mb-4">
-                  Advanced user management features coming soon
-                </p>
-                <Button>
-                  <UserPlus className="h-4 w-4 mr-2" />
-                  Add New User
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Content Management Tab */}
-        <TabsContent value="content" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Content Management</CardTitle>
-              <CardDescription>Manage all content across the platform</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="grid gap-4 md:grid-cols-3">
-                <div className="text-center p-4 border rounded-lg">
-                  <FileText className="h-8 w-8 mx-auto text-blue-600 mb-2" />
-                  <h3 className="font-semibold">News Articles</h3>
-                  <p className="text-2xl font-bold text-blue-600">{stats.totalNews || 0}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {stats.publishedNews || 0} published
-                  </p>
-                </div>
-                <div className="text-center p-4 border rounded-lg">
-                  <Bell className="h-8 w-8 mx-auto text-green-600 mb-2" />
-                  <h3 className="font-semibold">Announcements</h3>
-                  <p className="text-2xl font-bold text-green-600">{stats.totalAnnouncements || 0}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {stats.publishedAnnouncements || 0} published
-                  </p>
-                </div>
-                <div className="text-center p-4 border rounded-lg">
-                  <Calendar className="h-8 w-8 mx-auto text-purple-600 mb-2" />
-                  <h3 className="font-semibold">Events</h3>
-                  <p className="text-2xl font-bold text-purple-600">{stats.totalEvents || 0}</p>
-                  <p className="text-xs text-muted-foreground">Total events</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+        {/* User & Content Management Tab */}
+        <TabsContent value="management" className="space-y-4">
+          <AdminManagement />
         </TabsContent>
 
         {/* Analytics Tab */}
