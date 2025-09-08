@@ -32,27 +32,12 @@ const Events = () => {
     try {
       const { data, error } = await supabase
         .from('events')
-        .select(`
-          id,
-          title,
-          description,
-          event_date,
-          location,
-          created_at,
-          organizer:profiles!inner(full_name)
-        `)
+        .select('*')
         .order('event_date', { ascending: true });
 
       if (error) throw error;
       
-      const formattedData = (data || []).map(item => ({
-        ...item,
-        organizer: {
-          full_name: (item.organizer as any)?.full_name || 'Unknown Organizer'
-        }
-      }));
-      
-      setEvents(formattedData);
+      setEvents(data || []);
     } catch (error) {
       console.error('Error fetching events:', error);
       setEvents([]);
@@ -134,7 +119,7 @@ const Events = () => {
                             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                               <div className="flex items-center">
                                 <User className="h-4 w-4 mr-1" />
-                                School Administration
+                                School Staff
                               </div>
                               <div className="flex items-center">
                                 <Calendar className="h-4 w-4 mr-1" />
@@ -159,7 +144,7 @@ const Events = () => {
                       </CardHeader>
                       <CardContent>
                         <div className="prose max-w-none">
-                          <p className="text-gray-700 leading-relaxed">{event.description}</p>
+                          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">{event.description}</p>
                         </div>
                       </CardContent>
                     </Card>
@@ -185,7 +170,7 @@ const Events = () => {
                             <div className="flex flex-wrap items-center gap-4 text-sm text-gray-600">
                               <div className="flex items-center">
                                 <User className="h-4 w-4 mr-1" />
-                                School Administration
+                                School Staff
                               </div>
                               <div className="flex items-center">
                                 <Calendar className="h-4 w-4 mr-1" />
@@ -210,7 +195,7 @@ const Events = () => {
                       </CardHeader>
                       <CardContent>
                         <div className="prose max-w-none">
-                          <p className="text-gray-700 leading-relaxed">{event.description}</p>
+                          <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">{event.description}</p>
                         </div>
                       </CardContent>
                     </Card>

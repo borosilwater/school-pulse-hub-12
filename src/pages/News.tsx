@@ -30,26 +30,13 @@ const News = () => {
     try {
       const { data, error } = await supabase
         .from('news')
-        .select(`
-          id,
-          title,
-          content,
-          created_at,
-          author:profiles!inner(full_name)
-        `)
+        .select('*')
         .eq('published', true)
         .order('created_at', { ascending: false });
 
       if (error) throw error;
       
-      const formattedData = (data || []).map(item => ({
-        ...item,
-        author: {
-          full_name: (item.author as any)?.full_name || 'Unknown Author'
-        }
-      }));
-      
-      setNews(formattedData);
+      setNews(data || []);
     } catch (error) {
       console.error('Error fetching news:', error);
       setNews([]);
@@ -110,7 +97,7 @@ const News = () => {
                       <div className="flex items-center gap-4 text-sm text-gray-600">
                         <div className="flex items-center">
                           <User className="h-4 w-4 mr-1" />
-                          School Administration
+                          School Staff
                         </div>
                         <div className="flex items-center">
                           <Calendar className="h-4 w-4 mr-1" />
@@ -126,7 +113,7 @@ const News = () => {
                 </CardHeader>
                 <CardContent>
                   <div className="prose max-w-none">
-                    <p className="text-gray-700 leading-relaxed">{item.content}</p>
+                    <p className="text-gray-700 leading-relaxed whitespace-pre-wrap break-words">{item.content}</p>
                   </div>
                 </CardContent>
               </Card>

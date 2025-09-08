@@ -153,15 +153,28 @@ class NotificationService {
   }
 
   /**
-   * Send email notification (placeholder - integrate with email service)
+   * Send email notification using Gmail
    */
   private async sendEmailNotification(notification: NotificationData): Promise<boolean> {
     try {
-      // TODO: Integrate with email service (SendGrid, AWS SES, etc.)
-      console.log('Email notification would be sent:', notification);
+      // Get user's email from auth.users
+      const { data: { user } } = await supabase.auth.admin.getUserById(notification.userId);
       
-      // For now, just mark as sent
-      return true;
+      if (!user?.email) {
+        console.error('User email not found');
+        return false;
+      }
+
+      // Send email using Gmail service
+      const { gmailService } = await import('./gmail');
+      const result = await gmailService.sendEmail({
+        to: [user.email],
+        subject: notification.title,
+        body: notification.message,
+        type: 'general'
+      });
+      
+      return result.success;
     } catch (error) {
       console.error('Email notification failed:', error);
       return false;

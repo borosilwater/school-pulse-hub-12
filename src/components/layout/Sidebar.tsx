@@ -38,7 +38,7 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
     { name: 'Students', href: '/students', icon: Users, roles: ['teacher', 'admin'] },
     { name: 'Teachers', href: '/teachers', icon: BookOpen, roles: ['admin'] },
     { name: 'Analytics', href: '/analytics', icon: BarChart3, roles: ['admin'] },
-    { name: 'Content Management', href: '/content', icon: ClipboardList, roles: ['teacher', 'admin'] },
+    { name: 'Notifications', href: '/dashboard/notifications', icon: Bell, roles: ['student', 'teacher', 'admin'] },
     { name: 'Settings', href: '/settings', icon: Settings, roles: ['student', 'teacher', 'admin'] },
   ];
 

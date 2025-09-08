@@ -335,6 +335,9 @@ export const NewsManager = () => {
                       src={item.image_url} 
                       alt={item.title}
                       className="w-full h-48 object-cover rounded-lg"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
                     />
                   </div>
                 )}

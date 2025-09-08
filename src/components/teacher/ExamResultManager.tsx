@@ -105,7 +105,7 @@ export const ExamResultManager = () => {
     try {
       const { data, error } = await supabase
         .from('profiles')
-        .select('id, user_id, full_name, student_id, class_name')
+        .select('user_id, full_name, student_id, class_name')
         .eq('role', 'student')
         .order('full_name');
 

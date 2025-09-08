@@ -75,10 +75,12 @@ const TeacherDashboard = () => {
       });
     } catch (error) {
       console.error('Error fetching teacher stats:', error);
-      toast({
-        title: "Error",
-        description: "Failed to load dashboard statistics",
-        variant: "destructive"
+      // Set default stats on error
+      setStats({
+        totalStudents: 0,
+        pendingGrades: 0,
+        upcomingEvents: 0,
+        totalAnnouncements: 0
       });
     } finally {
       setLoading(false);

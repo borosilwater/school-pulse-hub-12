@@ -34,16 +34,8 @@ const ExamResults = () => {
     try {
       let query = supabase
         .from('exam_results')
-        .select(`
-          id,
-          exam_name,
-          subject,
-          marks_obtained,
-          total_marks,
-          grade,
-          exam_date,
-          created_at
-        `);
+        .select('*')
+        .eq('status', 'published'); // Only show published results
 
       // Filter based on user role
       if (profile?.role === 'student') {

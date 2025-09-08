@@ -84,26 +84,16 @@ const AdminManagement = () => {
   const loadContent = async () => {
     try {
       // Load all content types with proper joins
-      const [newsRes, announcementsRes, eventsRes, examResultsRes] = await Promise.all([
-        supabase.from('news').select(`
-          id, title, author_id, created_at,
-          author:profiles!inner(full_name)
-        `),
-        supabase.from('announcements').select(`
-          id, title, author_id, created_at,
-          author:profiles!inner(full_name)
-        `),
-        supabase.from('events').select(`
-          id, title, organizer_id, created_at,
-          organizer:profiles!inner(full_name)
-        `),
-        supabase.from('exam_results').select(`
-          id, exam_name, teacher_id, created_at,
-          teacher:profiles!inner(full_name)
-        `)
+      const [newsRes, announcementsRes, eventsRes, examResultsRes, profilesRes] = await Promise.all([
+        supabase.from('news').select('id, title, author_id, created_at'),
+        supabase.from('announcements').select('id, title, author_id, created_at'),
+        supabase.from('events').select('id, title, organizer_id, created_at'),
+        supabase.from('exam_results').select('id, exam_name, teacher_id, created_at'),
+        supabase.from('profiles').select('user_id, full_name')
       ]);
 
       const allContent: Content[] = [];
+      const profileMap = new Map(profilesRes.data?.map(p => [p.user_id, p.full_name]) || []);
       
       // Process news
       if (newsRes.data) {
@@ -112,7 +102,7 @@ const AdminManagement = () => {
           title: item.title,
           type: 'news' as const,
           author_id: item.author_id,
-          author_name: (item.author as any)?.full_name || 'Unknown',
+          author_name: profileMap.get(item.author_id) || 'Unknown',
           created_at: item.created_at
         })));
       }
@@ -124,7 +114,7 @@ const AdminManagement = () => {
           title: item.title,
           type: 'announcement' as const,
           author_id: item.author_id,
-          author_name: (item.author as any)?.full_name || 'Unknown',
+          author_name: profileMap.get(item.author_id) || 'Unknown',
           created_at: item.created_at
         })));
       }
@@ -136,7 +126,7 @@ const AdminManagement = () => {
           title: item.title,
           type: 'event' as const,
           author_id: item.organizer_id,
-          author_name: (item.organizer as any)?.full_name || 'Unknown',
+          author_name: profileMap.get(item.organizer_id) || 'Unknown',
           created_at: item.created_at
         })));
       }
@@ -148,7 +138,7 @@ const AdminManagement = () => {
           title: item.exam_name,
           type: 'exam_result' as const,
           author_id: item.teacher_id,
-          author_name: (item.teacher as any)?.full_name || 'Unknown',
+          author_name: profileMap.get(item.teacher_id) || 'Unknown',
           created_at: item.created_at
         })));
       }
@@ -167,6 +157,18 @@ const AdminManagement = () => {
   const deleteUser = async (userId: string) => {
     try {
       setLoading(true);
+      
+      // First delete the profile
+      const { error: profileError } = await supabase
+        .from('profiles')
+        .delete()
+        .eq('user_id', userId);
+      
+      if (profileError) {
+        console.error('Failed to delete profile:', profileError);
+      }
+      
+      // Then delete the auth user (this requires admin privileges)
       const { error } = await supabase.auth.admin.deleteUser(userId);
       
       if (error) throw error;
@@ -239,9 +241,15 @@ const AdminManagement = () => {
       
       // Get selected users' emails
       const selectedUserData = users.filter(user => selectedUsers.includes(user.id));
-      const emails = selectedUserData.map(user => `${user.full_name} <student@school.com>`); // Mock emails
+      
+      // Get actual user emails from auth.users
+      const { data: authUsers } = await supabase.auth.admin.listUsers();
+      const emails = authUsers.users
+        .filter(authUser => selectedUserData.some(profile => profile.user_id === authUser.id))
+        .map(authUser => authUser.email)
+        .filter(Boolean) as string[];
 
-      const { data, error } = await supabase.functions.invoke('send-email', {
+      const { data, error } = await supabase.functions.invoke('send-gmail', {
         body: {
           to: emails,
           subject: emailSubject,
@@ -379,8 +387,15 @@ const AdminManagement = () => {
         <TabsContent value="content" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Content Management</CardTitle>
-              <CardDescription>Manage all content created by teachers</CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Content Management</CardTitle>
+                  <CardDescription>Manage all content created by teachers</CardDescription>
+                </div>
+                <Button onClick={loadContent} variant="outline" size="sm">
+                  Refresh
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
@@ -388,34 +403,39 @@ const AdminManagement = () => {
                   <div key={`${item.type}-${item.id}`} className="flex items-center justify-between p-4 border rounded-lg">
                     <div>
                       <div className="flex items-center space-x-2 mb-1">
-                        <h4 className="font-semibold">{item.title}</h4>
+                        <h4 className="font-semibold truncate max-w-md">{item.title}</h4>
                         <Badge variant="outline">{item.type}</Badge>
                       </div>
                       <p className="text-sm text-muted-foreground">
                         By {item.author_name} • {new Date(item.created_at).toLocaleDateString()}
                       </p>
                     </div>
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button variant="outline" size="sm">
-                          <Trash2 className="h-4 w-4" />
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>Delete Content</AlertDialogTitle>
-                          <AlertDialogDescription>
-                            Are you sure you want to delete "{item.title}"? This action cannot be undone.
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>Cancel</AlertDialogCancel>
-                          <AlertDialogAction onClick={() => deleteContent(item.id, item.type)}>
-                            Delete
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
+                    <div className="flex items-center space-x-2">
+                      <Button variant="outline" size="sm">
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button variant="outline" size="sm">
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Content</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to delete "{item.title}"? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => deleteContent(item.id, item.type)}>
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                    </div>
                   </div>
                 ))}
               </div>

@@ -37,10 +37,7 @@ class ContentService {
     try {
       let query = supabase
         .from('news')
-        .select(`
-          *,
-          author:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (filters.published !== undefined) {
@@ -80,10 +77,7 @@ class ContentService {
     try {
       const { data, error } = await supabase
         .from('news')
-        .select(`
-          *,
-          author:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .eq('id', id)
         .single();
 
@@ -110,27 +104,13 @@ class ContentService {
         throw new Error('User not authenticated');
       }
 
-      // Get user profile
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!profile) {
-        throw new Error('User profile not found');
-      }
-
       const { data, error } = await supabase
         .from('news')
         .insert({
           ...news,
-          author_id: profile.id,
+          author_id: user.id,
         })
-        .select(`
-          *,
-          author:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .single();
 
       if (error) {
@@ -154,10 +134,7 @@ class ContentService {
         .from('news')
         .update(updates)
         .eq('id', id)
-        .select(`
-          *,
-          author:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .single();
 
       if (error) {
@@ -203,10 +180,7 @@ class ContentService {
     try {
       let query = supabase
         .from('announcements')
-        .select(`
-          *,
-          author:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .order('created_at', { ascending: false });
 
       if (filters.published !== undefined) {
@@ -254,27 +228,13 @@ class ContentService {
         throw new Error('User not authenticated');
       }
 
-      // Get user profile
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!profile) {
-        throw new Error('User profile not found');
-      }
-
       const { data, error } = await supabase
         .from('announcements')
         .insert({
           ...announcement,
-          author_id: profile.id,
+          author_id: user.id,
         })
-        .select(`
-          *,
-          author:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .single();
 
       if (error) {
@@ -330,11 +290,11 @@ class ContentService {
       // Get all student and teacher IDs
       const { data: profiles } = await supabase
         .from('profiles')
-        .select('id')
+        .select('user_id')
         .in('role', ['student', 'teacher']);
 
       if (profiles && profiles.length > 0) {
-        const userIds = profiles.map(p => p.id);
+        const userIds = profiles.map(p => p.user_id);
         await notificationService.sendAnnouncementNotification(
           userIds,
           announcement.title,
@@ -355,10 +315,7 @@ class ContentService {
     try {
       let query = supabase
         .from('events')
-        .select(`
-          *,
-          organizer:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .order('event_date', { ascending: true });
 
       if (filters.authorId) {
@@ -398,27 +355,13 @@ class ContentService {
         throw new Error('User not authenticated');
       }
 
-      // Get user profile
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!profile) {
-        throw new Error('User profile not found');
-      }
-
       const { data, error } = await supabase
         .from('events')
         .insert({
           ...event,
-          organizer_id: profile.id,
+          organizer_id: user.id,
         })
-        .select(`
-          *,
-          organizer:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .single();
 
       if (error) {
@@ -442,10 +385,7 @@ class ContentService {
     try {
       const { data, error } = await supabase
         .from('exam_results')
-        .select(`
-          *,
-          teacher:profiles!inner(full_name, avatar_url)
-        `)
+        .select('*')
         .eq('student_id', studentId)
         .order('exam_date', { ascending: false });
 
@@ -468,10 +408,7 @@ class ContentService {
     try {
       const { data, error } = await supabase
         .from('exam_results')
-        .select(`
-          *,
-          student:profiles!inner(full_name, student_id)
-        `)
+        .select('*')
         .eq('teacher_id', teacherId)
         .order('exam_date', { ascending: false });
 
@@ -498,28 +435,13 @@ class ContentService {
         throw new Error('User not authenticated');
       }
 
-      // Get user profile
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('id')
-        .eq('user_id', user.id)
-        .single();
-
-      if (!profile) {
-        throw new Error('User profile not found');
-      }
-
       const { data, error } = await supabase
         .from('exam_results')
         .insert({
           ...examResult,
-          teacher_id: profile.id,
+          teacher_id: user.id,
         })
-        .select(`
-          *,
-          teacher:profiles!inner(full_name, avatar_url),
-          student:profiles!inner(full_name, student_id)
-        `)
+        .select('*')
         .single();
 
       if (error) {
@@ -547,10 +469,7 @@ class ContentService {
           published_at: new Date().toISOString()
         })
         .eq('id', id)
-        .select(`
-          *,
-          student:profiles!inner(full_name, student_id)
-        `)
+        .select('*')
         .single();
 
       if (updateError) {

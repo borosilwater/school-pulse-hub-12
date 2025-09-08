@@ -61,11 +61,11 @@ const StudentPortal = () => {
     setLoading(true);
     try {
       const [examResultsData, announcementsData, eventsData, notificationsData, unreadCountData] = await Promise.all([
-        contentService.getStudentExamResults(profile.id),
+        contentService.getStudentExamResults(profile.user_id),
         contentService.getAnnouncements({ published: true, limit: 10 }),
         contentService.getEvents({ limit: 10 }),
-        notificationService.getUserNotifications(profile.id, 20),
-        notificationService.getUnreadCount(profile.id),
+        notificationService.getUserNotifications(profile.user_id, 20),
+        notificationService.getUnreadCount(profile.user_id),
       ]);
 
       setExamResults(examResultsData);
@@ -81,10 +81,10 @@ const StudentPortal = () => {
   };
 
   const setupRealtimeSubscriptions = () => {
-    if (!profile?.id) return;
+    if (!profile?.user_id) return;
 
     // Subscribe to exam results updates
-    realtimeService.subscribeToStudentExamResults(profile.id, (payload) => {
+    realtimeService.subscribeToStudentExamResults(profile.user_id, (payload) => {
       if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
         loadStudentData(); // Reload data
       }
@@ -98,7 +98,7 @@ const StudentPortal = () => {
     });
 
     // Subscribe to notifications
-    realtimeService.subscribeToNotifications(profile.id, (payload) => {
+    realtimeService.subscribeToNotifications(profile.user_id, (payload) => {
       if (payload.eventType === 'INSERT') {
         loadStudentData(); // Reload data
       }
@@ -106,12 +106,17 @@ const StudentPortal = () => {
   };
 
   const handleProfileUpdate = async () => {
-    if (!profile?.id) return;
+    if (!profile?.user_id) return;
 
     setLoading(true);
     try {
-      // Profile update functionality to be implemented
-      console.log('Profile update:', profileData);
+      const { error } = await supabase
+        .from('profiles')
+        .update(profileData)
+        .eq('user_id', profile.user_id);
+
+      if (error) throw error;
+
       setIsEditing(false);
     } catch (error) {
       console.error('Failed to update profile:', error);
@@ -131,7 +136,7 @@ const StudentPortal = () => {
 
   const handleMarkAllAsRead = async () => {
     try {
-      await notificationService.markAllAsRead(profile?.id || '');
+      await notificationService.markAllAsRead(profile?.user_id || '');
       loadStudentData(); // Reload data
     } catch (error) {
       console.error('Failed to mark all notifications as read:', error);
@@ -390,9 +395,6 @@ const StudentPortal = () => {
                         <p className="text-sm text-muted-foreground">
                           {result.subject} • {new Date(result.exam_date).toLocaleDateString()}
                         </p>
-                        <p className="text-sm text-muted-foreground">
-                          Teacher: {result.teacher?.full_name}
-                        </p>
                       </div>
                       <div className="text-right space-y-1">
                         <div className="flex items-center gap-2">
@@ -450,7 +452,7 @@ const StudentPortal = () => {
                         {announcement.content}
                       </p>
                       <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <span>By {announcement.author?.full_name}</span>
+                        <span>By School Staff</span>
                         <span>{new Date(announcement.created_at).toLocaleDateString()}</span>
                       </div>
                     </div>
@@ -498,7 +500,7 @@ const StudentPortal = () => {
                         <span>
                           {event.location && `📍 ${event.location}`}
                         </span>
-                        <span>Organized by {event.organizer?.full_name}</span>
+                        <span>Organized by School Staff</span>
                       </div>
                     </div>
                   ))}

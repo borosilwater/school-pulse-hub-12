@@ -20,8 +20,11 @@ import News from "./pages/News";
 import Announcements from "./pages/Announcements";
 import Events from "./pages/Events";
 import ExamResults from "./pages/ExamResults";
-
 import Gallery from "./pages/Gallery";
+import Students from "./pages/Students";
+import Teachers from "./pages/Teachers";
+import Analytics from "./pages/Analytics";
+import Settings from "./pages/Settings";
 
 const queryClient = new QueryClient();
 
@@ -56,8 +59,11 @@ const App = () => (
                 <Route path="/announcements" element={<Announcements />} />
                 <Route path="/events" element={<Events />} />
                 <Route path="/results" element={<ExamResults />} />
-                
                 <Route path="/gallery" element={<Gallery />} />
+                <Route path="/students" element={<Students />} />
+                <Route path="/teachers" element={<Teachers />} />
+                <Route path="/analytics" element={<Analytics />} />
+                <Route path="/settings" element={<Settings />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>
