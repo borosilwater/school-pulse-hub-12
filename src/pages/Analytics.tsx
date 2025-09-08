@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { BarChart3, Users, BookOpen, Trophy, Bell, TrendingUp, Calendar, FileText } from 'lucide-react';
+import { BarChart3, Users, BookOpen, Trophy, Bell, TrendingUp, Calendar, FileText, GraduationCap } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';

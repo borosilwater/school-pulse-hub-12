@@ -25,11 +25,15 @@ import {
   BarChart3,
   Clock,
   CheckCircle,
-  AlertCircle
+  AlertCircle,
+  User,
+  Save,
+  X
 } from 'lucide-react';
 import { contentService } from '@/lib/content';
 import { notificationService } from '@/lib/notifications';
 import { realtimeService } from '@/lib/realtime';
+import { supabase } from '@/integrations/supabase/client';
 
 const TeacherPortal = () => {
   const { profile } = useAuth();
@@ -41,6 +45,13 @@ const TeacherPortal = () => {
   const [events, setEvents] = useState<any[]>([]);
   const [news, setNews] = useState<any[]>([]);
   const [students, setStudents] = useState<any[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
+  const [profileData, setProfileData] = useState({
+    full_name: profile?.full_name || '',
+    email: profile?.email || '',
+    phone: profile?.phone || '',
+    address: profile?.address || '',
+  });
 
   // Form states
   const [newAnnouncement, setNewAnnouncement] = useState({
@@ -246,6 +257,26 @@ const TeacherPortal = () => {
     }
   };
 
+  const handleProfileUpdate = async () => {
+    try {
+      setLoading(true);
+      const { error } = await supabase
+        .from('profiles')
+        .update(profileData)
+        .eq('id', profile?.id);
+
+      if (error) throw error;
+
+      setIsEditing(false);
+      // Reload profile data
+      loadTeacherData();
+    } catch (error) {
+      console.error('Failed to update profile:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   if (loading && !contentStats.totalNews) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -327,6 +358,7 @@ const TeacherPortal = () => {
           <TabsTrigger value="events">Events</TabsTrigger>
           <TabsTrigger value="news">News</TabsTrigger>
           <TabsTrigger value="exam-results">Exam Results</TabsTrigger>
+          <TabsTrigger value="profile">Profile</TabsTrigger>
         </TabsList>
 
         {/* Overview Tab */}
@@ -864,6 +896,116 @@ const TeacherPortal = () => {
               </Card>
             ))}
           </div>
+        </TabsContent>
+
+        {/* Profile Tab */}
+        <TabsContent value="profile" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <User className="h-5 w-5" />
+                Personal Information
+              </CardTitle>
+              <CardDescription>
+                Manage your personal details and contact information
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              {isEditing ? (
+                <div className="space-y-4">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="full_name">Full Name</Label>
+                      <Input
+                        id="full_name"
+                        value={profileData.full_name}
+                        onChange={(e) => setProfileData({ ...profileData, full_name: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={profileData.email}
+                        onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                        placeholder="Enter your email address"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input
+                        id="phone"
+                        value={profileData.phone}
+                        onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="role">Role</Label>
+                      <Input
+                        id="role"
+                        value={profile?.role || 'teacher'}
+                        disabled
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="address">Address</Label>
+                    <Textarea
+                      id="address"
+                      value={profileData.address}
+                      onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
+                    />
+                  </div>
+                  <div className="flex gap-2">
+                    <Button onClick={handleProfileUpdate} disabled={loading}>
+                      <Save className="h-4 w-4 mr-2" />
+                      Save Changes
+                    </Button>
+                    <Button variant="outline" onClick={() => setIsEditing(false)}>
+                      <X className="h-4 w-4 mr-2" />
+                      Cancel
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Full Name</Label>
+                      <p className="text-sm">{profile?.full_name || 'Not provided'}</p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Email</Label>
+                      <p className="text-sm text-blue-600">{profile?.email || 'Not provided'}</p>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Phone</Label>
+                      <p className="text-sm">{profile?.phone || 'Not provided'}</p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Role</Label>
+                      <p className="text-sm">{profile?.role || 'teacher'}</p>
+                    </div>
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium text-muted-foreground">Address</Label>
+                    <p className="text-sm">{profile?.address || 'Not provided'}</p>
+                  </div>
+                  <div className="pt-4">
+                    <Button onClick={() => setIsEditing(true)}>
+                      <Edit className="h-4 w-4 mr-2" />
+                      Edit Profile
+                    </Button>
+                  </div>
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

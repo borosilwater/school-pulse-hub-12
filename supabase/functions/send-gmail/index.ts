@@ -37,33 +37,34 @@ const handler = async (req: Request): Promise<Response> => {
     
     for (const email of to) {
       try {
-        // Use Gmail SMTP API through fetch
-        const emailData = {
-          from: gmailUser,
-          to: email,
-          subject: subject,
-          html: `
-            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-              <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; text-align: center;">
-                <h1 style="color: white; margin: 0;">EduPortal Notification</h1>
+        // Create email content
+        const emailContent = `
+          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; text-align: center;">
+              <h1 style="color: white; margin: 0;">EduPortal Notification</h1>
+            </div>
+            <div style="padding: 20px; background: #f8f9fa;">
+              <h2 style="color: #333; margin-bottom: 15px;">${subject}</h2>
+              <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                ${body.replace(/\n/g, '<br>')}
               </div>
-              <div style="padding: 20px; background: #f8f9fa;">
-                <h2 style="color: #333; margin-bottom: 15px;">${subject}</h2>
-                <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                  ${body.replace(/\n/g, '<br>')}
-                </div>
-                <div style="margin-top: 20px; text-align: center; color: #666; font-size: 12px;">
-                  <p>This email was sent from EduPortal - School Management System</p>
-                  <p>© 2024 EduPortal. All rights reserved.</p>
-                </div>
+              <div style="margin-top: 20px; text-align: center; color: #666; font-size: 12px;">
+                <p>This email was sent from EduPortal - School Management System</p>
+                <p>© 2024 EduPortal. All rights reserved.</p>
               </div>
             </div>
-          `
-        };
+          </div>
+        `;
 
-        // Simulate Gmail sending (in production, you'd use actual Gmail API)
-        console.log(`Gmail sent to ${email}:`, emailData);
+        // For now, simulate Gmail sending (in production, integrate with actual Gmail API)
+        console.log(`Gmail sent to ${email}:`, {
+          to: email,
+          subject: subject,
+          from: gmailUser,
+          type: type
+        });
         
+        // Simulate successful sending
         results.push({
           email,
           status: 'sent',

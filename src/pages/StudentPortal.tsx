@@ -38,6 +38,7 @@ const StudentPortal = () => {
   const [unreadCount, setUnreadCount] = useState(0);
   const [profileData, setProfileData] = useState({
     full_name: profile?.full_name || '',
+    email: profile?.email || '',
     phone: profile?.phone || '',
     address: profile?.address || '',
     class_name: profile?.class_name || '',
@@ -290,11 +291,31 @@ const StudentPortal = () => {
                       />
                     </div>
                     <div className="space-y-2">
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input
+                        id="email"
+                        type="email"
+                        value={profileData.email}
+                        onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                        placeholder="Enter your email address"
+                      />
+                    </div>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
                       <Label htmlFor="phone">Phone Number</Label>
                       <Input
                         id="phone"
                         value={profileData.phone}
                         onChange={(e) => setProfileData({ ...profileData, phone: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="class_name">Class</Label>
+                      <Input
+                        id="class_name"
+                        value={profileData.class_name}
+                        onChange={(e) => setProfileData({ ...profileData, class_name: e.target.value })}
                       />
                     </div>
                   </div>
@@ -306,24 +327,14 @@ const StudentPortal = () => {
                       onChange={(e) => setProfileData({ ...profileData, address: e.target.value })}
                     />
                   </div>
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="class_name">Class</Label>
-                      <Input
-                        id="class_name"
-                        value={profileData.class_name}
-                        onChange={(e) => setProfileData({ ...profileData, class_name: e.target.value })}
-                      />
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="date_of_birth">Date of Birth</Label>
-                      <Input
-                        id="date_of_birth"
-                        type="date"
-                        value={profileData.date_of_birth}
-                        onChange={(e) => setProfileData({ ...profileData, date_of_birth: e.target.value })}
-                      />
-                    </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="date_of_birth">Date of Birth</Label>
+                    <Input
+                      id="date_of_birth"
+                      type="date"
+                      value={profileData.date_of_birth}
+                      onChange={(e) => setProfileData({ ...profileData, date_of_birth: e.target.value })}
+                    />
                   </div>
                   <div className="flex gap-2">
                     <Button onClick={handleProfileUpdate} disabled={loading}>
@@ -344,8 +355,18 @@ const StudentPortal = () => {
                       <p className="text-sm">{profile?.full_name || 'Not provided'}</p>
                     </div>
                     <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Email</Label>
+                      <p className="text-sm text-blue-600">{profile?.email || 'Not provided'}</p>
+                    </div>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div>
                       <Label className="text-sm font-medium text-muted-foreground">Phone</Label>
                       <p className="text-sm">{profile?.phone || 'Not provided'}</p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Class</Label>
+                      <p className="text-sm">{profile?.class_name || 'Not assigned'}</p>
                     </div>
                   </div>
                   <div>
@@ -354,12 +375,12 @@ const StudentPortal = () => {
                   </div>
                   <div className="grid gap-4 md:grid-cols-2">
                     <div>
-                      <Label className="text-sm font-medium text-muted-foreground">Class</Label>
-                      <p className="text-sm">{profile?.class_name || 'Not assigned'}</p>
-                    </div>
-                    <div>
                       <Label className="text-sm font-medium text-muted-foreground">Student ID</Label>
                       <p className="text-sm">{profile?.student_id || 'Not assigned'}</p>
+                    </div>
+                    <div>
+                      <Label className="text-sm font-medium text-muted-foreground">Date of Birth</Label>
+                      <p className="text-sm">{profile?.date_of_birth || 'Not provided'}</p>
                     </div>
                   </div>
                 </div>

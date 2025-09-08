@@ -76,9 +76,9 @@ const Dashboard = () => {
           subtitle: 'School management dashboard',
           stats: commonStats,
           quickActions: [
-            { name: 'User Management', href: '/users', icon: Users },
+            { name: 'User Management', href: '/dashboard/admin#management', icon: Users },
             { name: 'School Analytics', href: '/analytics', icon: TrendingUp },
-            { name: 'Content Management', href: '/content', icon: FileText },
+            { name: 'Content Management', href: '/dashboard/admin#content', icon: FileText },
             { name: 'System Settings', href: '/settings', icon: Bell },
           ]
         };

@@ -27,25 +27,25 @@ const Index = () => {
 
   const slides = [
     {
-      image: "https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg",
+      image: "EMRS IMAGES/building.jpg",
       title: "Empowering Tribal Youth Through Quality Education",
       subtitle: "Providing free residential education to tribal students since 2010",
       cta: "Apply Now",
-      link: "/auth"
+      link: "admissions.html"
     },
     {
-      image: "https://images.pexels.com/photos/159844/cellular-education-classroom-159844.jpeg",
+      image: "EMRS IMAGES/classroom.jpg",
       title: "State-of-the-Art Infrastructure",
       subtitle: "Modern classrooms, labs, and sports facilities for holistic development",
       cta: "Explore Campus",
-      link: "/campus-life"
+      link: "campus-life.html"
     },
     {
-      image: "https://images.pexels.com/photos/1205651/pexels-photo-1205651.jpeg",
+      image: "EMRS IMAGES/acheivements.jpg",
       title: "100% CBSE Results for 5 Consecutive Years",
       subtitle: "Our students consistently excel in academics and extracurriculars",
       cta: "Our Achievements",
-      link: "/achievements"
+      link: "achievements.html"
     }
   ];
 
@@ -118,22 +118,22 @@ const Index = () => {
 
   const galleryItems = [
     {
-      image: "https://images.pexels.com/photos/159844/cellular-education-classroom-159844.jpeg",
+      image: "EMRS IMAGES/classroom.jpg",
       title: "Smart Classrooms",
       description: "Digital learning environment"
     },
     {
-      image: "https://images.pexels.com/photos/2280571/pexels-photo-2280571.jpeg",
+      image: "EMRS IMAGES/Science lab.jpg",
       title: "Science Lab",
       description: "Hands-on experiments"
     },
     {
-      image: "https://images.pexels.com/photos/163452/basketball-dunk-blue-game-163452.jpeg",
+      image: "EMRS IMAGES/sports.jpg",
       title: "Sports Facilities",
       description: "Athletic excellence"
     },
     {
-      image: "https://images.pexels.com/photos/1205651/pexels-photo-1205651.jpeg",
+      image: "EMRS IMAGES/cultural.jpg",
       title: "Cultural Events",
       description: "Celebrating traditions"
     }
@@ -161,7 +161,7 @@ const Index = () => {
             {/* Logo */}
             <div className="flex items-center space-x-4">
               <img 
-                src="https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=100&h=100&fit=crop" 
+                src="EMRS IMAGES/dept_logo.jpg" 
                 alt="EMRS Dornala Logo" 
                 className="h-16 w-16 rounded-full object-cover shadow-lg"
               />
@@ -173,29 +173,29 @@ const Index = () => {
             
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</a>
+              <a href="/" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</a>
               <div className="relative group">
-                <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center">
+                <a href="about.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center">
                   Meet Us <ChevronDown className="ml-1 h-4 w-4" />
                 </a>
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">About Us</a>
-                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Management</a>
-                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Academics</a>
-                  <a href="#" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Affiliation</a>
+                  <a href="about.html#about" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">About Us</a>
+                  <a href="about.html#management" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Management</a>
+                  <a href="about.html#academics" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Academics</a>
+                  <a href="about.html#affiliation" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Affiliation</a>
                 </div>
               </div>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Campus Life</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">News & Events</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Admissions</a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Achievements</a>
+              <a href="campus-life.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Campus Life</a>
+              <a href="news-events.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">News & Events</a>
+              <a href="admissions.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Admissions</a>
+              <a href="achievements.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Achievements</a>
               <Button 
                 onClick={() => navigate('/auth')}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               >
                 Login
               </Button>
-              <a href="#contact" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact Us</a>
+              <a href="contact.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact Us</a>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -215,12 +215,12 @@ const Index = () => {
           {isMenuOpen && (
             <div className="lg:hidden absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-lg border-b shadow-lg">
               <div className="px-4 py-6 space-y-4">
-                <a href="#" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Home</a>
-                <a href="#" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Meet Us</a>
-                <a href="#" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Campus Life</a>
-                <a href="#" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">News & Events</a>
-                <a href="#" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Admissions</a>
-                <a href="#" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Achievements</a>
+                <a href="/" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Home</a>
+                <a href="about.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Meet Us</a>
+                <a href="campus-life.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Campus Life</a>
+                <a href="news-events.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">News & Events</a>
+                <a href="admissions.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Admissions</a>
+                <a href="achievements.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Achievements</a>
                 <div className="pt-4">
                   <Button 
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
@@ -229,7 +229,7 @@ const Index = () => {
                     Login
                   </Button>
                 </div>
-                <a href="#contact" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Contact Us</a>
+                <a href="contact.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Contact Us</a>
               </div>
             </div>
           )}
@@ -263,7 +263,7 @@ const Index = () => {
                     size="lg"
                     className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold px-8 py-3 animate-fade-in-up"
                     style={{ animationDelay: '0.4s' }}
-                    onClick={() => navigate(slide.link)}
+                    onClick={() => window.location.href = slide.link}
                   >
                     {slide.cta}
                   </Button>
@@ -358,6 +358,7 @@ const Index = () => {
               <Button 
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                onClick={() => window.location.href = 'about.html'}
               >
                 Learn More About Us
               </Button>
@@ -365,7 +366,7 @@ const Index = () => {
             
             <div className="relative">
               <img 
-                src="https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg" 
+                src="EMRS IMAGES/building.jpg" 
                 alt="EMRS Dornala Campus"
                 className="rounded-lg shadow-2xl w-full h-96 object-cover"
               />
@@ -434,6 +435,7 @@ const Index = () => {
               size="lg"
               variant="outline"
               className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
+              onClick={() => window.location.href = 'gallery.html'}
             >
               View Full Gallery
             </Button>
@@ -470,7 +472,7 @@ const Index = () => {
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <img 
-                  src="https://images.pexels.com/photos/207692/pexels-photo-207692.jpeg?auto=compress&cs=tinysrgb&w=60&h=60&fit=crop" 
+                  src="EMRS IMAGES/dept_logo.jpg" 
                   alt="EMRS Logo" 
                   className="h-12 w-12 rounded-full object-cover"
                 />
@@ -501,13 +503,13 @@ const Index = () => {
             <div>
               <h3 className="font-semibold mb-4 text-white">Quick Links</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">About Us</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Admissions</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Campus Life</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Achievements</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Gallery</a></li>
-                <li><a href="#contact" className="hover:text-white transition-colors">Contact Us</a></li>
+                <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
+                <li><a href="about.html" className="hover:text-white transition-colors">About Us</a></li>
+                <li><a href="admissions.html" className="hover:text-white transition-colors">Admissions</a></li>
+                <li><a href="campus-life.html" className="hover:text-white transition-colors">Campus Life</a></li>
+                <li><a href="achievements.html" className="hover:text-white transition-colors">Achievements</a></li>
+                <li><a href="gallery.html" className="hover:text-white transition-colors">Gallery</a></li>
+                <li><a href="contact.html" className="hover:text-white transition-colors">Contact Us</a></li>
               </ul>
             </div>
             
