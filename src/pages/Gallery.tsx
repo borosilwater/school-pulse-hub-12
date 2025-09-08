@@ -36,7 +36,7 @@ const Gallery = () => {
       title: "Annual Day Celebration",
       category: "events",
       date: "15 Jan 2024",
-      image: "EMRS IMAGES/functions.jpg",
+      image: "/images/functions.jpg",
       description: "Our annual day celebration with cultural performances and prize distribution."
     },
     {
@@ -44,7 +44,7 @@ const Gallery = () => {
       title: "Sports Day",
       category: "sports",
       date: "20 Feb 2024",
-      image: "EMRS IMAGES/sports.jpg",
+      image: "/images/sports.jpg",
       description: "Annual sports day with various competitions and races."
     },
     {
@@ -52,7 +52,7 @@ const Gallery = () => {
       title: "Science Exhibition",
       category: "academics",
       date: "10 Mar 2024",
-      image: "EMRS IMAGES/Science lab.jpg",
+      image: "/images/Science lab.jpg",
       description: "Students showcasing their innovative science projects at ISRO."
     },
     {
@@ -60,7 +60,7 @@ const Gallery = () => {
       title: "Republic Day",
       category: "events",
       date: "26 Jan 2024",
-      image: "EMRS IMAGES/flag hosting.jpg",
+      image: "/images/flag hosting.jpg",
       description: "Flag hoisting ceremony and cultural programs on Republic Day."
     },
     {
@@ -68,7 +68,7 @@ const Gallery = () => {
       title: "Dance Performance",
       category: "cultural",
       date: "15 Aug 2024",
-      image: "EMRS IMAGES/cultural dance.jpg",
+      image: "/images/cultural dance.jpg",
       description: "Traditional dance performance by students on Independence Day."
     },
     {
@@ -76,7 +76,7 @@ const Gallery = () => {
       title: "Classroom Activity",
       category: "academics",
       date: "5 May 2024",
-      image: "EMRS IMAGES/classroom.jpg",
+      image: "/images/classroom.jpg",
       description: "Interactive learning session in our modern classrooms."
     },
     {
@@ -84,7 +84,7 @@ const Gallery = () => {
       title: "Prize Distribution",
       category: "events",
       date: "30 Mar 2024",
-      image: "EMRS IMAGES/acheivements.jpg",
+      image: "/images/acheivements.jpg",
       description: "Recognizing academic excellence in our annual prize distribution."
     },
     {
@@ -92,7 +92,7 @@ const Gallery = () => {
       title: "Field Trip",
       category: "academics",
       date: "12 Apr 2024",
-      image: "EMRS IMAGES/Plantation.jpg",
+      image: "/images/Plantation.jpg",
       description: "Educational field trip to the science museum."
     },
     {
@@ -100,7 +100,7 @@ const Gallery = () => {
       title: "Tournament Prizes",
       category: "sports",
       date: "8 Jun 2024",
-      image: "EMRS IMAGES/birsa munda prize.jpg",
+      image: "/images/birsa munda prize.jpg",
       description: "Students getting certificates of participation in various sports."
     },
     {
@@ -108,7 +108,7 @@ const Gallery = () => {
       title: "Tree Plantation",
       category: "cultural",
       date: "22 Jul 2024",
-      image: "EMRS IMAGES/Plantation.jpg",
+      image: "/images/Plantation.jpg",
       description: "Environmental awareness program with tree plantation drive."
     },
     {
@@ -116,7 +116,7 @@ const Gallery = () => {
       title: "Library Session",
       category: "academics",
       date: "3 Aug 2023",
-      image: "EMRS IMAGES/LIBRARY.jpg",
+      image: "/images/LIBRARY.jpg",
       description: "Reading session in our well-stocked library."
     },
     {
@@ -124,7 +124,7 @@ const Gallery = () => {
       title: "Traditional Dance",
       category: "cultural",
       date: "14 Sep 2024",
-      image: "EMRS IMAGES/cultural dance.jpg",
+      image: "/images/cultural dance.jpg",
       description: "Students performing traditional tribal dances."
     }
   ];
@@ -185,7 +185,7 @@ const Gallery = () => {
     <div 
       className="min-h-screen relative"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('EMRS IMAGES/building.jpg')`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/building.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'

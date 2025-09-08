@@ -68,7 +68,7 @@ const Auth = () => {
     <div 
       className="min-h-screen flex items-center justify-center p-4 relative"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('EMRS IMAGES/building.jpg')`,
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/building.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundAttachment: 'fixed'
@@ -89,7 +89,7 @@ const Auth = () => {
           <CardHeader className="text-center pb-4">
             <div className="mx-auto mb-4">
               <img 
-                src="EMRS IMAGES/dept_logo.jpg" 
+                src="/images/dept_logo.jpg" 
                 alt="School Logo" 
                 className="h-16 w-16 rounded-full object-cover shadow-lg animate-float"
               />

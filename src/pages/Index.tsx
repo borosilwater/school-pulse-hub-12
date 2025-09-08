@@ -27,21 +27,21 @@ const Index = () => {
 
   const slides = [
     {
-      image: "EMRS IMAGES/building.jpg",
+      image: "/images/building.jpg",
       title: "Empowering Tribal Youth Through Quality Education",
       subtitle: "Providing free residential education to tribal students since 2010",
       cta: "Apply Now",
       link: "admissions.html"
     },
     {
-      image: "EMRS IMAGES/classroom.jpg",
+      image: "/images/classroom.jpg",
       title: "State-of-the-Art Infrastructure",
       subtitle: "Modern classrooms, labs, and sports facilities for holistic development",
       cta: "Explore Campus",
       link: "campus-life.html"
     },
     {
-      image: "EMRS IMAGES/acheivements.jpg",
+      image: "/images/acheivements.jpg",
       title: "100% CBSE Results for 5 Consecutive Years",
       subtitle: "Our students consistently excel in academics and extracurriculars",
       cta: "Our Achievements",
@@ -118,22 +118,22 @@ const Index = () => {
 
   const galleryItems = [
     {
-      image: "EMRS IMAGES/classroom.jpg",
+      image: "/images/classroom.jpg",
       title: "Smart Classrooms",
       description: "Digital learning environment"
     },
     {
-      image: "EMRS IMAGES/Science lab.jpg",
+      image: "/images/Science lab.jpg",
       title: "Science Lab",
       description: "Hands-on experiments"
     },
     {
-      image: "EMRS IMAGES/sports.jpg",
+      image: "/images/sports.jpg",
       title: "Sports Facilities",
       description: "Athletic excellence"
     },
     {
-      image: "EMRS IMAGES/cultural.jpg",
+      image: "/images/cultural.jpg",
       title: "Cultural Events",
       description: "Celebrating traditions"
     }
@@ -161,7 +161,7 @@ const Index = () => {
             {/* Logo */}
             <div className="flex items-center space-x-4">
               <img 
-                src="EMRS IMAGES/dept_logo.jpg" 
+                src="/images/dept_logo.jpg" 
                 alt="EMRS Dornala Logo" 
                 className="h-16 w-16 rounded-full object-cover shadow-lg"
               />
@@ -366,7 +366,7 @@ const Index = () => {
             
             <div className="relative">
               <img 
-                src="EMRS IMAGES/building.jpg" 
+                src="/images/building.jpg" 
                 alt="EMRS Dornala Campus"
                 className="rounded-lg shadow-2xl w-full h-96 object-cover"
               />
@@ -472,7 +472,7 @@ const Index = () => {
             <div>
               <div className="flex items-center space-x-3 mb-4">
                 <img 
-                  src="EMRS IMAGES/dept_logo.jpg" 
+                  src="/images/dept_logo.jpg" 
                   alt="EMRS Logo" 
                   className="h-12 w-12 rounded-full object-cover"
                 />
