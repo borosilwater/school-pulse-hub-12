@@ -46,13 +46,145 @@
         }
         
         .header {
-            background-color: rgba(26, 82, 118, 0.9);
+            background-color: rgba(26, 82, 118, 0.95);
             color: white;
-            padding: 20px 0;
-            text-align: center;
+            padding: 0;
             position: relative;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            z-index: 10;
+            z-index: 1000;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .logo-container .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            margin-right: 15px;
+            object-fit: cover;
+        }
+        
+        .logo-text h1 {
+            font-size: 1.2rem;
+            margin: 0;
+            font-weight: bold;
+        }
+        
+        .logo-text p {
+            font-size: 0.8rem;
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #f1c40f;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: white;
+            transition: color 0.3s ease;
+        }
+        
+        .mobile-menu-btn:hover {
+            color: #f1c40f;
+        }
+        
+        .mobile-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            z-index: 1000;
+            transform: translateY(-10px);
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-menu.active {
+            display: block;
+            transform: translateY(0);
+            opacity: 1;
+        }
+        
+        .mobile-nav-links {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .mobile-nav-links li {
+            border-bottom: 1px solid #eee;
+        }
+        
+        .mobile-nav-links li:last-child {
+            border-bottom: none;
+        }
+        
+        .mobile-nav-links a {
+            display: block;
+            padding: 15px 20px;
+            color: #333;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .mobile-nav-links a:hover {
+            background-color: #f8f9fa;
+            color: #1a5276;
+            padding-left: 25px;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .mobile-menu {
+                display: block;
+            }
         }
         
         .logo {
@@ -469,11 +601,47 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <div class="logo">EMRS DORNALA</div>
-        <div class="school-name">Eklavya Model Residential School</div>
-        <div class="tagline">Empowering Tribal Students Through Quality Education</div>
-    </div>
+    <!-- Header/Navbar -->
+    <header class="header">
+        <div class="container">
+            <div class="logo-container">
+                <img src="/images/dept_logo.jpg" alt="EMRS Dornala Logo" class="logo">
+                <div class="logo-text">
+                    <h1>EMRS(CO-EDU),DORNALA</h1>
+                    <p>AP Tribal Welfare Residentail Educational Institutions Society(R)*</p>
+                </div>
+            </div>
+            <nav class="navbar">
+                <ul class="nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="about.html">Meet Us</a></li>
+                    <li><a href="campus-life.html">Campus Life</a></li>
+                    <li><a href="news-events.html">News & Events</a></li>
+                    <li><a href="admissions.html">Admissions</a></li>
+                    <li><a href="achievements.html">Achievements</a></li>
+                    <li><a href="gallery.html" class="active">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+                <div class="mobile-menu-btn">
+                    <i class="fas fa-bars" id="mobile-menu-icon"></i>
+                </div>
+            </nav>
+            
+            <!-- Mobile Menu -->
+            <div class="mobile-menu" id="mobile-menu">
+                <ul class="mobile-nav-links">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="about.html">Meet Us</a></li>
+                    <li><a href="campus-life.html">Campus Life</a></li>
+                    <li><a href="news-events.html">News & Events</a></li>
+                    <li><a href="admissions.html">Admissions</a></li>
+                    <li><a href="achievements.html">Achievements</a></li>
+                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+            </div>
+        </div>
+    </header>
     
     <div class="breadcrumb">
         <a href="/"><i class="fas fa-home"></i> Home</a>
@@ -778,5 +946,7 @@
         // Initialize the gallery when DOM is loaded
         document.addEventListener('DOMContentLoaded', initGallery);
     </script>
+    
+    <script src="main.js"></script>
 </body>
 </html>

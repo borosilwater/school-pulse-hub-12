@@ -30,8 +30,8 @@ class GmailService {
    */
   async sendEmail(message: GmailMessage): Promise<GmailResponse> {
     try {
-      // Use Supabase Edge Function to send Gmail
-      const { data: result, error } = await supabase.functions.invoke('send-gmail', {
+      // Use Supabase Edge Function to send bulk email
+      const { data: result, error } = await supabase.functions.invoke('send-bulk-email', {
         body: {
           to: message.to,
           subject: message.subject,

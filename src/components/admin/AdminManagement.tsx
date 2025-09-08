@@ -340,7 +340,7 @@ const AdminManagement = () => {
       }
 
 
-      const { data, error } = await supabase.functions.invoke('send-gmail', {
+      const { data, error } = await supabase.functions.invoke('send-bulk-email', {
         body: {
           to: emails,
           subject: emailSubject,
@@ -351,10 +351,21 @@ const AdminManagement = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "Success",
-        description: `Email sent to ${emails.length} users successfully!`
-      });
+      // Show detailed results
+      const successCount = data?.summary?.success || emails.length;
+      const failureCount = data?.summary?.failed || 0;
+      
+      if (failureCount === 0) {
+        toast({
+          title: "Success",
+          description: `Email sent to ${successCount} users successfully!`
+        });
+      } else {
+        toast({
+          title: "Partial Success",
+          description: `Email sent to ${successCount} users, ${failureCount} failed. Check logs for details.`
+        });
+      }
       
       setSelectedUsers([]);
       setEmailSubject('');

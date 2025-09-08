@@ -5,11 +5,39 @@ console.log('EMRS Dornala - Main JavaScript loaded');
 document.addEventListener('DOMContentLoaded', function() {
     const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
     const mobileMenu = document.querySelector('.mobile-menu');
+    const menuIcon = document.querySelector('#mobile-menu-icon');
+    
+    console.log('Mobile menu elements found:', {
+        mobileMenuBtn: !!mobileMenuBtn,
+        mobileMenu: !!mobileMenu,
+        menuIcon: !!menuIcon
+    });
     
     if (mobileMenuBtn && mobileMenu) {
-        mobileMenuBtn.addEventListener('click', function() {
-            mobileMenu.classList.toggle('active');
+        mobileMenuBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('Mobile menu button clicked');
+            
+            if (mobileMenu.classList.contains('active')) {
+                mobileMenu.classList.remove('active');
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                }
+                console.log('Mobile menu closed');
+            } else {
+                mobileMenu.classList.add('active');
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-bars');
+                    menuIcon.classList.add('fa-times');
+                }
+                console.log('Mobile menu opened');
+            }
         });
+    } else {
+        console.log('Mobile menu elements not found');
     }
     
     // Close mobile menu when clicking on a link
@@ -18,8 +46,25 @@ document.addEventListener('DOMContentLoaded', function() {
         link.addEventListener('click', function() {
             if (mobileMenu) {
                 mobileMenu.classList.remove('active');
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                }
             }
         });
+    });
+    
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        if (mobileMenu && mobileMenuBtn) {
+            if (!mobileMenu.contains(event.target) && !mobileMenuBtn.contains(event.target)) {
+                mobileMenu.classList.remove('active');
+                if (menuIcon) {
+                    menuIcon.classList.remove('fa-times');
+                    menuIcon.classList.add('fa-bars');
+                }
+            }
+        }
     });
     
     // Smooth scrolling for anchor links

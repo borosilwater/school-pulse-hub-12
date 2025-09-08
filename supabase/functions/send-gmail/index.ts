@@ -11,6 +11,10 @@ const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+// Email service configuration
+const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY') || 're_123456789'; // Replace with your actual Resend API key
+const FROM_EMAIL = 'noreply@emrsdornala.edu.in'; // Replace with your verified domain email
+
 interface GmailRequest {
   to: string[];
   subject: string;
@@ -28,67 +32,122 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log(`Sending Gmail to ${to.length} recipients about ${type}`);
 
-    // Gmail SMTP configuration
-    const gmailUser = 'daredevil9654@gmail.com';
-    const gmailPass = 'woevsfxjorkxxtnu';
+    // Create email content
+    const emailContent = `
+      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; text-align: center;">
+          <h1 style="color: white; margin: 0;">EMRS Dornala Notification</h1>
+        </div>
+        <div style="padding: 20px; background: #f8f9fa;">
+          <h2 style="color: #333; margin-bottom: 15px;">${subject}</h2>
+          <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+            ${body.replace(/\n/g, '<br>')}
+          </div>
+          <div style="margin-top: 20px; text-align: center; color: #666; font-size: 12px;">
+            <p>This email was sent from EMRS Dornala - School Management System</p>
+            <p>© 2024 EMRS Dornala. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    `;
 
-    // For each recipient, send email using Gmail SMTP
+    // Send bulk email using Resend API
     const results = [];
     
-    for (const email of to) {
-      try {
-        // Create email content
-        const emailContent = `
-          <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-            <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 20px; text-align: center;">
-              <h1 style="color: white; margin: 0;">EduPortal Notification</h1>
-            </div>
-            <div style="padding: 20px; background: #f8f9fa;">
-              <h2 style="color: #333; margin-bottom: 15px;">${subject}</h2>
-              <div style="background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                ${body.replace(/\n/g, '<br>')}
-              </div>
-              <div style="margin-top: 20px; text-align: center; color: #666; font-size: 12px;">
-                <p>This email was sent from EduPortal - School Management System</p>
-                <p>© 2024 EduPortal. All rights reserved.</p>
-              </div>
-            </div>
-          </div>
-        `;
-
-        // For now, simulate Gmail sending (in production, integrate with actual Gmail API)
-        console.log(`Gmail sent to ${email}:`, {
-          to: email,
+    try {
+      // Send email using Resend API
+      const response = await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: FROM_EMAIL,
+          to: to,
           subject: subject,
-          from: gmailUser,
-          type: type
-        });
+          html: emailContent,
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        // All emails sent successfully
+        for (const email of to) {
+          results.push({
+            email,
+            status: 'sent',
+            timestamp: new Date().toISOString()
+          });
+
+          // Log successful email to database
+          await supabase.from('notifications').insert({
+            user_id: '00000000-0000-0000-0000-000000000000', // System user
+            type: `email_${type}`,
+            title: subject,
+            message: `Email sent to ${email}`,
+            status: 'sent',
+            data: { email, type, subject }
+          });
+        }
         
-        // Simulate successful sending
-        results.push({
-          email,
-          status: 'sent',
-          timestamp: new Date().toISOString()
-        });
+        console.log(`Successfully sent email to ${to.length} recipients`);
+      } else {
+        // Handle API error
+        console.error('Resend API error:', responseData);
+        for (const email of to) {
+          results.push({
+            email,
+            status: 'failed',
+            error: responseData.message || 'API error',
+            timestamp: new Date().toISOString()
+          });
+        }
+      }
+    } catch (error) {
+      console.error('Failed to send bulk email:', error);
+      
+      // If Resend fails, fallback to individual email sending
+      for (const email of to) {
+        try {
+          // Try sending individual email using Gmail SMTP as fallback
+          const gmailResponse = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              service_id: 'gmail',
+              template_id: 'template_emrs',
+              user_id: 'daredevil9654@gmail.com',
+              template_params: {
+                to_email: email,
+                subject: subject,
+                message: body,
+                from_name: 'EMRS Dornala'
+              }
+            }),
+          });
 
-        // Log successful email to database
-        await supabase.from('notifications').insert({
-          user_id: '00000000-0000-0000-0000-000000000000', // System user
-          type: `email_${type}`,
-          title: subject,
-          message: `Email sent to ${email}`,
-          status: 'sent',
-          data: { email, type, subject }
-        });
-
-      } catch (error) {
-        console.error(`Failed to send email to ${email}:`, error);
-        results.push({
-          email,
-          status: 'failed',
-          error: error.message,
-          timestamp: new Date().toISOString()
-        });
+          if (gmailResponse.ok) {
+            results.push({
+              email,
+              status: 'sent',
+              timestamp: new Date().toISOString()
+            });
+          } else {
+            throw new Error('Gmail fallback failed');
+          }
+        } catch (fallbackError) {
+          console.error(`Failed to send email to ${email}:`, fallbackError);
+          results.push({
+            email,
+            status: 'failed',
+            error: fallbackError.message,
+            timestamp: new Date().toISOString()
+          });
+        }
       }
     }
 

@@ -11,6 +11,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import EmailTest from '@/components/EmailTest';
 import { 
   Users, 
   BookOpen, 
@@ -303,7 +304,7 @@ const AdminDashboard = () => {
       }
 
 
-      const { data, error } = await supabase.functions.invoke('send-gmail', {
+      const { data, error } = await supabase.functions.invoke('send-bulk-email', {
         body: {
           to: emails,
           subject: quickEmailSubject,
@@ -314,10 +315,21 @@ const AdminDashboard = () => {
 
       if (error) throw error;
 
-      toast({
-        title: "Success",
-        description: `Email sent to ${emails.length} students successfully!`
-      });
+      // Show detailed results
+      const successCount = data?.summary?.success || emails.length;
+      const failureCount = data?.summary?.failed || 0;
+      
+      if (failureCount === 0) {
+        toast({
+          title: "Success",
+          description: `Email sent to ${successCount} students successfully!`
+        });
+      } else {
+        toast({
+          title: "Partial Success",
+          description: `Email sent to ${successCount} students, ${failureCount} failed. Check logs for details.`
+        });
+      }
       
       setQuickEmailSubject('');
       setQuickEmailMessage('');
@@ -496,6 +508,7 @@ const AdminDashboard = () => {
           <TabsTrigger value="content">Content Moderation</TabsTrigger>
           <TabsTrigger value="health">Backend Health</TabsTrigger>
           <TabsTrigger value="management">User & Content Management</TabsTrigger>
+          <TabsTrigger value="email">Email Testing</TabsTrigger>
           <TabsTrigger value="analytics">Analytics</TabsTrigger>
           <TabsTrigger value="settings">System Settings</TabsTrigger>
         </TabsList>
@@ -823,6 +836,11 @@ const AdminDashboard = () => {
               </Card>
             )}
           </div>
+        </TabsContent>
+
+        {/* Email Testing Tab */}
+        <TabsContent value="email" className="space-y-4">
+          <EmailTest />
         </TabsContent>
 
         {/* Analytics Tab */}

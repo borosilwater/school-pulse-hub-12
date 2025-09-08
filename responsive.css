@@ -94,6 +94,14 @@
         display: block;
     }
     
+    .nav-links {
+        display: none;
+    }
+    
+    .mobile-menu {
+        display: block;
+    }
+    
     .hero {
         height: 60vh;
     }
