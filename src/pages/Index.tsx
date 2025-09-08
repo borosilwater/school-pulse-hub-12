@@ -173,29 +173,29 @@ const Index = () => {
             
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
-              <a href="/" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</a>
+              <button onClick={() => navigate('/')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</button>
               <div className="relative group">
-                <a href="about.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center">
+                <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center">
                   Meet Us <ChevronDown className="ml-1 h-4 w-4" />
-                </a>
+                </button>
                 <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <a href="about.html#about" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">About Us</a>
-                  <a href="about.html#management" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Management</a>
-                  <a href="about.html#academics" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Academics</a>
-                  <a href="about.html#affiliation" className="block px-4 py-2 text-gray-700 hover:bg-gray-50">Affiliation</a>
+                  <button onClick={() => window.open('about.html', '_blank')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50">About Us</button>
+                  <button onClick={() => window.open('about.html#management', '_blank')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50">Management</button>
+                  <button onClick={() => window.open('about.html#academics', '_blank')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50">Academics</button>
+                  <button onClick={() => window.open('about.html#affiliation', '_blank')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50">Affiliation</button>
                 </div>
               </div>
-              <a href="campus-life.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Campus Life</a>
-              <a href="news-events.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">News & Events</a>
-              <a href="admissions.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Admissions</a>
-              <a href="achievements.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Achievements</a>
+              <button onClick={() => window.open('campus-life.html', '_blank')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Campus Life</button>
+              <button onClick={() => navigate('/news')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">News & Events</button>
+              <button onClick={() => window.open('admissions.html', '_blank')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Admissions</button>
+              <button onClick={() => window.open('achievements.html', '_blank')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Achievements</button>
               <Button 
                 onClick={() => navigate('/auth')}
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
               >
                 Login
               </Button>
-              <a href="contact.html" className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact Us</a>
+              <button onClick={() => window.open('contact.html', '_blank')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact Us</button>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -215,12 +215,12 @@ const Index = () => {
           {isMenuOpen && (
             <div className="lg:hidden absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-lg border-b shadow-lg">
               <div className="px-4 py-6 space-y-4">
-                <a href="/" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Home</a>
-                <a href="about.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Meet Us</a>
-                <a href="campus-life.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Campus Life</a>
-                <a href="news-events.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">News & Events</a>
-                <a href="admissions.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Admissions</a>
-                <a href="achievements.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Achievements</a>
+                <button onClick={() => navigate('/')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Home</button>
+                <button onClick={() => window.open('about.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Meet Us</button>
+                <button onClick={() => window.open('campus-life.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Campus Life</button>
+                <button onClick={() => navigate('/news')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">News & Events</button>
+                <button onClick={() => window.open('admissions.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Admissions</button>
+                <button onClick={() => window.open('achievements.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Achievements</button>
                 <div className="pt-4">
                   <Button 
                     className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
@@ -229,7 +229,7 @@ const Index = () => {
                     Login
                   </Button>
                 </div>
-                <a href="contact.html" className="block text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Contact Us</a>
+                <button onClick={() => window.open('contact.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Contact Us</button>
               </div>
             </div>
           )}
@@ -263,7 +263,7 @@ const Index = () => {
                     size="lg"
                     className="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold px-8 py-3 animate-fade-in-up"
                     style={{ animationDelay: '0.4s' }}
-                    onClick={() => window.location.href = slide.link}
+                    onClick={() => window.open(slide.link, '_blank')}
                   >
                     {slide.cta}
                   </Button>
@@ -358,7 +358,7 @@ const Index = () => {
               <Button 
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                onClick={() => window.location.href = 'about.html'}
+                onClick={() => window.open('about.html', '_blank')}
               >
                 Learn More About Us
               </Button>
@@ -435,7 +435,7 @@ const Index = () => {
               size="lg"
               variant="outline"
               className="border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white"
-              onClick={() => window.location.href = 'gallery.html'}
+              onClick={() => navigate('/gallery')}
             >
               View Full Gallery
             </Button>
@@ -503,13 +503,13 @@ const Index = () => {
             <div>
               <h3 className="font-semibold mb-4 text-white">Quick Links</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><a href="/" className="hover:text-white transition-colors">Home</a></li>
-                <li><a href="about.html" className="hover:text-white transition-colors">About Us</a></li>
-                <li><a href="admissions.html" className="hover:text-white transition-colors">Admissions</a></li>
-                <li><a href="campus-life.html" className="hover:text-white transition-colors">Campus Life</a></li>
-                <li><a href="achievements.html" className="hover:text-white transition-colors">Achievements</a></li>
-                <li><a href="gallery.html" className="hover:text-white transition-colors">Gallery</a></li>
-                <li><a href="contact.html" className="hover:text-white transition-colors">Contact Us</a></li>
+                <li><button onClick={() => navigate('/')} className="hover:text-white transition-colors">Home</button></li>
+                <li><button onClick={() => window.open('about.html', '_blank')} className="hover:text-white transition-colors">About Us</button></li>
+                <li><button onClick={() => window.open('admissions.html', '_blank')} className="hover:text-white transition-colors">Admissions</button></li>
+                <li><button onClick={() => window.open('campus-life.html', '_blank')} className="hover:text-white transition-colors">Campus Life</button></li>
+                <li><button onClick={() => window.open('achievements.html', '_blank')} className="hover:text-white transition-colors">Achievements</button></li>
+                <li><button onClick={() => navigate('/gallery')} className="hover:text-white transition-colors">Gallery</button></li>
+                <li><button onClick={() => window.open('contact.html', '_blank')} className="hover:text-white transition-colors">Contact Us</button></li>
               </ul>
             </div>
             
