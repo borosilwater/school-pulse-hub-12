@@ -173,29 +173,79 @@ const Index = () => {
             
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-8">
-              <button onClick={() => navigate('/')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Home</button>
+              <button 
+                onClick={() => navigate('/')} 
+                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
+              >
+                Home
+              </button>
               <div className="relative group">
-                <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center">
+                <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center py-2 px-3 rounded-md hover:bg-blue-50">
                   Meet Us <ChevronDown className="ml-1 h-4 w-4" />
                 </button>
-                <div className="absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                  <button onClick={() => window.open('about.html', '_blank')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50">About Us</button>
-                  <button onClick={() => window.open('about.html#management', '_blank')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50">Management</button>
-                  <button onClick={() => window.open('about.html#academics', '_blank')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50">Academics</button>
-                  <button onClick={() => window.open('about.html#affiliation', '_blank')} className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50">Affiliation</button>
+                <div className="dropdown-menu absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
+                  <button 
+                    onClick={() => window.open('about.html', '_blank')} 
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-t-lg transition-colors"
+                  >
+                    About Us
+                  </button>
+                  <button 
+                    onClick={() => window.open('about.html#management', '_blank')} 
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    Management
+                  </button>
+                  <button 
+                    onClick={() => window.open('about.html#academics', '_blank')} 
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                  >
+                    Academics
+                  </button>
+                  <button 
+                    onClick={() => window.open('about.html#affiliation', '_blank')} 
+                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-b-lg transition-colors"
+                  >
+                    Affiliation
+                  </button>
                 </div>
               </div>
-              <button onClick={() => window.open('campus-life.html', '_blank')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Campus Life</button>
-              <button onClick={() => navigate('/news')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">News & Events</button>
-              <button onClick={() => window.open('admissions.html', '_blank')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Admissions</button>
-              <button onClick={() => window.open('achievements.html', '_blank')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Achievements</button>
+              <button 
+                onClick={() => window.open('campus-life.html', '_blank')} 
+                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
+              >
+                Campus Life
+              </button>
+              <button 
+                onClick={() => navigate('/news')} 
+                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
+              >
+                News & Events
+              </button>
+              <button 
+                onClick={() => window.open('admissions.html', '_blank')} 
+                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
+              >
+                Admissions
+              </button>
+              <button 
+                onClick={() => window.open('achievements.html', '_blank')} 
+                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
+              >
+                Achievements
+              </button>
               <Button 
                 onClick={() => navigate('/auth')}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                className="btn-hover-effect bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300"
               >
                 Login
               </Button>
-              <button onClick={() => window.open('contact.html', '_blank')} className="text-gray-700 hover:text-blue-600 transition-colors font-medium">Contact Us</button>
+              <button 
+                onClick={() => window.open('contact.html', '_blank')} 
+                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
+              >
+                Contact Us
+              </button>
             </nav>
 
             {/* Mobile Menu Button */}
@@ -213,23 +263,82 @@ const Index = () => {
 
           {/* Mobile Navigation Menu */}
           {isMenuOpen && (
-            <div className="lg:hidden absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-lg border-b shadow-lg">
-              <div className="px-4 py-6 space-y-4">
-                <button onClick={() => navigate('/')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Home</button>
-                <button onClick={() => window.open('about.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Meet Us</button>
-                <button onClick={() => window.open('campus-life.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Campus Life</button>
-                <button onClick={() => navigate('/news')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">News & Events</button>
-                <button onClick={() => window.open('admissions.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Admissions</button>
-                <button onClick={() => window.open('achievements.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Achievements</button>
+            <div className={`lg:hidden absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-lg border-b shadow-lg z-50 mobile-menu ${isMenuOpen ? 'open' : ''}`}>
+              <div className="px-4 py-6 space-y-2">
+                <button 
+                  onClick={() => {
+                    navigate('/');
+                    setIsMenuOpen(false);
+                  }} 
+                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
+                >
+                  Home
+                </button>
+                <button 
+                  onClick={() => {
+                    window.open('about.html', '_blank');
+                    setIsMenuOpen(false);
+                  }} 
+                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
+                >
+                  Meet Us
+                </button>
+                <button 
+                  onClick={() => {
+                    window.open('campus-life.html', '_blank');
+                    setIsMenuOpen(false);
+                  }} 
+                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
+                >
+                  Campus Life
+                </button>
+                <button 
+                  onClick={() => {
+                    navigate('/news');
+                    setIsMenuOpen(false);
+                  }} 
+                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
+                >
+                  News & Events
+                </button>
+                <button 
+                  onClick={() => {
+                    window.open('admissions.html', '_blank');
+                    setIsMenuOpen(false);
+                  }} 
+                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
+                >
+                  Admissions
+                </button>
+                <button 
+                  onClick={() => {
+                    window.open('achievements.html', '_blank');
+                    setIsMenuOpen(false);
+                  }} 
+                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
+                >
+                  Achievements
+                </button>
                 <div className="pt-4">
                   <Button 
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-                    onClick={() => navigate('/auth')}
+                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300"
+                    onClick={() => {
+                      navigate('/auth');
+                      setIsMenuOpen(false);
+                    }}
                   >
                     Login
                   </Button>
                 </div>
-                <button onClick={() => window.open('contact.html', '_blank')} className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-2">Contact Us</button>
+                <button 
+                  onClick={() => {
+                    window.open('contact.html', '_blank');
+                    setIsMenuOpen(false);
+                  }} 
+                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
+                >
+                  Contact Us
+                </button>
               </div>
             </div>
           )}
@@ -503,13 +612,62 @@ const Index = () => {
             <div>
               <h3 className="font-semibold mb-4 text-white">Quick Links</h3>
               <ul className="space-y-3 text-gray-400">
-                <li><button onClick={() => navigate('/')} className="hover:text-white transition-colors">Home</button></li>
-                <li><button onClick={() => window.open('about.html', '_blank')} className="hover:text-white transition-colors">About Us</button></li>
-                <li><button onClick={() => window.open('admissions.html', '_blank')} className="hover:text-white transition-colors">Admissions</button></li>
-                <li><button onClick={() => window.open('campus-life.html', '_blank')} className="hover:text-white transition-colors">Campus Life</button></li>
-                <li><button onClick={() => window.open('achievements.html', '_blank')} className="hover:text-white transition-colors">Achievements</button></li>
-                <li><button onClick={() => navigate('/gallery')} className="hover:text-white transition-colors">Gallery</button></li>
-                <li><button onClick={() => window.open('contact.html', '_blank')} className="hover:text-white transition-colors">Contact Us</button></li>
+                <li>
+                  <button 
+                    onClick={() => navigate('/')} 
+                    className="hover:text-white transition-colors hover:underline text-left"
+                  >
+                    Home
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => window.open('about.html', '_blank')} 
+                    className="hover:text-white transition-colors hover:underline text-left"
+                  >
+                    About Us
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => window.open('admissions.html', '_blank')} 
+                    className="hover:text-white transition-colors hover:underline text-left"
+                  >
+                    Admissions
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => window.open('campus-life.html', '_blank')} 
+                    className="hover:text-white transition-colors hover:underline text-left"
+                  >
+                    Campus Life
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => window.open('achievements.html', '_blank')} 
+                    className="hover:text-white transition-colors hover:underline text-left"
+                  >
+                    Achievements
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => navigate('/gallery')} 
+                    className="hover:text-white transition-colors hover:underline text-left"
+                  >
+                    Gallery
+                  </button>
+                </li>
+                <li>
+                  <button 
+                    onClick={() => window.open('contact.html', '_blank')} 
+                    className="hover:text-white transition-colors hover:underline text-left"
+                  >
+                    Contact Us
+                  </button>
+                </li>
               </ul>
             </div>
             
@@ -595,6 +753,70 @@ const Index = () => {
         
         .animate-fade-in-up {
           animation: fade-in-up 0.8s ease-out both;
+        }
+
+        /* Enhanced Navigation Styles */
+        .nav-button {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .nav-button::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
+          transition: left 0.5s;
+        }
+
+        .nav-button:hover::before {
+          left: 100%;
+        }
+
+        /* Dropdown Animation */
+        .dropdown-menu {
+          transform: translateY(-10px);
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .group:hover .dropdown-menu {
+          transform: translateY(0);
+          opacity: 1;
+          visibility: visible;
+        }
+
+        /* Mobile Menu Animation */
+        .mobile-menu {
+          transform: translateY(-20px);
+          opacity: 0;
+          transition: all 0.3s ease-out;
+        }
+
+        .mobile-menu.open {
+          transform: translateY(0);
+          opacity: 1;
+        }
+
+        /* Button Hover Effects */
+        .btn-hover-effect {
+          position: relative;
+          overflow: hidden;
+          transition: all 0.3s ease;
+        }
+
+        .btn-hover-effect:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Smooth Transitions */
+        * {
+          transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
         }
       `}</style>
     </div>
