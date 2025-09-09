@@ -353,12 +353,12 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 p-4 md:space-y-6 md:p-6">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Dashboard</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Admin Dashboard</h1>
+          <p className="text-sm md:text-base text-muted-foreground">
             System overview and management for {profile?.full_name}
           </p>
         </div>
@@ -371,74 +371,74 @@ const AdminDashboard = () => {
       </div>
 
       {/* System Health Status */}
-      <div className="grid gap-4 md:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Database</CardTitle>
-            <Activity className="h-4 w-4 text-green-600" />
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4">
+        <Card className="p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
+            <CardTitle className="text-xs sm:text-sm font-medium">Database</CardTitle>
+            <Activity className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">Healthy</div>
+          <CardContent className="p-0 pt-2">
+            <div className="text-lg sm:text-2xl font-bold text-green-600">Healthy</div>
             <p className="text-xs text-muted-foreground">All systems operational</p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">SMS Service</CardTitle>
-            <Smartphone className="h-4 w-4 text-green-600" />
+        <Card className="p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
+            <CardTitle className="text-xs sm:text-sm font-medium">Email Service</CardTitle>
+            <Mail className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">Active</div>
-            <p className="text-xs text-muted-foreground">Twilio connected</p>
+          <CardContent className="p-0 pt-2">
+            <div className="text-lg sm:text-2xl font-bold text-green-600">Active</div>
+            <p className="text-xs text-muted-foreground">Gmail SMTP connected</p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Realtime</CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-600" />
+        <Card className="p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
+            <CardTitle className="text-xs sm:text-sm font-medium">Realtime</CardTitle>
+            <TrendingUp className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">Connected</div>
+          <CardContent className="p-0 pt-2">
+            <div className="text-lg sm:text-2xl font-bold text-green-600">Connected</div>
             <p className="text-xs text-muted-foreground">Live updates active</p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Storage</CardTitle>
-            <FileText className="h-4 w-4 text-green-600" />
+        <Card className="p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
+            <CardTitle className="text-xs sm:text-sm font-medium">Storage</CardTitle>
+            <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-green-600">Available</div>
+          <CardContent className="p-0 pt-2">
+            <div className="text-lg sm:text-2xl font-bold text-green-600">Available</div>
             <p className="text-xs text-muted-foreground">File storage ready</p>
           </CardContent>
         </Card>
       </div>
 
       {/* Main Statistics */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Users</CardTitle>
-            <Users className="h-4 w-4 text-blue-600" />
+      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4 md:gap-4">
+        <Card className="p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
+            <CardTitle className="text-xs sm:text-sm font-medium">Total Users</CardTitle>
+            <Users className="h-3 w-3 sm:h-4 sm:w-4 text-blue-600" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalStudents + stats.totalTeachers || 0}</div>
+          <CardContent className="p-0 pt-2">
+            <div className="text-lg sm:text-2xl font-bold">{stats.totalStudents + stats.totalTeachers || 0}</div>
             <p className="text-xs text-muted-foreground">
               {stats.totalStudents || 0} students, {stats.totalTeachers || 0} teachers
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Content Items</CardTitle>
-            <FileText className="h-4 w-4 text-green-600" />
+        <Card className="p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
+            <CardTitle className="text-xs sm:text-sm font-medium">Content Items</CardTitle>
+            <FileText className="h-3 w-3 sm:h-4 sm:w-4 text-green-600" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
+          <CardContent className="p-0 pt-2">
+            <div className="text-lg sm:text-2xl font-bold">
               {(stats.totalNews || 0) + (stats.totalAnnouncements || 0) + (stats.totalEvents || 0)}
             </div>
             <p className="text-xs text-muted-foreground">
@@ -447,26 +447,26 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Exam Results</CardTitle>
-            <Trophy className="h-4 w-4 text-purple-600" />
+        <Card className="p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
+            <CardTitle className="text-xs sm:text-sm font-medium">Exam Results</CardTitle>
+            <Trophy className="h-3 w-3 sm:h-4 sm:w-4 text-purple-600" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{stats.totalExamResults || 0}</div>
+          <CardContent className="p-0 pt-2">
+            <div className="text-lg sm:text-2xl font-bold">{stats.totalExamResults || 0}</div>
             <p className="text-xs text-muted-foreground">
               {stats.pendingExamResults || 0} pending publication
             </p>
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Published Content</CardTitle>
-            <Bell className="h-4 w-4 text-orange-600" />
+        <Card className="p-4">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 p-0">
+            <CardTitle className="text-xs sm:text-sm font-medium">Published Content</CardTitle>
+            <Bell className="h-3 w-3 sm:h-4 sm:w-4 text-orange-600" />
           </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">
+          <CardContent className="p-0 pt-2">
+            <div className="text-lg sm:text-2xl font-bold">
               {(stats.publishedNews || 0) + (stats.publishedAnnouncements || 0)}
             </div>
             <p className="text-xs text-muted-foreground">
