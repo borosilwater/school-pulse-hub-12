@@ -16,6 +16,7 @@ export interface UserProfile {
   phone?: string;
   address?: string;
   date_of_birth?: string;
+  email?: string;
   created_at: string;
   updated_at: string;
 }
