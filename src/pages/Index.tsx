@@ -3,13 +3,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import { GraduationCap, BookOpen, Calendar, Trophy, Users, FileText, Bell, TrendingUp, Star, Shield, CheckCircle, ArrowRight, Play, Sparkles, Rocket, Database, Smartphone, Menu, X, Quote, MapPin, Mail, Phone, Send, Facebook, Twitter, Instagram, Linkedin, Github, ExternalLink, Layers, Infinity, Headphones, DollarSign, BarChart3, Zap, Globe, Heart, Award, Target, Monitor, Cloud, Lock, Home, FlaskRound as Flask, Music, Utensils, CalendarCheck, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { GraduationCap, BookOpen, Calendar, Trophy, Users, FileText, Bell, TrendingUp, Star, Shield, CheckCircle, ArrowRight, Play, Sparkles, Rocket, Database, Smartphone, Menu, X, Quote, MapPin, Mail, Phone, Send, Facebook, Twitter, Instagram, Linkedin, Github, ExternalLink, Layers, Infinity, Headphones, DollarSign, BarChart3, Zap, Globe, Heart, Award, Target, Monitor, Cloud, Lock, Home, FlaskRound as Flask, Music, Utensils, CalendarCheck, ChevronDown, ChevronLeft, ChevronRight, AlertCircle, User, Clock } from 'lucide-react';
+import { supabase } from '@/integrations/supabase/client';
 
 const Index = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [scrollY, setScrollY] = useState(0);
+  const [announcements, setAnnouncements] = useState([]);
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -23,6 +27,47 @@ const Index = () => {
       setCurrentSlide((prev) => (prev + 1) % 3);
     }, 5000);
     return () => clearInterval(interval);
+  }, []);
+
+  // Fetch announcements and events
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        
+        // Fetch announcements
+        const { data: announcementsData, error: announcementsError } = await supabase
+          .from('announcements')
+          .select('*')
+          .eq('published', true)
+          .order('created_at', { ascending: false })
+          .limit(3);
+
+        if (announcementsError) {
+          console.error('Error fetching announcements:', announcementsError);
+        }
+
+        // Fetch events
+        const { data: eventsData, error: eventsError } = await supabase
+          .from('events')
+          .select('*')
+          .order('event_date', { ascending: true })
+          .limit(3);
+
+        if (eventsError) {
+          console.error('Error fetching events:', eventsError);
+        }
+
+        setAnnouncements(announcementsData || []);
+        setEvents(eventsData || []);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
   }, []);
 
   const slides = [
@@ -433,6 +478,208 @@ const Index = () => {
                 </Card>
               );
             })}
+          </div>
+        </div>
+      </section>
+
+      {/* Events and Announcements Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Latest News & Events</h2>
+            <p className="text-lg text-gray-600">Stay updated with the latest announcements and upcoming events</p>
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className="mt-4"
+              onClick={() => {
+                setLoading(true);
+                // Re-fetch data
+                const fetchData = async () => {
+                  try {
+                    const [announcementsResult, eventsResult] = await Promise.all([
+                      supabase
+                        .from('announcements')
+                        .select('*')
+                        .eq('published', true)
+                        .order('created_at', { ascending: false })
+                        .limit(3),
+                      supabase
+                        .from('events')
+                        .select('*')
+                        .order('event_date', { ascending: true })
+                        .limit(3)
+                    ]);
+                    
+                    setAnnouncements(announcementsResult.data || []);
+                    setEvents(eventsResult.data || []);
+                  } catch (error) {
+                    console.error('Error refreshing data:', error);
+                  } finally {
+                    setLoading(false);
+                  }
+                };
+                fetchData();
+              }}
+            >
+              {loading ? 'Refreshing...' : 'Refresh'}
+            </Button>
+          </div>
+          
+          <div className="grid gap-8 lg:grid-cols-2">
+            {/* Announcements */}
+            <div>
+              <div className="flex items-center gap-2 mb-6">
+                <Bell className="h-6 w-6 text-blue-600" />
+                <h3 className="text-2xl font-bold text-gray-900">Announcements</h3>
+              </div>
+              
+              {loading ? (
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="bg-gray-200 h-4 rounded w-3/4 mb-2"></div>
+                      <div className="bg-gray-200 h-3 rounded w-1/2"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : announcements.length === 0 ? (
+                <div className="text-center py-8">
+                  <Bell className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                  <p className="text-gray-500">No announcements available</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {announcements.map((announcement) => (
+                    <Card key={announcement.id} className="hover:shadow-lg transition-shadow">
+                      <CardContent className="p-6">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex-1">
+                            <h4 className="font-semibold text-gray-900 mb-2 flex items-center">
+                              {announcement.priority >= 4 && (
+                                <AlertCircle className="h-4 w-4 text-red-500 mr-2" />
+                              )}
+                              {announcement.title}
+                            </h4>
+                            <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                              <div className="flex items-center">
+                                <User className="h-4 w-4 mr-1" />
+                                School Staff
+                              </div>
+                              <div className="flex items-center">
+                                <Clock className="h-4 w-4 mr-1" />
+                                {new Date(announcement.created_at).toLocaleDateString()}
+                              </div>
+                            </div>
+                          </div>
+                          <Badge 
+                            className={
+                              announcement.priority >= 4 
+                                ? 'bg-red-100 text-red-700 border-red-200'
+                                : announcement.priority >= 2 
+                                ? 'bg-yellow-100 text-yellow-700 border-yellow-200'
+                                : 'bg-green-100 text-green-700 border-green-200'
+                            }
+                          >
+                            {announcement.priority >= 4 ? 'High' : announcement.priority >= 2 ? 'Medium' : 'Low'} Priority
+                          </Badge>
+                        </div>
+                        <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
+                          {announcement.content}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              )}
+              
+              <div className="mt-6">
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => navigate('/announcements')}
+                >
+                  View All Announcements
+                </Button>
+              </div>
+            </div>
+
+            {/* Events */}
+            <div>
+              <div className="flex items-center gap-2 mb-6">
+                <Calendar className="h-6 w-6 text-purple-600" />
+                <h3 className="text-2xl font-bold text-gray-900">Upcoming Events</h3>
+              </div>
+              
+              {loading ? (
+                <div className="space-y-4">
+                  {[1, 2, 3].map((i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="bg-gray-200 h-4 rounded w-3/4 mb-2"></div>
+                      <div className="bg-gray-200 h-3 rounded w-1/2"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : events.length === 0 ? (
+                <div className="text-center py-8">
+                  <Calendar className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                  <p className="text-gray-500">No events scheduled</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {events.map((event) => {
+                    const isUpcoming = new Date(event.event_date) > new Date();
+                    const eventDate = new Date(event.event_date);
+                    
+                    return (
+                      <Card key={event.id} className={`hover:shadow-lg transition-shadow ${isUpcoming ? 'border-l-4 border-l-purple-500' : ''}`}>
+                        <CardContent className="p-6">
+                          <div className="flex items-start justify-between mb-3">
+                            <div className="flex-1">
+                              <h4 className="font-semibold text-gray-900 mb-2">{event.title}</h4>
+                              <div className="flex items-center gap-4 text-sm text-gray-600 mb-3">
+                                <div className="flex items-center">
+                                  <Calendar className="h-4 w-4 mr-1" />
+                                  {eventDate.toLocaleDateString()}
+                                </div>
+                                <div className="flex items-center">
+                                  <Clock className="h-4 w-4 mr-1" />
+                                  {eventDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </div>
+                                {event.location && (
+                                  <div className="flex items-center">
+                                    <MapPin className="h-4 w-4 mr-1" />
+                                    {event.location}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                            <Badge 
+                              className={isUpcoming ? 'bg-purple-100 text-purple-700 border-purple-200' : 'bg-gray-100 text-gray-700 border-gray-200'}
+                            >
+                              {isUpcoming ? 'Upcoming' : 'Past Event'}
+                            </Badge>
+                          </div>
+                          <p className="text-gray-700 text-sm leading-relaxed line-clamp-3">
+                            {event.description}
+                          </p>
+                        </CardContent>
+                      </Card>
+                    );
+                  })}
+                </div>
+              )}
+              
+              <div className="mt-6">
+                <Button 
+                  variant="outline" 
+                  className="w-full"
+                  onClick={() => navigate('/events')}
+                >
+                  View All Events
+                </Button>
+              </div>
+            </div>
           </div>
         </div>
       </section>
