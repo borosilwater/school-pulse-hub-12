@@ -95,7 +95,7 @@ class GmailService {
       // Get all student and teacher emails
       const { data: profiles } = await supabase
         .from('profiles')
-        .select('full_name, user_id')
+        .select('full_name, user_id, email')
         .in('role', ['student', 'teacher']);
 
       if (!profiles || profiles.length === 0) {
@@ -107,14 +107,13 @@ class GmailService {
       }
 
       // Get user emails from auth.users
-      const { data: users } = await supabase.auth.admin.listUsers();
-      const userEmails = users.users
-        .filter(user => profiles.some(p => p.user_id === user.id))
-        .map(user => user.email)
+      // Get emails from profiles table instead
+      const profileEmails = profiles
+        .map(profile => profile.email)
         .filter(Boolean) as string[];
 
       return this.sendEmail({
-        to: userEmails,
+        to: profileEmails,
         subject: `School Announcement: ${title}`,
         body: `
           <h2>New School Announcement</h2>
@@ -188,7 +187,7 @@ class GmailService {
       // Get all student and teacher emails
       const { data: profiles } = await supabase
         .from('profiles')
-        .select('user_id')
+        .select('user_id, email')
         .in('role', ['student', 'teacher']);
 
       if (!profiles || profiles.length === 0) {
@@ -199,14 +198,13 @@ class GmailService {
         };
       }
 
-      const { data: users } = await supabase.auth.admin.listUsers();
-      const userEmails = users.users
-        .filter(user => profiles.some(p => p.user_id === user.id))
-        .map(user => user.email)
+      // Get emails from profiles table instead
+      const profileEmails = profiles
+        .map(profile => profile.email)
         .filter(Boolean) as string[];
 
       return this.sendEmail({
-        to: userEmails,
+        to: profileEmails,
         subject: `School Event: ${title}`,
         body: `
           <h2>New School Event</h2>

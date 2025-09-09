@@ -48,7 +48,6 @@ const TeacherPortal = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [profileData, setProfileData] = useState({
     full_name: profile?.full_name || '',
-    email: profile?.email || '',
     phone: profile?.phone || '',
     address: profile?.address || '',
   });
@@ -927,7 +926,7 @@ const TeacherPortal = () => {
                       <Input
                         id="email"
                         type="email"
-                        value={profileData.email}
+                        value={user?.email || ''}
                         onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
                         placeholder="Enter your email address"
                       />
