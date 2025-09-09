@@ -6,65 +6,45 @@
     <title>Admissions | EMRS Dornala</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="navbar-new.css">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="responsive.css">
 </head>
 <body>
-    <!-- Announcement Bar -->
-    <div class="announcement-bar">
-        <marquee behavior="scroll" direction="left">
-            <span class="announcement-item">🎉 EMRS Entrance Exam 2024 registration starts from 15th June!</span>
-            <span class="announcement-item">📢 School reopens on 1st July after summer break</span>
-        </marquee>
+    <!-- Top Banner -->
+    <div class="top-banner">
+        EMRS Entrance Exam 2024 registration
     </div>
 
-    <!-- Header/Navbar -->
+    <!-- Header -->
     <header class="header">
-        <div class="container">
-            <div class="logo-container">
-                <img src="/images/dept_logo.jpg" alt="EMRS Dornala Logo" class="logo">
+        <div class="header-content">
+            <div class="logo-section">
+                <div class="logo"></div>
                 <div class="logo-text">
                     <h1>EMRS(CO-EDU),DORNALA</h1>
-                    <p>AP Tribal Welfare Residentail Educational Institutions Society(R)*</p>
+                    <p>AP Tribal Welfare Residential Educational Institutions Society(R)</p>
                 </div>
             </div>
-            <nav class="navbar">
-                <ul class="nav-links">
-                    <li><a href="/">Home</a></li>
-                    <li class="dropdown">
-                        <a href="about.html">Meet Us <i class="fas fa-chevron-down"></i></a>
-                        <ul class="dropdown-menu">
-                            <li><a href="about.html#about">About Us</a></li>
-                            <li><a href="about.html#management">Management</a></li>
-                            <li><a href="about.html#academics">Academics</a></li>
-                            <li><a href="about.html#affiliation">Affiliation</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="campus-life.html">Campus Life</a></li>
-                    <li><a href="news-events.html">News & Events</a></li>
-                    <li><a href="admissions.html" class="active">Admissions</a></li>
-                    <li><a href="achievements.html">Achievements</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
-                    <li><a href="contact.html">Contact Us</a></li>
-                </ul>
-                <div class="mobile-menu-btn">
-                    <i class="fas fa-bars" id="mobile-menu-icon"></i>
-                </div>
-            </nav>
-            
-            <!-- Mobile Menu -->
-            <div class="mobile-menu" id="mobile-menu">
-                <ul class="mobile-nav-links">
+
+            <nav class="nav">
+                <ul class="nav-links" id="navLinks">
                     <li><a href="/">Home</a></li>
                     <li><a href="about.html">Meet Us</a></li>
                     <li><a href="campus-life.html">Campus Life</a></li>
                     <li><a href="news-events.html">News & Events</a></li>
-                    <li><a href="admissions.html">Admissions</a></li>
+                    <li><a href="admissions.html" class="active">Admissions</a></li>
                     <li><a href="achievements.html">Achievements</a></li>
-                    <li><a href="gallery.html">Gallery</a></li>
+                    <li><a href="login.html" class="login-btn">Login</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
                 </ul>
-            </div>
+
+                <div class="hamburger" id="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </nav>
         </div>
     </header>
 

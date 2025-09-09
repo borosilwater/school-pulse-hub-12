@@ -23,10 +23,12 @@ const copyHtmlFiles = () => {
         'student-dashboard.html'
       ];
       
-      const cssFiles = [
-        'style.css',
-        'responsive.css'
-      ];
+  const cssFiles = [
+    'style.css',
+    'responsive.css',
+    'navbar.css',
+    'navbar-new.css'
+  ];
       
       const jsFiles = [
         'main.js',
@@ -34,6 +36,11 @@ const copyHtmlFiles = () => {
         'admissions.js',
         'contact.js',
         'news-events.js'
+      ];
+      
+      const redirectFiles = [
+        'public/_redirects',
+        'public/redirect.js'
       ];
       
       // Copy HTML files
@@ -57,6 +64,15 @@ const copyHtmlFiles = () => {
         if (existsSync(file)) {
           copyFileSync(file, `dist/${file}`);
           console.log(`Copied ${file} to dist/`);
+        }
+      });
+      
+      // Copy redirect files
+      redirectFiles.forEach(file => {
+        if (existsSync(file)) {
+          const fileName = file.split('/').pop();
+          copyFileSync(file, `dist/${fileName}`);
+          console.log(`Copied ${file} to dist/${fileName}`);
         }
       });
       

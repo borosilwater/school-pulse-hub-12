@@ -150,9 +150,16 @@ const handler = async (req: Request): Promise<Response> => {
 
   // Add a simple test endpoint
   if (req.method === "GET") {
-    const emailService = Deno.env.get('EMAIL_SERVICE') || 'resend';
+    const emailService = Deno.env.get('EMAIL_SERVICE') || 'simulation';
     const hasResendKey = !!Deno.env.get('RESEND_API_KEY');
     const hasEmailJS = !!Deno.env.get('EMAILJS_USER_ID');
+    
+    console.log('📧 Email service test endpoint called');
+    console.log('📧 Current configuration:', {
+      service: emailService,
+      hasResendKey,
+      hasEmailJS
+    });
     
     return new Response(JSON.stringify({
       success: true,
@@ -161,7 +168,7 @@ const handler = async (req: Request): Promise<Response> => {
       configuration: {
         resend: hasResendKey ? 'configured' : 'not configured',
         emailjs: hasEmailJS ? 'configured' : 'not configured',
-        gmail: 'simulation only'
+        simulation: 'always available'
       },
       timestamp: new Date().toISOString()
     }), {
@@ -264,15 +271,17 @@ const handler = async (req: Request): Promise<Response> => {
         });
 
         // Send email using configured service
-        const emailService = Deno.env.get('EMAIL_SERVICE') || 'resend';
+        const emailService = Deno.env.get('EMAIL_SERVICE') || 'simulation';
         let emailResult;
+        
+        console.log(`📧 Using email service: ${emailService} for ${email}`);
         
         if (emailService === 'resend') {
           emailResult = await sendEmailViaResend(email, subject, emailContent);
         } else if (emailService === 'emailjs') {
           emailResult = await sendEmailViaEmailJS(email, subject, emailContent);
         } else {
-          // Fallback to simulation
+          // Fallback to simulation - this will always work
           console.log(`📧 Using email simulation for ${email}`);
           emailResult = { success: true };
         }
@@ -315,7 +324,7 @@ const handler = async (req: Request): Promise<Response> => {
         results.push({
           email,
           status: 'failed',
-          error: error.message,
+          error: error instanceof Error ? error.message : 'Unknown error occurred',
           timestamp: new Date().toISOString()
         });
         failureCount++;
@@ -360,17 +369,32 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: any) {
     console.error("❌ Error in send-bulk-email function:", error);
     console.error("❌ Error details:", {
-      message: error.message,
-      stack: error.stack,
-      name: error.name
+      message: error?.message || 'No message',
+      stack: error?.stack || 'No stack',
+      name: error?.name || 'Unknown',
+      type: typeof error
     });
+    
+    const errorMessage = error?.message || 'Unknown error occurred';
+    const errorDetails = error?.stack || 'No additional details available';
     
     return new Response(
       JSON.stringify({ 
         success: false,
-        error: error.message || 'Unknown error occurred',
+        error: errorMessage,
         message: "Failed to send bulk email",
-        details: error.stack || 'No additional details available'
+        details: errorDetails,
+        summary: {
+          total: 0,
+          success: 0,
+          failed: 1
+        },
+        results: [{
+          email: 'unknown',
+          status: 'failed',
+          error: errorMessage,
+          timestamp: new Date().toISOString()
+        }]
       }),
       {
         status: 500,

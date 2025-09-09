@@ -1,0 +1,16 @@
+# Netlify redirects for production deployment
+# Redirect all HTML pages to root for React app
+/about.html / 200
+/campus-life.html / 200
+/news-events.html / 200
+/admissions.html / 200
+/achievements.html / 200
+/contact.html / 200
+/gallery.html / 200
+/news.html / 200
+/login.html / 200
+/teacher-dashboard.html / 200
+/student-dashboard.html / 200
+
+# Fallback for React Router
+/* /index.html 200
