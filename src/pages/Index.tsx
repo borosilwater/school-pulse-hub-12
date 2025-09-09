@@ -186,207 +186,40 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Announcement Bar */}
-      <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 overflow-hidden">
-        <div className="animate-marquee whitespace-nowrap">
-          <span className="mx-8">🎉 EMRS Entrance Exam 2024 registration starts from 15th June!</span>
-          <span className="mx-8">📢 School reopens on 1st July after summer break</span>
-          <span className="mx-8">🏆 Our students won 3 gold medals in state-level sports competition</span>
-        </div>
+      {/* Top Banner */}
+      <div className="top-banner">
+        EMRS Entrance Exam 2024 registration
       </div>
 
-      {/* Header/Navigation */}
-      <header className={`sticky top-0 z-50 transition-all duration-300 ${
-        scrollY > 50 
-          ? 'bg-white/95 backdrop-blur-lg shadow-lg border-b border-gray-100' 
-          : 'bg-white/90 backdrop-blur-md'
-      }`}>
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex h-20 items-center justify-between">
-            {/* Logo */}
-            <div className="flex items-center space-x-4">
-              <img 
-                src="/images/dept_logo.jpg" 
-                alt="EMRS Dornala Logo" 
-                className="h-16 w-16 rounded-full object-cover shadow-lg"
-              />
-              <div>
-                <h1 className="text-xl font-bold text-gray-900">EMRS(CO-EDU),DORNALA</h1>
-                <p className="text-sm text-gray-600">AP Tribal Welfare Residential Educational Institutions Society(R)*</p>
-              </div>
-            </div>
-            
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-8">
-              <button 
-                onClick={() => navigate('/')} 
-                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
-              >
-                Home
-              </button>
-              <div className="relative group">
-                <button className="text-gray-700 hover:text-blue-600 transition-colors font-medium flex items-center py-2 px-3 rounded-md hover:bg-blue-50">
-                  Meet Us <ChevronDown className="ml-1 h-4 w-4" />
-                </button>
-                <div className="dropdown-menu absolute top-full left-0 mt-2 w-48 bg-white rounded-lg shadow-lg border z-50">
-                  <button 
-                    onClick={() => window.open('about.html', '_blank')} 
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-t-lg transition-colors"
-                  >
-                    About Us
-                  </button>
-                  <button 
-                    onClick={() => window.open('about.html#management', '_blank')} 
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                  >
-                    Management
-                  </button>
-                  <button 
-                    onClick={() => window.open('about.html#academics', '_blank')} 
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
-                  >
-                    Academics
-                  </button>
-                  <button 
-                    onClick={() => window.open('about.html#affiliation', '_blank')} 
-                    className="block w-full text-left px-4 py-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-b-lg transition-colors"
-                  >
-                    Affiliation
-                  </button>
-                </div>
-              </div>
-              <button 
-                onClick={() => window.open('campus-life.html', '_blank')} 
-                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
-              >
-                Campus Life
-              </button>
-              <button 
-                onClick={() => navigate('/news')} 
-                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
-              >
-                News & Events
-              </button>
-              <button 
-                onClick={() => window.open('admissions.html', '_blank')} 
-                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
-              >
-                Admissions
-              </button>
-              <button 
-                onClick={() => window.open('achievements.html', '_blank')} 
-                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
-              >
-                Achievements
-              </button>
-              <Button 
-                onClick={() => navigate('/auth')}
-                className="btn-hover-effect bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300"
-              >
-                Login
-              </Button>
-              <button 
-                onClick={() => window.open('contact.html', '_blank')} 
-                className="nav-button text-gray-700 hover:text-blue-600 transition-colors font-medium py-2 px-3 rounded-md hover:bg-blue-50"
-              >
-                Contact Us
-              </button>
-            </nav>
-
-            {/* Mobile Menu Button */}
-            <div className="lg:hidden">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-2"
-              >
-                {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-              </Button>
+      {/* Header */}
+      <header className="header">
+        <div className="header-content">
+          <div className="logo-section">
+            <div className="logo"></div>
+            <div className="logo-text">
+              <h1>EMRS(CO-EDU),DORNALA</h1>
+              <p>AP Tribal Welfare Residential Educational Institutions Society(R)</p>
             </div>
           </div>
 
-          {/* Mobile Navigation Menu */}
-          {isMenuOpen && (
-            <div className={`lg:hidden absolute top-20 left-0 right-0 bg-white/95 backdrop-blur-lg border-b shadow-lg z-50 mobile-menu ${isMenuOpen ? 'open' : ''}`}>
-              <div className="px-4 py-6 space-y-2">
-                <button 
-                  onClick={() => {
-                    navigate('/');
-                    setIsMenuOpen(false);
-                  }} 
-                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
-                >
-                  Home
-                </button>
-                <button 
-                  onClick={() => {
-                    window.open('about.html', '_blank');
-                    setIsMenuOpen(false);
-                  }} 
-                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
-                >
-                  Meet Us
-                </button>
-                <button 
-                  onClick={() => {
-                    window.open('campus-life.html', '_blank');
-                    setIsMenuOpen(false);
-                  }} 
-                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
-                >
-                  Campus Life
-                </button>
-                <button 
-                  onClick={() => {
-                    navigate('/news');
-                    setIsMenuOpen(false);
-                  }} 
-                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
-                >
-                  News & Events
-                </button>
-                <button 
-                  onClick={() => {
-                    window.open('admissions.html', '_blank');
-                    setIsMenuOpen(false);
-                  }} 
-                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
-                >
-                  Admissions
-                </button>
-                <button 
-                  onClick={() => {
-                    window.open('achievements.html', '_blank');
-                    setIsMenuOpen(false);
-                  }} 
-                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
-                >
-                  Achievements
-                </button>
-                <div className="pt-4">
-                  <Button 
-                    className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 shadow-lg hover:shadow-xl transition-all duration-300"
-                    onClick={() => {
-                      navigate('/auth');
-                      setIsMenuOpen(false);
-                    }}
-                  >
-                    Login
-                  </Button>
-                </div>
-                <button 
-                  onClick={() => {
-                    window.open('contact.html', '_blank');
-                    setIsMenuOpen(false);
-                  }} 
-                  className="block w-full text-left text-gray-700 hover:text-blue-600 transition-colors font-medium py-3 px-4 rounded-lg hover:bg-blue-50"
-                >
-                  Contact Us
-                </button>
-              </div>
+          <nav className="nav">
+            <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`} id="navLinks">
+              <li><a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); setIsMenuOpen(false); }}>Home</a></li>
+              <li><a href="about.html" onClick={(e) => { e.preventDefault(); window.open('about.html', '_blank'); setIsMenuOpen(false); }}>Meet Us</a></li>
+              <li><a href="campus-life.html" onClick={(e) => { e.preventDefault(); window.open('campus-life.html', '_blank'); setIsMenuOpen(false); }}>Campus Life</a></li>
+              <li><a href="news-events.html" onClick={(e) => { e.preventDefault(); navigate('/news'); setIsMenuOpen(false); }}>News & Events</a></li>
+              <li><a href="admissions.html" onClick={(e) => { e.preventDefault(); window.open('admissions.html', '_blank'); setIsMenuOpen(false); }}>Admissions</a></li>
+              <li><a href="achievements.html" onClick={(e) => { e.preventDefault(); window.open('achievements.html', '_blank'); setIsMenuOpen(false); }}>Achievements</a></li>
+              <li><a href="/auth" className="login-btn" onClick={(e) => { e.preventDefault(); navigate('/auth'); setIsMenuOpen(false); }}>Login</a></li>
+              <li><a href="contact.html" onClick={(e) => { e.preventDefault(); window.open('contact.html', '_blank'); setIsMenuOpen(false); }}>Contact Us</a></li>
+            </ul>
+
+            <div className={`hamburger ${isMenuOpen ? 'active' : ''}`} id="hamburger" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
-          )}
+          </nav>
         </div>
       </header>
 
@@ -978,6 +811,202 @@ const Index = () => {
       </footer>
 
       <style>{`
+        /* Top Banner */
+        .top-banner {
+          background: linear-gradient(135deg, #7c3aed, #a855f7);
+          color: white;
+          padding: 8px 20px;
+          font-size: 14px;
+          text-align: right;
+          position: relative;
+        }
+
+        .top-banner::before {
+          content: '🎓';
+          position: absolute;
+          left: 20px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+
+        /* Header */
+        .header {
+          background: white;
+          box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+          position: sticky;
+          top: 0;
+          z-index: 1000;
+        }
+
+        .header-content {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 15px 20px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .logo-section {
+          display: flex;
+          align-items: center;
+          gap: 15px;
+        }
+
+        .logo {
+          width: 60px;
+          height: 60px;
+          background: url('/images/dept_logo.jpg') center/cover;
+          border-radius: 50%;
+        }
+
+        .logo-text h1 {
+          font-size: 24px;
+          font-weight: 700;
+          color: #1f2937;
+          line-height: 1.2;
+        }
+
+        .logo-text p {
+          font-size: 14px;
+          color: #6b7280;
+          margin-top: 2px;
+        }
+
+        /* Navigation */
+        .nav {
+          display: flex;
+          align-items: center;
+          gap: 40px;
+        }
+
+        .nav-links {
+          display: flex;
+          list-style: none;
+          gap: 35px;
+          align-items: center;
+        }
+
+        .nav-links li {
+          position: relative;
+        }
+
+        .nav-links a {
+          text-decoration: none;
+          color: #374151;
+          font-weight: 500;
+          font-size: 16px;
+          padding: 8px 12px;
+          border-radius: 6px;
+          transition: all 0.3s ease;
+          display: flex;
+          align-items: center;
+          gap: 5px;
+        }
+
+        .nav-links a:hover {
+          color: #7c3aed;
+          background: rgba(124, 58, 237, 0.1);
+        }
+
+        .nav-links a.active {
+          color: #7c3aed;
+          background: rgba(124, 58, 237, 0.1);
+        }
+
+        .login-btn {
+          background: linear-gradient(135deg, #7c3aed, #a855f7) !important;
+          color: white !important;
+          padding: 10px 25px !important;
+          border-radius: 8px;
+          font-weight: 600;
+          box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
+          transition: all 0.3s ease;
+        }
+
+        .login-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+          background: linear-gradient(135deg, #6d28d9, #9333ea) !important;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+          display: none;
+          flex-direction: column;
+          cursor: pointer;
+          padding: 5px;
+        }
+
+        .hamburger span {
+          width: 25px;
+          height: 3px;
+          background: #374151;
+          margin: 3px 0;
+          transition: 0.3s;
+          border-radius: 2px;
+        }
+
+        .hamburger.active span:nth-child(1) {
+          transform: rotate(-45deg) translate(-5px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+          opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+          transform: rotate(45deg) translate(-5px, -6px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+          .nav-links {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: white;
+            flex-direction: column;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            gap: 15px;
+          }
+
+          .nav-links.active {
+            display: flex;
+          }
+
+          .hamburger {
+            display: flex;
+          }
+
+          .logo-text h1 {
+            font-size: 20px;
+          }
+
+          .logo-text p {
+            font-size: 12px;
+          }
+
+          .header-content {
+            padding: 10px 15px;
+          }
+        }
+
+        @media (max-width: 480px) {
+          .top-banner {
+            font-size: 12px;
+            padding: 6px 15px;
+          }
+
+          .logo {
+            width: 45px;
+            height: 45px;
+          }
+        }
+
         @keyframes marquee {
           0% { transform: translateX(100%); }
           100% { transform: translateX(-100%); }
@@ -1000,65 +1029,6 @@ const Index = () => {
         
         .animate-fade-in-up {
           animation: fade-in-up 0.8s ease-out both;
-        }
-
-        /* Enhanced Navigation Styles */
-        .nav-button {
-          position: relative;
-          overflow: hidden;
-        }
-
-        .nav-button::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.1), transparent);
-          transition: left 0.5s;
-        }
-
-        .nav-button:hover::before {
-          left: 100%;
-        }
-
-        /* Dropdown Animation */
-        .dropdown-menu {
-          transform: translateY(-10px);
-          opacity: 0;
-          visibility: hidden;
-          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .group:hover .dropdown-menu {
-          transform: translateY(0);
-          opacity: 1;
-          visibility: visible;
-        }
-
-        /* Mobile Menu Animation */
-        .mobile-menu {
-          transform: translateY(-20px);
-          opacity: 0;
-          transition: all 0.3s ease-out;
-        }
-
-        .mobile-menu.open {
-          transform: translateY(0);
-          opacity: 1;
-        }
-
-        /* Button Hover Effects */
-        .btn-hover-effect {
-          position: relative;
-          overflow: hidden;
-          transition: all 0.3s ease;
-        }
-
-        .btn-hover-effect:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
         }
 
         /* Smooth Transitions */
