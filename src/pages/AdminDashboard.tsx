@@ -31,7 +31,8 @@ import {
   Edit,
   Mail,
   Eye,
-  MoreHorizontal
+  MoreHorizontal,
+  Loader2
 } from 'lucide-react';
 import { contentService } from '@/lib/content';
 import { notificationService } from '@/lib/notifications';

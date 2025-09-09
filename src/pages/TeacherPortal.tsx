@@ -36,7 +36,7 @@ import { realtimeService } from '@/lib/realtime';
 import { supabase } from '@/integrations/supabase/client';
 
 const TeacherPortal = () => {
-  const { profile } = useAuth();
+  const { user, profile } = useAuth();
   const [loading, setLoading] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [contentStats, setContentStats] = useState<any>({});
@@ -926,8 +926,8 @@ const TeacherPortal = () => {
                       <Input
                         id="email"
                         type="email"
-                        value={user?.email || ''}
-                        onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                    value={user?.email || ''}
+                        disabled
                         placeholder="Enter your email address"
                       />
                     </div>

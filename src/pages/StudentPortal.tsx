@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from '@/hooks/useAuth';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -28,7 +29,7 @@ import { notificationService } from '@/lib/notifications';
 import { realtimeService } from '@/lib/realtime';
 
 const StudentPortal = () => {
-  const { profile } = useAuth();
+  const { user, profile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
   const [examResults, setExamResults] = useState<any[]>([]);
@@ -294,8 +295,8 @@ const StudentPortal = () => {
                       <Input
                         id="email"
                         type="email"
-                        value={user?.email || ''}
-                        onChange={(e) => setProfileData({ ...profileData, email: e.target.value })}
+                    value={user?.email || ''}
+                        disabled
                         placeholder="Enter your email address"
                       />
                     </div>
