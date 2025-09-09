@@ -13,6 +13,34 @@ const EmailTest = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
+  const testEmailService = async () => {
+    try {
+      setLoading(true);
+      
+      // Test the email service endpoint
+      const { data, error } = await supabase.functions.invoke('send-bulk-email', {
+        method: 'GET'
+      });
+
+      if (error) throw error;
+
+      toast({
+        title: "Service Test",
+        description: `Email service is running. Resend API: ${data?.hasResendKey ? 'Available' : 'Not configured'}`,
+        variant: data?.hasResendKey ? "default" : "destructive"
+      });
+    } catch (error: any) {
+      console.error('Failed to test email service:', error);
+      toast({
+        title: "Service Test Failed",
+        description: `Failed to test email service: ${error.message}`,
+        variant: "destructive"
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const sendTestEmail = async () => {
     if (!testEmail || !subject || !message) {
       toast({
@@ -26,6 +54,8 @@ const EmailTest = () => {
     try {
       setLoading(true);
       
+      console.log('📧 Sending test email to:', testEmail);
+      
       const { data, error } = await supabase.functions.invoke('send-bulk-email', {
         body: {
           to: [testEmail],
@@ -34,6 +64,8 @@ const EmailTest = () => {
           type: 'general'
         }
       });
+
+      console.log('📧 Email response:', { data, error });
 
       if (error) throw error;
 
@@ -51,11 +83,17 @@ const EmailTest = () => {
           description: `Failed to send test email. Error: ${data?.error || 'Unknown error'}`
         });
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error('Failed to send test email:', error);
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        response: error.response
+      });
+      
       toast({
         title: "Error",
-        description: "Failed to send test email. Please check the console for details.",
+        description: `Failed to send test email: ${error.message || 'Unknown error'}. Check console for details.`,
         variant: "destructive"
       });
     } finally {
@@ -101,13 +139,23 @@ const EmailTest = () => {
           />
         </div>
         
-        <Button 
-          onClick={sendTestEmail} 
-          disabled={loading}
-          className="w-full"
-        >
-          {loading ? 'Sending...' : 'Send Test Email'}
-        </Button>
+        <div className="flex gap-2">
+          <Button 
+            onClick={testEmailService} 
+            disabled={loading}
+            variant="outline"
+            className="flex-1"
+          >
+            {loading ? 'Testing...' : 'Test Service'}
+          </Button>
+          <Button 
+            onClick={sendTestEmail} 
+            disabled={loading}
+            className="flex-1"
+          >
+            {loading ? 'Sending...' : 'Send Test Email'}
+          </Button>
+        </div>
         
         <div className="text-sm text-gray-600">
           <p><strong>Note:</strong> This will send a test email to verify the bulk email system is working.</p>

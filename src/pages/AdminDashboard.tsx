@@ -273,61 +273,34 @@ const AdminDashboard = () => {
     try {
       setLoading(true);
 
-      // Get all student emails
-      const { data: profiles } = await supabase
-        .from('profiles')
-        .select('user_id')
-        .eq('role', 'student');
-
-      if (!profiles || profiles.length === 0) {
-        toast({
-          title: "Error",
-          description: "No students found",
-          variant: "destructive"
-        });
-        return;
-      }
-
-      // Get emails from profiles table
-      const emails = profiles
-        .map(profile => profile.email)
-        .filter(Boolean) as string[];
-
-      // If no emails found in profiles, show error and ask users to add emails
-      if (emails.length === 0) {
-        toast({
-          title: "No Email Addresses Found",
-          description: "Please ask students to add their email addresses in their profile settings first.",
-          variant: "destructive"
-        });
-        return;
-      }
-
-
+      // Send bulk email to all students using Supabase Edge Function
+      // The function will automatically fetch student emails from database
       const { data, error } = await supabase.functions.invoke('send-bulk-email', {
         body: {
-          to: emails,
           subject: quickEmailSubject,
           body: quickEmailMessage,
-          type: 'general'
+          type: 'general',
+          targetRole: 'student'
+          // Don't pass 'to' parameter - let the function fetch emails from database
         }
       });
 
       if (error) throw error;
 
       // Show detailed results
-      const successCount = data?.summary?.success || emails.length;
+      const successCount = data?.summary?.success || 0;
       const failureCount = data?.summary?.failed || 0;
+      const totalEmails = data?.emailsFetched || 0;
       
       if (failureCount === 0) {
         toast({
           title: "Success",
-          description: `Email sent to ${successCount} students successfully!`
+          description: `Email sent to ${successCount} students successfully! (${totalEmails} emails fetched from database)`
         });
       } else {
         toast({
           title: "Partial Success",
-          description: `Email sent to ${successCount} students, ${failureCount} failed. Check logs for details.`
+          description: `Email sent to ${successCount} students, ${failureCount} failed. Total emails fetched: ${totalEmails}`
         });
       }
       

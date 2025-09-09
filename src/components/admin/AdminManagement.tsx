@@ -309,10 +309,10 @@ const AdminManagement = () => {
   };
 
   const sendBulkEmail = async () => {
-    if (!emailSubject || !emailMessage || selectedUsers.length === 0) {
+    if (!emailSubject || !emailMessage) {
       toast({
         title: "Error",
-        description: "Please fill in all fields and select users",
+        description: "Please fill in subject and message",
         variant: "destructive"
       });
       return;
@@ -321,49 +321,47 @@ const AdminManagement = () => {
     try {
       setLoading(true);
       
-      // Get selected users' emails
-      const selectedUserData = users.filter(user => selectedUsers.includes(user.id));
-      
-      // Get emails from profiles table
-      const emails = selectedUserData
-        .map(user => user.email)
-        .filter(Boolean) as string[];
-
-      // If no emails found in profiles, show error and ask users to add emails
-      if (emails.length === 0) {
-        toast({
-          title: "No Email Addresses Found",
-          description: "Please ask users to add their email addresses in their profile settings first.",
-          variant: "destructive"
-        });
-        return;
+      // Determine target role based on selected users
+      let targetRole = 'all';
+      if (selectedUsers.length > 0) {
+        const selectedUserData = users.filter(user => selectedUsers.includes(user.id));
+        const roles = [...new Set(selectedUserData.map(user => user.role))];
+        
+        if (roles.length === 1) {
+          targetRole = roles[0];
+        } else {
+          targetRole = 'all'; // Mixed roles, send to all
+        }
       }
 
-
+      // Send bulk email using Supabase Edge Function
+      // The function will fetch emails from database automatically
       const { data, error } = await supabase.functions.invoke('send-bulk-email', {
         body: {
-          to: emails,
           subject: emailSubject,
           body: emailMessage,
-          type: 'general'
+          type: 'general',
+          targetRole: targetRole
+          // Don't pass 'to' parameter - let the function fetch emails from database
         }
       });
 
       if (error) throw error;
 
       // Show detailed results
-      const successCount = data?.summary?.success || emails.length;
+      const successCount = data?.summary?.success || 0;
       const failureCount = data?.summary?.failed || 0;
+      const totalEmails = data?.emailsFetched || 0;
       
       if (failureCount === 0) {
         toast({
           title: "Success",
-          description: `Email sent to ${successCount} users successfully!`
+          description: `Email sent to ${successCount} users successfully! (${totalEmails} emails fetched from database)`
         });
       } else {
         toast({
           title: "Partial Success",
-          description: `Email sent to ${successCount} users, ${failureCount} failed. Check logs for details.`
+          description: `Email sent to ${successCount} users, ${failureCount} failed. Total emails fetched: ${totalEmails}`
         });
       }
       

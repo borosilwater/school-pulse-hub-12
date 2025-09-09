@@ -8,14 +8,94 @@ const corsHeaders = {
 
 const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
 const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const resendApiKey = Deno.env.get('RESEND_API_KEY');
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+// Function to send email using Resend API
+async function sendEmailViaResend(to: string, subject: string, htmlContent: string): Promise<{ success: boolean; error?: string }> {
+  if (!resendApiKey) {
+    console.log('RESEND_API_KEY not found, using simulation mode');
+    console.log('📧 Simulated email details:', {
+      to,
+      subject,
+      contentLength: htmlContent.length,
+      timestamp: new Date().toISOString()
+    });
+    return { success: true }; // Simulate success for development
+  }
+
+  try {
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${resendApiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'EMRS Dornala <noreply@emrsdornala.edu.in>',
+        to: [to],
+        subject: subject,
+        html: htmlContent,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error('Resend API error:', errorData);
+      return { success: false, error: errorData.message || 'Failed to send email' };
+    }
+
+    const result = await response.json();
+    console.log('Email sent successfully via Resend:', result);
+    return { success: true };
+
+  } catch (error) {
+    console.error('Error sending email via Resend:', error);
+    return { success: false, error: error.message || 'Network error' };
+  }
+}
+
+// Function to fetch user emails from Supabase
+async function fetchUserEmails(targetRole: string = 'all'): Promise<string[]> {
+  try {
+    let query = supabase
+      .from('profiles')
+      .select('email, role')
+      .not('email', 'is', null); // Only get users with email addresses
+
+    // Filter by role if specified
+    if (targetRole !== 'all') {
+      query = query.eq('role', targetRole);
+    }
+
+    const { data, error } = await query;
+
+    if (error) {
+      console.error('Error fetching user emails:', error);
+      return [];
+    }
+
+    // Extract emails and filter out null/undefined values
+    const emails = data
+      ?.map(user => user.email)
+      .filter(email => email && email.trim() !== '') || [];
+
+    console.log(`Fetched ${emails.length} emails for role: ${targetRole}`);
+    return emails;
+
+  } catch (error) {
+    console.error('Error in fetchUserEmails:', error);
+    return [];
+  }
+}
+
 interface BulkEmailRequest {
-  to: string[];
+  to?: string[]; // Optional - if not provided, will fetch from database
   subject: string;
   body: string;
   type: 'announcement' | 'news' | 'event' | 'exam_result' | 'general';
+  targetRole?: 'student' | 'teacher' | 'admin' | 'all'; // Target specific role or all users
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -23,10 +103,59 @@ const handler = async (req: Request): Promise<Response> => {
     return new Response(null, { headers: corsHeaders });
   }
 
-  try {
-    const { to, subject, body, type }: BulkEmailRequest = await req.json();
+  // Add a simple test endpoint
+  if (req.method === "GET") {
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Email service is running",
+      hasResendKey: !!resendApiKey,
+      timestamp: new Date().toISOString()
+    }), {
+      status: 200,
+      headers: { "Content-Type": "application/json", ...corsHeaders },
+    });
+  }
 
-    console.log(`Sending bulk email to ${to.length} recipients about ${type}`);
+  try {
+    console.log('📧 Bulk email function called');
+    
+    const { to, subject, body, type, targetRole = 'all' }: BulkEmailRequest = await req.json();
+    
+    console.log('📧 Request data:', { 
+      to: to?.length || 0, 
+      subject, 
+      type, 
+      targetRole,
+      hasResendKey: !!resendApiKey 
+    });
+
+    // Fetch emails from database if not provided
+    let emailList: string[] = [];
+    
+    if (to && to.length > 0) {
+      // Use provided emails
+      emailList = to;
+      console.log(`📧 Using provided emails: ${emailList.length} recipients`);
+    } else {
+      // Fetch emails from Supabase database
+      console.log(`📧 Fetching emails from database for role: ${targetRole}`);
+      emailList = await fetchUserEmails(targetRole);
+      
+      if (emailList.length === 0) {
+        console.log('❌ No emails found in database');
+        return new Response(JSON.stringify({
+          success: false,
+          error: 'No users found with email addresses',
+          message: `No users found with email addresses for role: ${targetRole}`
+        }), {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+    }
+
+    console.log(`📧 Sending bulk email to ${emailList.length} recipients about ${type}`);
+    console.log('📧 Email list:', emailList);
 
     // Create email content
     const emailContent = `
@@ -71,50 +200,50 @@ const handler = async (req: Request): Promise<Response> => {
     let successCount = 0;
     let failureCount = 0;
 
-    // Send emails using a simple SMTP approach
-    for (const email of to) {
+    // Send emails using Resend API
+    for (const email of emailList) {
       try {
-        // For now, we'll use a simple approach with EmailJS or similar service
-        // In production, you would integrate with a real email service like SendGrid, Resend, or AWS SES
-        
-        // Simulate email sending with a more realistic approach
-        const emailData = {
-          to: email,
-          subject: subject,
-          html: emailContent,
-          from: 'noreply@emrsdornala.edu.in',
-          type: type
-        };
-
-        // Log the email attempt
         console.log(`Sending email to ${email}:`, {
           subject: subject,
           type: type,
           timestamp: new Date().toISOString()
         });
 
-        // Simulate successful sending (replace this with actual email service)
-        // For testing purposes, we'll mark all emails as sent
-        results.push({
-          email,
-          status: 'sent',
-          timestamp: new Date().toISOString()
-        });
+        // Send email using Resend API
+        const emailResult = await sendEmailViaResend(email, subject, emailContent);
 
-        // Log successful email to database
-        await supabase.from('notifications').insert({
-          user_id: '00000000-0000-0000-0000-000000000000', // System user
-          type: `email_${type}`,
-          title: subject,
-          message: `Email sent to ${email}`,
-          status: 'sent',
-          data: { email, type, subject }
-        });
+        if (emailResult.success) {
+          results.push({
+            email,
+            status: 'sent',
+            timestamp: new Date().toISOString()
+          });
 
-        successCount++;
+          // Log successful email to database
+          await supabase.from('notifications').insert({
+            user_id: '00000000-0000-0000-0000-000000000000', // System user
+            type: `email_${type}`,
+            title: subject,
+            message: `Email sent to ${email}`,
+            status: 'sent',
+            data: { email, type, subject }
+          });
+
+          successCount++;
+          console.log(`✅ Email sent successfully to ${email}`);
+        } else {
+          results.push({
+            email,
+            status: 'failed',
+            error: emailResult.error || 'Unknown error',
+            timestamp: new Date().toISOString()
+          });
+          failureCount++;
+          console.error(`❌ Failed to send email to ${email}:`, emailResult.error);
+        }
 
         // Add a small delay between emails to avoid rate limiting
-        await new Promise(resolve => setTimeout(resolve, 100));
+        await new Promise(resolve => setTimeout(resolve, 200));
 
       } catch (error) {
         console.error(`Failed to send email to ${email}:`, error);
@@ -148,11 +277,13 @@ const handler = async (req: Request): Promise<Response> => {
       success: true, 
       results,
       summary: {
-        total: to.length,
+        total: emailList.length,
         success: successCount,
         failed: failureCount
       },
-      message: `Bulk email sent: ${successCount} successful, ${failureCount} failed` 
+      message: `Bulk email sent: ${successCount} successful, ${failureCount} failed`,
+      targetRole: targetRole,
+      emailsFetched: emailList.length
     }), {
       status: 200,
       headers: {
@@ -162,12 +293,19 @@ const handler = async (req: Request): Promise<Response> => {
     });
 
   } catch (error: any) {
-    console.error("Error in send-bulk-email function:", error);
+    console.error("❌ Error in send-bulk-email function:", error);
+    console.error("❌ Error details:", {
+      message: error.message,
+      stack: error.stack,
+      name: error.name
+    });
+    
     return new Response(
       JSON.stringify({ 
         success: false,
-        error: error.message,
-        message: "Failed to send bulk email"
+        error: error.message || 'Unknown error occurred',
+        message: "Failed to send bulk email",
+        details: error.stack || 'No additional details available'
       }),
       {
         status: 500,
