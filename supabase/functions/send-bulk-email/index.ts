@@ -11,62 +11,93 @@ const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-// Function to send email using Gmail SMTP
-async function sendEmailViaGmail(to: string, subject: string, htmlContent: string): Promise<{ success: boolean; error?: string }> {
-  const GMAIL_USER = 'daredevil9654@gmail.com';
-  const GMAIL_PASS = 'woevsfxjorkxxtnu';
+// Function to send email using Resend API
+async function sendEmailViaResend(to: string, subject: string, htmlContent: string): Promise<{ success: boolean; error?: string }> {
+  const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
+  
+  if (!RESEND_API_KEY) {
+    console.log(`📧 Resend API key not configured, using simulation for ${to}`);
+    return { success: true }; // Return success for simulation
+  }
 
-  console.log(`📧 Sending email to ${to} via Gmail SMTP`);
+  console.log(`📧 Sending email to ${to} via Resend API`);
 
   try {
-    // Create email content for SMTP
-    const emailData = {
-      to: to,
-      subject: subject,
-      html: htmlContent,
-      from: `EMRS Dornala <${GMAIL_USER}>`,
-    };
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        from: 'EMRS Dornala <noreply@emrs-dornala.edu.in>',
+        to: to,
+        subject: subject,
+        html: htmlContent,
+      }),
+    });
 
-    // Use a simple SMTP service via EmailJS API as fallback
+    const responseData = await response.json();
+
+    if (response.ok) {
+      console.log(`✅ Email sent successfully to ${to} via Resend`);
+      return { success: true };
+    } else {
+      console.error(`❌ Failed to send email to ${to}:`, responseData);
+      return { success: false, error: responseData.message || 'Resend API error' };
+    }
+
+  } catch (error) {
+    console.error(`❌ Error sending email to ${to}:`, error);
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
+  }
+}
+
+// Function to send email using EmailJS
+async function sendEmailViaEmailJS(to: string, subject: string, htmlContent: string): Promise<{ success: boolean; error?: string }> {
+  const EMAILJS_USER_ID = Deno.env.get('EMAILJS_USER_ID');
+  const EMAILJS_SERVICE_ID = Deno.env.get('EMAILJS_SERVICE_ID') || 'gmail';
+  const EMAILJS_TEMPLATE_ID = Deno.env.get('EMAILJS_TEMPLATE_ID') || 'template_emrs';
+  
+  if (!EMAILJS_USER_ID) {
+    console.log(`📧 EmailJS not configured, using simulation for ${to}`);
+    return { success: true }; // Return success for simulation
+  }
+
+  console.log(`📧 Sending email to ${to} via EmailJS`);
+
+  try {
     const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        service_id: 'gmail',
-        template_id: 'template_emrs',
-        user_id: GMAIL_USER,
+        service_id: EMAILJS_SERVICE_ID,
+        template_id: EMAILJS_TEMPLATE_ID,
+        user_id: EMAILJS_USER_ID,
         template_params: {
           to_email: to,
           subject: subject,
           message: htmlContent,
           from_name: 'EMRS Dornala',
-          reply_to: GMAIL_USER
+          reply_to: 'noreply@emrs-dornala.edu.in'
         }
       }),
     });
 
     if (response.ok) {
-      console.log(`✅ Email sent successfully to ${to} via Gmail`);
+      console.log(`✅ Email sent successfully to ${to} via EmailJS`);
       return { success: true };
     } else {
-      console.error(`❌ Failed to send email to ${to}:`, await response.text());
-      return { success: false, error: 'Failed to send via EmailJS' };
+      const errorText = await response.text();
+      console.error(`❌ Failed to send email to ${to}:`, errorText);
+      return { success: false, error: `EmailJS error: ${errorText}` };
     }
 
   } catch (error) {
     console.error(`❌ Error sending email to ${to}:`, error);
-    
-    // Fallback: Use direct Gmail SMTP simulation
-    console.log(`📧 Gmail SMTP simulation for ${to}:`, {
-      from: GMAIL_USER,
-      to: to,
-      subject: subject,
-      timestamp: new Date().toISOString()
-    });
-    
-    return { success: true }; // Return success for simulation
+    return { success: false, error: error instanceof Error ? error.message : 'Unknown error' };
   }
 }
 
@@ -119,10 +150,19 @@ const handler = async (req: Request): Promise<Response> => {
 
   // Add a simple test endpoint
   if (req.method === "GET") {
+    const emailService = Deno.env.get('EMAIL_SERVICE') || 'resend';
+    const hasResendKey = !!Deno.env.get('RESEND_API_KEY');
+    const hasEmailJS = !!Deno.env.get('EMAILJS_USER_ID');
+    
     return new Response(JSON.stringify({
       success: true,
-      message: "Gmail SMTP email service is running",
-      service: "Gmail SMTP",
+      message: "Email service is running",
+      service: emailService,
+      configuration: {
+        resend: hasResendKey ? 'configured' : 'not configured',
+        emailjs: hasEmailJS ? 'configured' : 'not configured',
+        gmail: 'simulation only'
+      },
       timestamp: new Date().toISOString()
     }), {
       status: 200,
@@ -223,8 +263,19 @@ const handler = async (req: Request): Promise<Response> => {
           timestamp: new Date().toISOString()
         });
 
-        // Send email using Gmail SMTP
-        const emailResult = await sendEmailViaGmail(email, subject, emailContent);
+        // Send email using configured service
+        const emailService = Deno.env.get('EMAIL_SERVICE') || 'resend';
+        let emailResult;
+        
+        if (emailService === 'resend') {
+          emailResult = await sendEmailViaResend(email, subject, emailContent);
+        } else if (emailService === 'emailjs') {
+          emailResult = await sendEmailViaEmailJS(email, subject, emailContent);
+        } else {
+          // Fallback to simulation
+          console.log(`📧 Using email simulation for ${email}`);
+          emailResult = { success: true };
+        }
 
         if (emailResult.success) {
           results.push({

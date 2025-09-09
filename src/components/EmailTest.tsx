@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
+import { emailService } from '@/lib/email';
 
 const EmailTest = () => {
   const [testEmail, setTestEmail] = useState('');
@@ -17,7 +18,10 @@ const EmailTest = () => {
     try {
       setLoading(true);
       
-      // Test the email service endpoint
+      // Test the email service configuration
+      const configTest = await emailService.testConfiguration();
+      
+      // Test the Supabase function
       const { data, error } = await supabase.functions.invoke('send-bulk-email', {
         method: 'GET'
       });
@@ -26,8 +30,8 @@ const EmailTest = () => {
 
       toast({
         title: "Service Test",
-        description: `Email service is running. Resend API: ${data?.hasResendKey ? 'Available' : 'Not configured'}`,
-        variant: data?.hasResendKey ? "default" : "destructive"
+        description: `Email service: ${configTest.service} - ${configTest.message}. Supabase function: ${data?.message || 'Unknown'}`,
+        variant: configTest.success ? "default" : "destructive"
       });
     } catch (error: any) {
       console.error('Failed to test email service:', error);

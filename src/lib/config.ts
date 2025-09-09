@@ -12,6 +12,19 @@ export interface AppConfig {
     authToken: string;
     phoneNumber: string;
   };
+  email: {
+    service: 'resend' | 'emailjs' | 'gmail' | 'smtp';
+    resendApiKey?: string;
+    emailjsServiceId?: string;
+    emailjsTemplateId?: string;
+    emailjsUserId?: string;
+    gmailUser?: string;
+    gmailPass?: string;
+    smtpHost?: string;
+    smtpPort?: number;
+    smtpUser?: string;
+    smtpPass?: string;
+  };
   app: {
     name: string;
     version: string;
@@ -44,6 +57,19 @@ class ConfigManager {
         authToken: import.meta.env.VITE_TWILIO_AUTH_TOKEN || 'your_twilio_auth_token',
         phoneNumber: import.meta.env.VITE_TWILIO_PHONE_NUMBER || '+1234567890',
       },
+      email: {
+        service: (import.meta.env.VITE_EMAIL_SERVICE as 'resend' | 'emailjs' | 'gmail' | 'smtp') || 'emailjs',
+        resendApiKey: import.meta.env.VITE_RESEND_API_KEY,
+        emailjsServiceId: import.meta.env.VITE_EMAILJS_SERVICE_ID || 'gmail',
+        emailjsTemplateId: import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'template_emrs',
+        emailjsUserId: import.meta.env.VITE_EMAILJS_USER_ID,
+        gmailUser: import.meta.env.VITE_GMAIL_USER,
+        gmailPass: import.meta.env.VITE_GMAIL_PASS,
+        smtpHost: import.meta.env.VITE_SMTP_HOST,
+        smtpPort: parseInt(import.meta.env.VITE_SMTP_PORT || '587'),
+        smtpUser: import.meta.env.VITE_SMTP_USER,
+        smtpPass: import.meta.env.VITE_SMTP_PASS,
+      },
       app: {
         name: 'EduPortal',
         version: '1.0.0',
@@ -51,7 +77,7 @@ class ConfigManager {
       },
       features: {
         smsNotifications: true,
-        emailNotifications: false, // Not implemented yet
+        emailNotifications: true, // Email notifications enabled
         realtimeUpdates: true,
         fileUploads: true,
       },
@@ -68,6 +94,10 @@ class ConfigManager {
 
   getTwilioConfig() {
     return this.config.twilio;
+  }
+
+  getEmailConfig() {
+    return this.config.email;
   }
 
   getAppConfig() {
@@ -144,6 +174,7 @@ export const config = new ConfigManager();
 // Export individual configs for convenience
 export const supabaseConfig = config.getSupabaseConfig();
 export const twilioConfig = config.getTwilioConfig();
+export const emailConfig = config.getEmailConfig();
 export const appConfig = config.getAppConfig();
 export const featureConfig = config.getFeatureConfig();
 
