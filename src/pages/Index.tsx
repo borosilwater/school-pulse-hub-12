@@ -207,7 +207,7 @@ const Index = () => {
               <li><a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); setIsMenuOpen(false); }}>Home</a></li>
               <li><a href="about.html" onClick={(e) => { e.preventDefault(); window.open('about.html', '_blank'); setIsMenuOpen(false); }}>Meet Us</a></li>
               <li><a href="campus-life.html" onClick={(e) => { e.preventDefault(); window.open('campus-life.html', '_blank'); setIsMenuOpen(false); }}>Campus Life</a></li>
-              <li><a href="news-events.html" onClick={(e) => { e.preventDefault(); navigate('news-events.html', '_blank'); setIsMenuOpen(false); }}>News & Events</a></li>
+              <li><a href="news-events.html" onClick={(e) => { e.preventDefault(); window.open('news-events.html', '_blank'); setIsMenuOpen(false); }}>News & Events</a></li>
               <li><a href="admissions.html" onClick={(e) => { e.preventDefault(); window.open('admissions.html', '_blank'); setIsMenuOpen(false); }}>Admissions</a></li>
               <li><a href="achievements.html" onClick={(e) => { e.preventDefault(); window.open('achievements.html', '_blank'); setIsMenuOpen(false); }}>Achievements</a></li>
               <li><a href="/auth" className="login-btn" onClick={(e) => { e.preventDefault(); navigate('/auth'); setIsMenuOpen(false); }}>Login</a></li>
