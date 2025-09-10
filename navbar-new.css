@@ -14,15 +14,17 @@
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
+    font-size: 18px;
 }
 
 /* Header */
 .header {
-    background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    background: #ffffff;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
+    height: var(--nav-height, 72px);
 }
 
 .header-content {
@@ -43,7 +45,7 @@
 .logo {
     width: 60px;
     height: 60px;
-    background: url('/images/dept_logo.jpg') center/cover;
+    background: url('/images/dept_logo.jpg') center / cover no-repeat;
     border-radius: 50%;
 }
 
@@ -52,12 +54,13 @@
     font-weight: 700;
     color: #1f2937;
     line-height: 1.2;
+    margin: 0;
 }
 
 .logo-text p {
     font-size: 14px;
     color: #6b7280;
-    margin-top: 2px;
+    margin-top: 4px;
 }
 
 /* Navigation */
@@ -72,6 +75,8 @@
     list-style: none;
     gap: 35px;
     align-items: center;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-links li {
@@ -85,26 +90,24 @@
     font-size: 16px;
     padding: 8px 12px;
     border-radius: 6px;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
     display: flex;
     align-items: center;
     gap: 5px;
 }
 
-.nav-links a:hover {
-    color: #7c3aed;
-    background: rgba(124, 58, 237, 0.1);
-}
-
+.nav-links a:hover,
 .nav-links a.active {
     color: #7c3aed;
     background: rgba(124, 58, 237, 0.1);
+    font-weight: 600;
 }
 
+/* Login Button */
 .login-btn {
     background: linear-gradient(135deg, #7c3aed, #a855f7);
     color: white !important;
-    padding: 10px 25px !important;
+    padding: 10px 25px;
     border-radius: 8px;
     font-weight: 600;
     box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3);
@@ -114,7 +117,7 @@
 .login-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-    background: linear-gradient(135deg, #6d28d9, #9333ea) !important;
+    background: linear-gradient(135deg, #6d28d9, #9333ea);
 }
 
 /* Hamburger Menu */
@@ -130,7 +133,7 @@
     height: 3px;
     background: #374151;
     margin: 3px 0;
-    transition: 0.3s;
+    transition: transform 0.3s ease, opacity 0.3s ease;
     border-radius: 2px;
 }
 
@@ -151,13 +154,13 @@
     .nav-links {
         display: none;
         position: absolute;
-        top: 100%;
+        top: var(--nav-height, 72px);
         left: 0;
         right: 0;
-        background: white;
+        background: #ffffff;
         flex-direction: column;
         padding: 20px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         gap: 15px;
     }
 
