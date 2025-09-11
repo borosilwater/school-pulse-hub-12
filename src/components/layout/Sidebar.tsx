@@ -16,7 +16,10 @@ import {
   ClipboardList,
   Trophy,
   X,
-  Image
+  Image,
+  DollarSign,
+  Upload,
+  UserCheck
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -30,6 +33,10 @@ export const Sidebar = ({ open, onClose }: SidebarProps) => {
 
   const navigation = [
     { name: 'Dashboard', href: '/dashboard', icon: Home, roles: ['student', 'teacher', 'admin'] },
+    { name: 'Applications', href: '/applications', icon: ClipboardList, roles: ['student', 'teacher', 'admin'] },
+    { name: 'Fee Management', href: '/fee-management', icon: DollarSign, roles: ['student', 'teacher', 'admin'] },
+    { name: 'Documents', href: '/documents', icon: Upload, roles: ['student', 'teacher', 'admin'] },
+    { name: 'Faculty', href: '/faculty', icon: UserCheck, roles: ['student', 'teacher', 'admin'] },
     { name: 'News', href: '/news', icon: FileText, roles: ['student', 'teacher', 'admin'] },
     { name: 'Announcements', href: '/announcements', icon: Bell, roles: ['student', 'teacher', 'admin'] },
     { name: 'Events', href: '/events', icon: Calendar, roles: ['student', 'teacher', 'admin'] },

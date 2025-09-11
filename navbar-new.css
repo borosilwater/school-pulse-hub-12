@@ -19,7 +19,7 @@
 /* Header */
 .header {
     background: white;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -34,6 +34,7 @@
     justify-content: space-between;
 }
 
+/* Logo Section */
 .logo-section {
     display: flex;
     align-items: center;
@@ -43,7 +44,7 @@
 .logo {
     width: 60px;
     height: 60px;
-    background: url('/images/dept_logo.jpg') center/cover;
+    background: url('/images/dept_logo.jpg') center/cover no-repeat;
     border-radius: 50%;
 }
 
@@ -91,16 +92,13 @@
     gap: 5px;
 }
 
-.nav-links a:hover {
-    color: #7c3aed;
-    background: rgba(124, 58, 237, 0.1);
-}
-
+.nav-links a:hover,
 .nav-links a.active {
     color: #7c3aed;
     background: rgba(124, 58, 237, 0.1);
 }
 
+/* Login Button */
 .login-btn {
     background: linear-gradient(135deg, #7c3aed, #a855f7);
     color: white !important;
@@ -157,7 +155,7 @@
         background: white;
         flex-direction: column;
         padding: 20px;
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
         gap: 15px;
     }
 

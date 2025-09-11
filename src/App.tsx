@@ -25,6 +25,10 @@ import Students from "./pages/Students";
 import Teachers from "./pages/Teachers";
 import Analytics from "./pages/Analytics";
 import Settings from "./pages/Settings";
+import Applications from "./pages/Applications";
+import FeeManagement from "./pages/FeeManagement";
+import Documents from "./pages/Documents";
+import Faculty from "./pages/Faculty";
 
 const queryClient = new QueryClient();
 
@@ -64,6 +68,10 @@ const App = () => (
                 <Route path="/teachers" element={<Teachers />} />
                 <Route path="/analytics" element={<Analytics />} />
                 <Route path="/settings" element={<Settings />} />
+                <Route path="/applications" element={<Applications />} />
+                <Route path="/fee-management" element={<FeeManagement />} />
+                <Route path="/documents" element={<Documents />} />
+                <Route path="/faculty" element={<Faculty />} />
               </Route>
               <Route path="*" element={<NotFound />} />
             </Routes>

@@ -1,76 +1,86 @@
+Here’s your content rewritten in a **clean, structured, and professional README format** (Markdown):
+
+````markdown
 # EduPortal - Comprehensive School Management System
 
-A modern, full-featured school management platform built with React, TypeScript, Supabase, and Twilio SMS integration. This system provides role-based access for students, teachers, and administrators with real-time notifications and comprehensive content management.
+A modern, full-featured school management platform built with **React**, **TypeScript**, **Supabase**, and **Twilio SMS** integration.  
+This system provides role-based access for students, teachers, and administrators with **real-time notifications** and a **comprehensive content management** system.
+
+---
 
 ## 🚀 Features
 
 ### 🎯 Core Features
-- **Role-based Access Control**: Separate portals for students, teachers, and administrators
-- **Real-time Notifications**: Instant SMS and in-app notifications using Twilio
-- **Content Management**: Create and manage news, announcements, events, and exam results
-- **Student Portal**: View grades, assignments, announcements, and manage profile
-- **Teacher Portal**: Manage classes, create content, grade exams, and track student progress
-- **Responsive Design**: Modern, mobile-first UI built with Tailwind CSS and shadcn/ui
+- **Role-based Access Control**: Separate portals for students, teachers, and administrators  
+- **Real-time Notifications**: Instant SMS and in-app notifications using Twilio  
+- **Content Management**: Manage news, announcements, events, and exam results  
+- **Student Portal**: View grades, assignments, announcements, and profile management  
+- **Teacher Portal**: Manage classes, create content, grade exams, and track progress  
+- **Responsive Design**: Modern, mobile-first UI with Tailwind CSS + shadcn/ui  
 
 ### 📱 Real-time Features
-- Live updates for announcements, news, and events
-- Real-time exam result notifications
-- Instant SMS alerts for important updates
-- Live notification system with unread counts
+- Live updates for announcements, news, and events  
+- Real-time exam result notifications  
+- Instant SMS alerts for important updates  
+- Notification system with unread counts  
 
 ### 🔐 Security & Privacy
-- Row Level Security (RLS) policies for data protection
-- Role-based access control
-- Secure authentication with Supabase Auth
-- Protected routes and API endpoints
+- Row Level Security (RLS) policies for data protection  
+- Role-based access control (student, teacher, admin)  
+- Secure authentication with Supabase Auth  
+- Protected routes and API endpoints  
+
+---
 
 ## 🛠️ Tech Stack
 
 ### Frontend
-- **React 18** with TypeScript
-- **Vite** for fast development and building
-- **Tailwind CSS** for styling
-- **shadcn/ui** for UI components
-- **React Router** for navigation
-- **React Hook Form** for form management
-- **TanStack Query** for data fetching
+- React 18 + TypeScript  
+- Vite (build tool)  
+- Tailwind CSS + shadcn/ui  
+- React Router (navigation)  
+- React Hook Form (forms)  
+- TanStack Query (data fetching)  
 
 ### Backend
-- **Supabase** for database and authentication
-- **PostgreSQL** with Row Level Security
-- **Supabase Realtime** for live updates
-- **Twilio SMS API** for notifications
+- Supabase (database + authentication)  
+- PostgreSQL with RLS  
+- Supabase Realtime for live updates  
+- Twilio SMS API (notifications)  
 
 ### Development Tools
-- **ESLint** for code linting
-- **TypeScript** for type safety
-- **Vitest** for testing
+- ESLint (linting)  
+- TypeScript (type safety)  
+- Vitest (testing)  
+
+---
 
 ## 📦 Installation
 
 ### Prerequisites
-- Node.js 18+ 
-- npm or yarn
-- Supabase account
-- Twilio account (for SMS notifications)
+- Node.js 18+  
+- npm or yarn  
+- Supabase account  
+- Twilio account  
 
 ### Setup Instructions
-
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
    cd freelance
-   ```
+````
 
 2. **Install dependencies**
+
    ```bash
    npm install
    # or
    yarn install
    ```
 
-3. **Environment Setup**
+3. **Environment setup**
    Create a `.env.local` file in the root directory:
+
    ```env
    VITE_SUPABASE_URL=your_supabase_url
    VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
@@ -79,195 +89,219 @@ A modern, full-featured school management platform built with React, TypeScript,
    VITE_TWILIO_PHONE_NUMBER=your_twilio_phone_number
    ```
 
-4. **Database Setup**
-   Run the Supabase migration to set up the database schema:
+4. **Database setup**
+
    ```bash
    npx supabase db push
    ```
 
 5. **Start the development server**
+
    ```bash
    npm run dev
    # or
    yarn dev
    ```
 
+---
+
 ## 🗄️ Database Schema
 
-The application uses the following main tables:
-
 ### Core Tables
-- **profiles**: User profiles with role-based information
-- **news**: School news articles
-- **announcements**: Important announcements and updates
-- **events**: School events and activities
-- **exam_results**: Student exam results and grades
-- **notifications**: User notifications
-- **sms_logs**: SMS delivery tracking
-- **file_uploads**: File management
+
+* `profiles` → User profiles with role-based information
+* `news` → School news articles
+* `announcements` → Important announcements and updates
+* `events` → School events and activities
+* `exam_results` → Student exam results and grades
+* `notifications` → User notifications
+* `sms_logs` → SMS delivery tracking
+* `file_uploads` → File management
 
 ### Security
-- Row Level Security (RLS) policies ensure data isolation
-- Role-based access control (student, teacher, admin)
-- Secure authentication with JWT tokens
+
+* Row Level Security (RLS) policies for isolation
+* Role-based access (student, teacher, admin)
+* JWT-based authentication
+
+---
 
 ## 🎨 User Interface
 
 ### Landing Page
-- Modern, responsive design with gradient backgrounds
-- Feature showcase with animated cards
-- Testimonials and statistics
-- Call-to-action sections
+
+* Modern, responsive design with gradient backgrounds
+* Feature showcase with animated cards
+* Testimonials + statistics
+* Call-to-action sections
 
 ### Student Portal
-- **Dashboard**: Overview of grades, assignments, and notifications
-- **Profile Management**: Edit personal information
-- **Exam Results**: View grades and academic performance
-- **Announcements**: Read school announcements
-- **Events**: View upcoming school events
-- **Notifications**: Manage personal notifications
+
+* Dashboard: Grades, assignments, notifications
+* Profile management
+* Exam results + academic performance
+* Announcements + events
+* Notification center
 
 ### Teacher Portal
-- **Content Management**: Create and manage news, announcements, events
-- **Exam Management**: Add and publish exam results
-- **Student Tracking**: Monitor student progress
-- **Analytics**: View content statistics and performance
 
-## 📱 Real-time Features
+* Content management (news, events, announcements)
+* Exam result management
+* Student tracking
+* Analytics dashboard
 
-### Live Updates
-- Real-time announcements and news
-- Live exam result notifications
-- Instant SMS alerts
-- Real-time notification counts
-
-### Notification System
-- **SMS Notifications**: Via Twilio integration
-- **In-app Notifications**: Real-time updates
-- **Email Notifications**: (Ready for integration)
-- **Push Notifications**: (Ready for integration)
+---
 
 ## 🔧 API Integration
 
-### Supabase Integration
-- **Authentication**: User login, registration, password reset
-- **Database**: CRUD operations with RLS policies
-- **Realtime**: Live updates and subscriptions
-- **Storage**: File upload and management
+### Supabase
 
-### Twilio SMS Integration
-- **SMS Sending**: Send notifications via SMS
-- **Bulk Messaging**: Send to multiple recipients
-- **Delivery Tracking**: Monitor SMS delivery status
-- **Template System**: Pre-built message templates
+* Authentication (login, register, reset password)
+* Database (CRUD with RLS)
+* Realtime subscriptions
+* File storage
+
+### Twilio SMS
+
+* Send notifications via SMS
+* Bulk messaging
+* Delivery tracking
+* Template-based messaging
+
+---
 
 ## 🧪 Testing
 
-The application includes comprehensive tests for all services:
+Run tests:
 
 ```bash
-# Run tests
 npm run test
+```
 
-# Run tests with coverage
+Run with coverage:
+
+```bash
 npm run test:coverage
 ```
 
-### Test Coverage
-- **Content Service**: CRUD operations for all content types
-- **Notification Service**: SMS and in-app notifications
-- **Twilio Service**: SMS sending and validation
-- **Realtime Service**: Subscription management
-- **Integration Tests**: End-to-end workflows
+**Coverage includes**:
+
+* Content Service (CRUD)
+* Notification Service (SMS + in-app)
+* Twilio Service (SMS validation)
+* Realtime Service (subscriptions)
+* Integration tests
+
+---
 
 ## 🚀 Deployment
 
 ### Vercel (Recommended)
-1. Connect your GitHub repository to Vercel
-2. Set environment variables in Vercel dashboard
-3. Deploy automatically on push to main branch
+
+1. Connect GitHub repo
+2. Add environment variables in Vercel dashboard
+3. Deploy on push to `main`
 
 ### Netlify
-1. Build the project: `npm run build`
-2. Deploy the `dist` folder to Netlify
-3. Set environment variables in Netlify dashboard
+
+1. Build: `npm run build`
+2. Deploy `dist` folder
+3. Add environment variables in dashboard
 
 ### Manual Deployment
-1. Build the project: `npm run build`
-2. Serve the `dist` folder with any static file server
+
+1. `npm run build`
+2. Serve `dist` with static server
 3. Configure environment variables
+
+---
 
 ## 📊 Performance
 
-### Optimization Features
-- **Code Splitting**: Lazy loading of components
-- **Image Optimization**: Optimized images and assets
-- **Caching**: Efficient data caching with TanStack Query
-- **Bundle Size**: Optimized bundle with Vite
+* **Code Splitting**: Lazy-loaded components
+* **Image Optimization**
+* **Caching** with TanStack Query
+* **Optimized Bundles** (via Vite)
 
-### Monitoring
-- Real-time performance metrics
-- Error tracking and logging
-- User analytics and usage statistics
+**Monitoring**:
+
+* Performance metrics
+* Error tracking + logging
+* User analytics
+
+---
 
 ## 🔒 Security
 
-### Data Protection
-- **Row Level Security**: Database-level access control
-- **JWT Authentication**: Secure token-based auth
-- **Input Validation**: Comprehensive input sanitization
-- **CORS Configuration**: Proper cross-origin settings
+* Row Level Security (RLS)
+* JWT Authentication
+* Input validation + sanitization
+* CORS configuration
+* Data encryption
+* Access logging + audit trails
+* GDPR compliance
 
-### Privacy
-- **Data Encryption**: Sensitive data encryption
-- **Access Logging**: Comprehensive audit trails
-- **GDPR Compliance**: Privacy-focused design
+---
 
 ## 🤝 Contributing
 
-1. Fork the repository
-2. Create a feature branch: `git checkout -b feature/new-feature`
-3. Commit changes: `git commit -am 'Add new feature'`
-4. Push to branch: `git push origin feature/new-feature`
-5. Submit a pull request
+1. Fork the repo
+2. Create branch: `git checkout -b feature/new-feature`
+3. Commit: `git commit -am 'Add new feature'`
+4. Push: `git push origin feature/new-feature`
+5. Open Pull Request
+
+---
 
 ## 📝 License
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Licensed under the **MIT License**. See the [LICENSE](./LICENSE) file.
+
+---
 
 ## 🆘 Support
 
-For support and questions:
-- Create an issue in the GitHub repository
-- Check the documentation in the `/docs` folder
-- Review the API documentation
+* Open an issue in GitHub repo
+* Check `/docs` folder
+* Review API documentation
+
+---
 
 ## 🎯 Roadmap
 
 ### Upcoming Features
-- [ ] Mobile app (React Native)
-- [ ] Advanced analytics dashboard
-- [ ] Video conferencing integration
-- [ ] Parent portal
-- [ ] Advanced reporting system
-- [ ] Multi-language support
-- [ ] Advanced file management
-- [ ] Calendar integration
+
+* [ ] Mobile app (React Native)
+* [ ] Advanced analytics dashboard
+* [ ] Video conferencing integration
+* [ ] Parent portal
+* [ ] Advanced reporting system
+* [ ] Multi-language support
+* [ ] Calendar integration
 
 ### Performance Improvements
-- [ ] Server-side rendering (SSR)
-- [ ] Advanced caching strategies
-- [ ] Database optimization
-- [ ] CDN integration
 
-## 📈 Metrics
-
-- **Performance**: 95+ Lighthouse score
-- **Accessibility**: WCAG 2.1 AA compliant
-- **SEO**: Optimized for search engines
-- **Mobile**: Fully responsive design
+* [ ] Server-side rendering (SSR)
+* [ ] Advanced caching strategies
+* [ ] Database optimization
+* [ ] CDN integration
 
 ---
 
-Built with ❤️ for modern educational institutions.#   e r m s d o r n a l a  
- 
+## 📈 Metrics
+
+* **Performance**: 95+ Lighthouse score
+* **Accessibility**: WCAG 2.1 AA compliant
+* **SEO**: Optimized
+* **Mobile**: Fully responsive
+
+---
+
+Built with ❤️ for modern educational institutions.
+
+```
+
+---
+
+Do you want me to also **add badges** (like `React`, `TypeScript`, `Supabase`, `Twilio`, `MIT License`) at the top for a more professional GitHub-style README?
+```

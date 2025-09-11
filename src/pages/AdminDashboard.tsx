@@ -12,6 +12,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import EmailTest from '@/components/EmailTest';
+import { EmailTestComponent } from '@/components/EmailTestComponent';
 import { 
   Users, 
   BookOpen, 
@@ -814,7 +815,7 @@ const AdminDashboard = () => {
 
         {/* Email Testing Tab */}
         <TabsContent value="email" className="space-y-4">
-          <EmailTest />
+          <EmailTestComponent />
         </TabsContent>
 
         {/* Analytics Tab */}
