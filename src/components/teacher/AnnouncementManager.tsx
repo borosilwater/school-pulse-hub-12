@@ -11,7 +11,7 @@ import { Switch } from '@/components/ui/switch';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Plus, Edit, Trash2, Bell, Calendar, User, AlertTriangle, Info, Megaphone } from 'lucide-react';
+import { Plus, Edit, Trash2, Bell, Calendar, User, AlertTriangle, Info, Megaphone, Mail, Send } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -22,7 +22,8 @@ const announcementSchema = z.object({
   type: z.enum(['general', 'urgent', 'event', 'exam']),
   priority: z.number().min(1).max(5).default(1),
   published: z.boolean().default(false),
-  expires_at: z.string().optional()
+  expires_at: z.string().optional(),
+  sendEmail: z.boolean().default(false)
 });
 
 type AnnouncementFormData = z.infer<typeof announcementSchema>;
@@ -61,7 +62,8 @@ export const AnnouncementManager = () => {
       type: 'general',
       priority: 1,
       published: false,
-      expires_at: ''
+      expires_at: '',
+      sendEmail: false
     }
   });
 
@@ -134,6 +136,11 @@ export const AnnouncementManager = () => {
           title: "Success",
           description: "Announcement created successfully"
         });
+
+        // Send email notification if requested and published
+        if (data.sendEmail && data.published) {
+          await sendEmailNotification(data.title, data.content, 'announcement');
+        }
       }
 
       setIsDialogOpen(false);
@@ -150,6 +157,64 @@ export const AnnouncementManager = () => {
     }
   };
 
+  const sendEmailNotification = async (title: string, content: string, type: string) => {
+    try {
+      // Get all users with email addresses (students, teachers, parents)
+      const { data: profiles, error: profilesError } = await supabase
+        .from('profiles')
+        .select('email')
+        .not('email', 'is', null);
+
+      if (profilesError) throw profilesError;
+
+      const emails = profiles
+        .map(profile => profile.email)
+        .filter(email => email && email.includes('@'));
+
+      if (emails.length === 0) {
+        toast({
+          title: "Warning",
+          description: "No email addresses found to send notifications",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      console.log(`Sending announcement email to ${emails.length} recipients`);
+
+      // Call the Gmail edge function
+      const { data: emailResult, error: emailError } = await supabase.functions.invoke('send-gmail', {
+        body: {
+          to: emails,
+          subject: `EMRS Dornala - ANNOUNCEMENT: ${title}`,
+          body: content,
+          type: type
+        }
+      });
+
+      if (emailError) {
+        console.error('Email error:', emailError);
+        toast({
+          title: "Email Warning",
+          description: "Announcement saved but email notifications may have failed",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: `Announcement published and email sent to ${emails.length} recipients!`,
+        });
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast({
+        title: "Email Error",
+        description: "Announcement saved but email notification failed",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleEdit = (announcement: Announcement) => {
     setEditingAnnouncement(announcement);
     form.reset({
@@ -158,7 +223,8 @@ export const AnnouncementManager = () => {
       type: announcement.type,
       priority: announcement.priority,
       published: announcement.published,
-      expires_at: announcement.expires_at ? format(new Date(announcement.expires_at), 'yyyy-MM-dd\'T\'HH:mm') : ''
+      expires_at: announcement.expires_at ? format(new Date(announcement.expires_at), 'yyyy-MM-dd\'T\'HH:mm') : '',
+      sendEmail: false
     });
     setIsDialogOpen(true);
   };
@@ -343,10 +409,30 @@ export const AnnouncementManager = () => {
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <div className="flex justify-end space-x-2">
+                     </FormItem>
+                   )}
+                 />
+                 <FormField
+                   control={form.control}
+                   name="sendEmail"
+                   render={({ field }) => (
+                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                       <div className="space-y-0.5">
+                         <FormLabel className="text-base">Send Email Notification</FormLabel>
+                         <div className="text-sm text-gray-600">
+                           Send this announcement to all students, teachers, and parents via email
+                         </div>
+                       </div>
+                       <FormControl>
+                         <Switch
+                           checked={field.value}
+                           onCheckedChange={field.onChange}
+                         />
+                       </FormControl>
+                     </FormItem>
+                   )}
+                 />
+                 <div className="flex justify-end space-x-2">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                     Cancel
                   </Button>

@@ -10,7 +10,7 @@ import { Switch } from '@/components/ui/switch';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
-import { Plus, Edit, Trash2, Eye, Calendar, User } from 'lucide-react';
+import { Plus, Edit, Trash2, Eye, Calendar, User, Mail, Send } from 'lucide-react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
 import { format } from 'date-fns';
@@ -19,7 +19,8 @@ const newsSchema = z.object({
   title: z.string().min(1, 'Title is required').max(200, 'Title must be less than 200 characters'),
   content: z.string().min(1, 'Content is required'),
   image_url: z.string().url().optional().or(z.literal('')),
-  published: z.boolean().default(false)
+  published: z.boolean().default(false),
+  sendEmail: z.boolean().default(false)
 });
 
 type NewsFormData = z.infer<typeof newsSchema>;
@@ -47,7 +48,8 @@ export const NewsManager = () => {
       title: '',
       content: '',
       image_url: '',
-      published: false
+      published: false,
+      sendEmail: false
     }
   });
 
@@ -119,6 +121,11 @@ export const NewsManager = () => {
           title: "Success",
           description: "News article created successfully"
         });
+
+        // Send email notification if requested and published
+        if (data.sendEmail && data.published) {
+          await sendEmailNotification(data.title, data.content, 'news');
+        }
       }
 
       setIsDialogOpen(false);
@@ -135,13 +142,72 @@ export const NewsManager = () => {
     }
   };
 
+  const sendEmailNotification = async (title: string, content: string, type: string) => {
+    try {
+      // Get all users with email addresses (students, teachers, parents)
+      const { data: profiles, error: profilesError } = await supabase
+        .from('profiles')
+        .select('email')
+        .not('email', 'is', null);
+
+      if (profilesError) throw profilesError;
+
+      const emails = profiles
+        .map(profile => profile.email)
+        .filter(email => email && email.includes('@'));
+
+      if (emails.length === 0) {
+        toast({
+          title: "Warning",
+          description: "No email addresses found to send notifications",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      console.log(`Sending email to ${emails.length} recipients`);
+
+      // Call the Gmail edge function
+      const { data: emailResult, error: emailError } = await supabase.functions.invoke('send-gmail', {
+        body: {
+          to: emails,
+          subject: `EMRS Dornala - ${title}`,
+          body: content,
+          type: type
+        }
+      });
+
+      if (emailError) {
+        console.error('Email error:', emailError);
+        toast({
+          title: "Email Warning",
+          description: "News saved but email notifications may have failed",
+          variant: "destructive"
+        });
+      } else {
+        toast({
+          title: "Success",
+          description: `News published and email sent to ${emails.length} recipients!`,
+        });
+      }
+    } catch (error) {
+      console.error('Error sending email:', error);
+      toast({
+        title: "Email Error",
+        description: "News saved but email notification failed",
+        variant: "destructive"
+      });
+    }
+  };
+
   const handleEdit = (newsItem: NewsItem) => {
     setEditingNews(newsItem);
     form.reset({
       title: newsItem.title,
       content: newsItem.content,
       image_url: newsItem.image_url || '',
-      published: newsItem.published
+      published: newsItem.published,
+      sendEmail: false
     });
     setIsDialogOpen(true);
   };
@@ -265,10 +331,30 @@ export const NewsManager = () => {
                           onCheckedChange={field.onChange}
                         />
                       </FormControl>
-                    </FormItem>
-                  )}
-                />
-                <div className="flex justify-end space-x-2">
+                     </FormItem>
+                   )}
+                 />
+                 <FormField
+                   control={form.control}
+                   name="sendEmail"
+                   render={({ field }) => (
+                     <FormItem className="flex flex-row items-center justify-between rounded-lg border p-4">
+                       <div className="space-y-0.5">
+                         <FormLabel className="text-base">Send Email Notification</FormLabel>
+                         <div className="text-sm text-gray-600">
+                           Send this news article to all students, teachers, and parents via email
+                         </div>
+                       </div>
+                       <FormControl>
+                         <Switch
+                           checked={field.value}
+                           onCheckedChange={field.onChange}
+                         />
+                       </FormControl>
+                     </FormItem>
+                   )}
+                 />
+                 <div className="flex justify-end space-x-2">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                     Cancel
                   </Button>
