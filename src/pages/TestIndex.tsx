@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import AnnouncementBar from '@/components/ui/announcement-bar';
 import { useNavigate } from 'react-router-dom';
 import { GraduationCap } from 'lucide-react';
 
@@ -7,7 +8,10 @@ const TestIndex = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-20">
+      {/* Announcement Bar */}
+      <AnnouncementBar />
+      
+      <div className="container mx-auto px-4 py-20 pt-28">
         <div className="text-center">
           <div className="flex items-center justify-center mb-8">
             <div className="flex h-16 w-16 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-purple-600">

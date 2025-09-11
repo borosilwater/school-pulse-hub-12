@@ -4,6 +4,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import AnnouncementBar from '@/components/ui/announcement-bar';
 import { useAuth, UserRole } from '@/hooks/useAuth';
 import { Home, Eye, EyeOff, User as UserTie, GraduationCap, Shield, Lock, IdCard, UserCog } from 'lucide-react';
 
@@ -65,15 +66,19 @@ const Auth = () => {
   };
 
   return (
-    <div 
-      className="min-h-screen flex items-center justify-center p-4 relative"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/building.jpg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundAttachment: 'fixed'
-      }}
-    >
+    <div className="min-h-screen">
+      {/* Announcement Bar */}
+      <AnnouncementBar />
+      
+      <div 
+        className="min-h-screen flex items-center justify-center p-4 relative pt-16"
+        style={{
+          backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/images/building.jpg')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundAttachment: 'fixed'
+        }}
+      >
       {/* Home Button */}
       <Button
         variant="ghost"
@@ -282,6 +287,7 @@ const Auth = () => {
           box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
       `}</style>
+      </div>
     </div>
   );
 };

@@ -36,6 +36,32 @@
             line-height: 1.6;
         }
 
+        .announcement-bar {
+            background: linear-gradient(to right, #e63946, #f1faee);
+            color: #1d3557;
+            padding: 10px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .announcement-bar marquee {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        .announcement-item {
+            margin-right: 50px;
+            display: inline-block;
+        }
+
+        .container {
+            margin-top: 50px; /* Account for announcement bar */
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -432,6 +458,14 @@
     </style>
 </head>
 <body>
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <marquee behavior="scroll" direction="left">
+            <span class="announcement-item">🎉 EMRS Entrance Exam 2024 registration starts from 15th June!</span>
+            <span class="announcement-item">📢 School reopens on 1st July after summer break</span>
+            <span class="announcement-item">🏆 Our students won 3 gold medals in state-level sports competition</span>
+        </marquee>
+    </div>
     <div class="tribal-corner tl"></div>
     <div class="tribal-corner br"></div>
 

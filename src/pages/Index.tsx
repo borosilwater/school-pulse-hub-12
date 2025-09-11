@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import AnnouncementBar from '@/components/ui/announcement-bar';
 import { useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { GraduationCap, BookOpen, Calendar, Trophy, Users, FileText, Bell, TrendingUp, Star, Shield, CheckCircle, ArrowRight, Play, Sparkles, Rocket, Database, Smartphone, Menu, X, Quote, MapPin, Mail, Phone, Send, Facebook, Twitter, Instagram, Linkedin, Github, ExternalLink, Layers, Infinity, Headphones, DollarSign, BarChart3, Zap, Globe, Heart, Award, Target, Monitor, Cloud, Lock, Home, FlaskRound as Flask, Music, Utensils, CalendarCheck, ChevronDown, ChevronLeft, ChevronRight, AlertCircle, User, Clock } from 'lucide-react';
@@ -186,10 +187,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Top Banner */}
-      <div className="top-banner">
-        EMRS Entrance Exam 2024 registration
-      </div>
+      {/* Announcement Bar */}
+      <AnnouncementBar />
+      
+      {/* Body content with top margin for announcement bar */}
+      <div className="pt-14">
 
       {/* Header */}
       <header className="header">
@@ -809,6 +811,7 @@ const Index = () => {
           </div>
         </div>
       </footer>
+      </div>
 
       <style>{`
         /* Top Banner */
