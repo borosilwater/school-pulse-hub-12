@@ -36,7 +36,7 @@ body {
 
 body.has-announcement-bar {
     padding-top: 40px; /* Account for fixed announcement bar */
-    position: realtive;
+    
 }
 
 a {
