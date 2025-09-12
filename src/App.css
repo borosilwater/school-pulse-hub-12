@@ -40,3 +40,62 @@
 .read-the-docs {
   color: #888;
 }
+/* compact header/navbar */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 10px 24px;    /* reduce vertical padding to shrink height */
+  height: 72px;          /* set fixed navbar height (adjust to taste) */
+  box-sizing: border-box;
+}
+
+.header .logo {
+  width: 56px;           /* smaller logo */
+  height: 56px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+.header .logo-text h1 {
+  font-size: 1.05rem;    /* smaller title */
+  margin: 0;
+  line-height: 1;
+}
+
+.header .logo-text p {
+  margin: 0;
+  font-size: 0.78rem;
+  opacity: 0.75;
+}
+
+/* nav links: reduce padding + font-size so they take less vertical space */
+.nav .nav-links li a {
+  display: inline-block;
+  padding: 6px 10px;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+/* login button — make it slimmer */
+.login-btn {
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-weight: 600;
+}
+
+/* responsive fallback */
+@media (max-width: 768px) {
+  .header {
+    height: auto;
+    padding: 10px;
+    align-items: flex-start;
+  }
+  .header .logo { width: 48px; height: 48px; }
+  .header .logo-text h1 { font-size: 0.95rem; }
+}
+
