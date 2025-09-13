@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import AnnouncementBar from '@/components/ui/announcement-bar';
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -53,11 +52,6 @@ export const DashboardLayout = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Announcement Bar */}
-      <AnnouncementBar />
-      
-      {/* Content with top padding for announcement bar */}
-      <div className="pt-14">
       {/* Mobile sidebar overlay */}
       {sidebarOpen && (
         <div 
@@ -153,7 +147,6 @@ export const DashboardLayout = () => {
         <main className="flex-1 space-y-4 p-4 sm:p-6">
           <Outlet />
         </main>
-      </div>
       </div>
     </div>
   );

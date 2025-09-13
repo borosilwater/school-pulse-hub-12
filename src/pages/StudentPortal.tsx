@@ -443,46 +443,6 @@ const StudentPortal = () => {
           </Card>
         </TabsContent>
 
-        {/* Announcements Tab */}
-        <TabsContent value="announcements" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Bell className="h-5 w-5" />
-                School Announcements
-              </CardTitle>
-              <CardDescription>
-                Stay updated with the latest school announcements
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {announcements.length === 0 ? (
-                <div className="text-center py-8">
-                  <Bell className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground">No announcements available</p>
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  {announcements.map((announcement) => (
-                    <div key={announcement.id} className="p-4 border rounded-lg">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="font-medium">{announcement.title}</h3>
-                        <Badge variant="outline">{announcement.type}</Badge>
-                      </div>
-                      <p className="text-sm text-muted-foreground mb-2">
-                        {announcement.content}
-                      </p>
-                      <div className="flex items-center justify-between text-xs text-muted-foreground">
-                        <span>By School Staff</span>
-                        <span>{new Date(announcement.created_at).toLocaleDateString()}</span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
 
         {/* Events Tab */}
         <TabsContent value="events" className="space-y-4">

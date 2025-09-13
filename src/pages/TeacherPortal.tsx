@@ -327,16 +327,6 @@ const TeacherPortal = () => {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Announcements</CardTitle>
-            <Bell className="h-4 w-4 text-green-600" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{announcements.length}</div>
-            <p className="text-xs text-muted-foreground">Total created</p>
-          </CardContent>
-        </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -353,7 +343,6 @@ const TeacherPortal = () => {
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
         <TabsList>
           <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="announcements">Announcements</TabsTrigger>
           <TabsTrigger value="events">Events</TabsTrigger>
           <TabsTrigger value="news">News</TabsTrigger>
           <TabsTrigger value="exam-results">Exam Results</TabsTrigger>
@@ -363,26 +352,6 @@ const TeacherPortal = () => {
         {/* Overview Tab */}
         <TabsContent value="overview" className="space-y-4">
           <div className="grid gap-4 md:grid-cols-2">
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Announcements</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {announcements.slice(0, 3).map((announcement) => (
-                  <div key={announcement.id} className="flex items-center justify-between p-3 border rounded-lg mb-2">
-                    <div>
-                      <h4 className="font-medium">{announcement.title}</h4>
-                      <p className="text-sm text-muted-foreground">
-                        {new Date(announcement.created_at).toLocaleDateString()}
-                      </p>
-                    </div>
-                    <Badge variant={announcement.published ? 'default' : 'secondary'}>
-                      {announcement.published ? 'Published' : 'Draft'}
-                    </Badge>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
 
             <Card>
               <CardHeader>
@@ -407,135 +376,6 @@ const TeacherPortal = () => {
           </div>
         </TabsContent>
 
-        {/* Announcements Tab */}
-        <TabsContent value="announcements" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">Announcements</h2>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button>
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create Announcement
-                </Button>
-              </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Create New Announcement</DialogTitle>
-                  <DialogDescription>
-                    Create an announcement to share with students and parents
-                  </DialogDescription>
-                </DialogHeader>
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="announcement-title">Title</Label>
-                    <Input
-                      id="announcement-title"
-                      value={newAnnouncement.title}
-                      onChange={(e) => setNewAnnouncement({ ...newAnnouncement, title: e.target.value })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="announcement-content">Content</Label>
-                    <Textarea
-                      id="announcement-content"
-                      value={newAnnouncement.content}
-                      onChange={(e) => setNewAnnouncement({ ...newAnnouncement, content: e.target.value })}
-                      rows={4}
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="space-y-2">
-                      <Label htmlFor="announcement-type">Type</Label>
-                      <Select
-                        value={newAnnouncement.type}
-                        onValueChange={(value) => setNewAnnouncement({ ...newAnnouncement, type: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="general">General</SelectItem>
-                          <SelectItem value="urgent">Urgent</SelectItem>
-                          <SelectItem value="event">Event</SelectItem>
-                          <SelectItem value="exam">Exam</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="announcement-priority">Priority</Label>
-                      <Input
-                        id="announcement-priority"
-                        type="number"
-                        min="0"
-                        max="10"
-                        value={newAnnouncement.priority}
-                        onChange={(e) => setNewAnnouncement({ ...newAnnouncement, priority: parseInt(e.target.value) })}
-                      />
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="checkbox"
-                      id="announcement-published"
-                      checked={newAnnouncement.published}
-                      onChange={(e) => setNewAnnouncement({ ...newAnnouncement, published: e.target.checked })}
-                    />
-                    <Label htmlFor="announcement-published">Publish immediately</Label>
-                  </div>
-                  <Button onClick={handleCreateAnnouncement} className="w-full">
-                    <Send className="h-4 w-4 mr-2" />
-                    Create Announcement
-                  </Button>
-                </div>
-              </DialogContent>
-            </Dialog>
-          </div>
-
-          <div className="space-y-4">
-            {announcements.map((announcement) => (
-              <Card key={announcement.id}>
-                <CardHeader>
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <CardTitle className="text-lg">{announcement.title}</CardTitle>
-                      <CardDescription>
-                        {new Date(announcement.created_at).toLocaleDateString()}
-                      </CardDescription>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Badge variant="outline">{announcement.type}</Badge>
-                      <Badge variant={announcement.published ? 'default' : 'secondary'}>
-                        {announcement.published ? 'Published' : 'Draft'}
-                      </Badge>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground mb-4">{announcement.content}</p>
-                  <div className="flex items-center space-x-2">
-                    {!announcement.published && (
-                      <Button
-                        size="sm"
-                        onClick={() => handlePublishAnnouncement(announcement.id)}
-                      >
-                        <Eye className="h-4 w-4 mr-2" />
-                        Publish
-                      </Button>
-                    )}
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleDeleteContent('announcement', announcement.id)}
-                    >
-                      <Trash2 className="h-4 w-4 mr-2" />
-                      Delete
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </TabsContent>
 
         {/* Events Tab */}
         <TabsContent value="events" className="space-y-4">

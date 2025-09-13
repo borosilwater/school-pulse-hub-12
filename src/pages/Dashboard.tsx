@@ -189,25 +189,7 @@ const Dashboard = () => {
       </Card>
 
       {/* Recent Activity */}
-      <div className="grid gap-4 md:grid-cols-2">
-        <Card>
-          <CardHeader>
-            <CardTitle>Recent Announcements</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="flex items-start gap-3 p-3 rounded-lg bg-muted/50">
-                <Bell className="h-4 w-4 mt-1 text-primary" />
-                <div className="flex-1 space-y-1">
-                  <p className="text-sm font-medium">Important School Update #{i}</p>
-                  <p className="text-xs text-muted-foreground">2 hours ago</p>
-                </div>
-                <Badge variant="secondary" className="text-xs">New</Badge>
-              </div>
-            ))}
-          </CardContent>
-        </Card>
-
+      <div className="grid gap-4 md:grid-cols-1">
         <Card>
           <CardHeader>
             <CardTitle>Upcoming Events</CardTitle>
