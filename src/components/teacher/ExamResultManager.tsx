@@ -282,13 +282,11 @@ export const ExamResultManager = () => {
               Add Result
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>{editingResult ? 'Edit Exam Result' : 'Create Exam Result'}</DialogTitle>
-              <DialogDescription>
-                {editingResult ? 'Update the exam result details' : 'Create a new exam result for a student'}
-              </DialogDescription>
-            </DialogHeader>
+          <DialogContent className="w-[95%] sm:w-full max-w-sm sm:max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto">
+            <div className="flex flex-col space-y-1.5 text-center sm:text-left">
+              <h2 className="text-lg font-semibold leading-none tracking-tight">{editingResult ? 'Edit Exam Result' : 'Create Exam Result'}</h2>
+              <p className="text-sm text-muted-foreground">{editingResult ? 'Update the exam result details' : 'Create a new exam result for a student'}</p>
+            </div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField

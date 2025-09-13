@@ -262,13 +262,11 @@ export const NewsManager = () => {
               Add News
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>{editingNews ? 'Edit News Article' : 'Create News Article'}</DialogTitle>
-              <DialogDescription>
-                {editingNews ? 'Update the news article details' : 'Create a new news article for your school'}
-              </DialogDescription>
-            </DialogHeader>
+          <DialogContent className="w-[95%] sm:w-full max-w-sm sm:max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto">
+            <div className="flex flex-col space-y-1.5 text-center sm:text-left">
+              <h2 className="text-lg font-semibold leading-none tracking-tight">{editingNews ? 'Edit News Article' : 'Create News Article'}</h2>
+              <p className="text-sm text-muted-foreground">{editingNews ? 'Update the news article details' : 'Create a new news article for your school'}</p>
+            </div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField

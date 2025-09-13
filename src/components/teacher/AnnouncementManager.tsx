@@ -289,13 +289,11 @@ export const AnnouncementManager = () => {
               Add Announcement
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>{editingAnnouncement ? 'Edit Announcement' : 'Create Announcement'}</DialogTitle>
-              <DialogDescription>
-                {editingAnnouncement ? 'Update the announcement details' : 'Create a new announcement for your school'}
-              </DialogDescription>
-            </DialogHeader>
+          <DialogContent className="w-[95%] sm:w-full max-w-sm sm:max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto">
+            <div className="flex flex-col space-y-1.5 text-center sm:text-left">
+              <h2 className="text-lg font-semibold leading-none tracking-tight">{editingAnnouncement ? 'Edit Announcement' : 'Create Announcement'}</h2>
+              <p className="text-sm text-muted-foreground">{editingAnnouncement ? 'Update the announcement details' : 'Create a new announcement for your school'}</p>
+            </div>
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <FormField

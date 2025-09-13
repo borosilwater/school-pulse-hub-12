@@ -388,13 +388,11 @@ const TeacherPortal = () => {
                   Create Event
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Create New Event</DialogTitle>
-                  <DialogDescription>
-                    Create an event for students and parents
-                  </DialogDescription>
-                </DialogHeader>
+              <DialogContent className="w-[95%] sm:w-full max-w-sm sm:max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto">
+                <div className="flex flex-col space-y-1.5 text-center sm:text-left">
+                  <h2 className="text-lg font-semibold leading-none tracking-tight">Create New Event</h2>
+                  <p className="text-sm text-muted-foreground">Create an event for students and parents</p>
+                </div>
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="event-title">Title</Label>
@@ -512,13 +510,11 @@ const TeacherPortal = () => {
                   Create News
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Create News Article</DialogTitle>
-                  <DialogDescription>
-                    Create a news article for the school
-                  </DialogDescription>
-                </DialogHeader>
+              <DialogContent className="w-[95%] sm:w-full max-w-sm sm:max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto">
+                <div className="flex flex-col space-y-1.5 text-center sm:text-left">
+                  <h2 className="text-lg font-semibold leading-none tracking-tight">Create News Article</h2>
+                  <p className="text-sm text-muted-foreground">Create a news article for the school</p>
+                </div>
                 <div className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="news-title">Title</Label>
@@ -598,13 +594,11 @@ const TeacherPortal = () => {
                   Add Exam Result
                 </Button>
               </DialogTrigger>
-              <DialogContent className="max-w-2xl">
-                <DialogHeader>
-                  <DialogTitle>Add Exam Result</DialogTitle>
-                  <DialogDescription>
-                    Add exam results for a student
-                  </DialogDescription>
-                </DialogHeader>
+              <DialogContent className="w-[95%] sm:w-full max-w-sm sm:max-w-3xl max-h-[90vh] sm:max-h-none overflow-y-auto">
+                <div className="flex flex-col space-y-1.5 text-center sm:text-left">
+                  <h2 className="text-lg font-semibold leading-none tracking-tight">Add Exam Result</h2>
+                  <p className="text-sm text-muted-foreground">Add exam results for a student</p>
+                </div>
                 <div className="space-y-4">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
