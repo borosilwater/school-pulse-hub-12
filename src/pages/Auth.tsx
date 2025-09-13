@@ -94,7 +94,7 @@ const Auth = () => {
           <CardHeader className="text-center pb-4">
             <div className="mx-auto mb-4">
               <img 
-                src="public\images\dept_logo.jpg" 
+                src="/images/dept_logo.jpg" 
                 alt="School Logo" 
                 className="h-16 w-16 rounded-full object-cover shadow-lg animate-float"
               />
