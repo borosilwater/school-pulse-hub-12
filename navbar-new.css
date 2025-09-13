@@ -44,7 +44,7 @@
 .logo {
     width: 60px;
     height: 60px;
-    background: url('/images/dept_logo.jpg') center/cover no-repeat;
+    background: url('images/dept_logo.jpg') center/cover no-repeat;
     border-radius: 50%;
 }
 

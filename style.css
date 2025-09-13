@@ -193,7 +193,7 @@ ul {
 .logo {
     width: 60px;
     height: 60px;
-    background: url('/images/dept_logo.jpg') center/cover;
+    background: url('images/dept_logo.jpg') center/cover;
     border-radius: 50%;
 }
 
